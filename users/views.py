@@ -1,3 +1,10 @@
-from django.shortcuts import render
+from django.http import HttpResponse
+# from django.shortcuts import render
 
-# Create your views here.
+
+def user_detail(request, user_name):
+    return HttpResponse(f'Подробный просмотр пользователя {user_name}')
+
+
+def profile(request):
+    return HttpResponse('Просмотр страницы авторизованного пользователя')
