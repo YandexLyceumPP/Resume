@@ -29,7 +29,8 @@ INSTALLED_APPS = [
     # apps
     'users.apps.UsersConfig',
     'about.apps.AboutConfig',
-    'homepage.apps.HomepageConfig'
+    'homepage.apps.HomepageConfig',
+    'workshop.apps.WorkshopConfig'
 ]
 
 MIDDLEWARE = [
