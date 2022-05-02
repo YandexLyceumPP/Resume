@@ -4,6 +4,7 @@ from django.urls import include, path
 from django.conf.urls.static import static
 
 urlpatterns = [
+    path('about/', include('about.urls', namespace='about')),
     path('admin/', admin.site.urls),
 ]
 
