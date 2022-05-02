@@ -9,10 +9,15 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = ['*']
 
+INTERNAL_IPS = ['127.0.0.1']
+
 
 # Application definition
 
 INSTALLED_APPS = [
+    # install
+    'debug_toolbar',
+
     # main
     'django.contrib.admin',
     'django.contrib.auth',
@@ -21,9 +26,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # install
-    'debug_toolbar',
-
     # apps
     'users.apps.UsersConfig',
     'about.apps.AboutConfig',
@@ -31,6 +33,9 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    # install
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+
     # main
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -39,9 +44,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
-    # install
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'resume.urls'
