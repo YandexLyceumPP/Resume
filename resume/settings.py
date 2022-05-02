@@ -23,6 +23,11 @@ INSTALLED_APPS = [
 
     # install
     'debug_toolbar',
+
+    # apps
+    'users.apps.UsersConfig',
+    'about.apps.AboutConfig',
+    'homepage.apps.HomepageConfig'
 ]
 
 MIDDLEWARE = [
