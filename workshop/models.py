@@ -48,6 +48,7 @@ class Links(models.Model):
     icon = models.ImageField('Иконка', upload_to='uploads/icons/', null=True)
     text = models.TextField('Текст')
     url = models.CharField('URL', max_length=150)
+    approved = models.BooleanField(default=False)
 
     class Meta:
         verbose_name="Ссылка"
