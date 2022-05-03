@@ -2,6 +2,8 @@ from django.db import models
 
 from users.models import Profile
 
+from tinymce.models import HTMLField
+
 
 class Fields(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='owner')
@@ -26,7 +28,7 @@ class Tags(models.Model):
 class Publications(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='profile')
     blog = models.BooleanField(default=True)
-    text = models.TextField('Текст')
+    text = HTMLField('Текст')
     tags = models.ManyToManyField(Tags, verbose_name='Тэги', related_name='tags')
     editDate = models.DateField('Дата редактирования', auto_now_add=True)
 
@@ -47,7 +49,7 @@ class Files(models.Model):
 class Links(models.Model):
     publication = models.ForeignKey(Publications, related_name='link_publication', on_delete=models.CASCADE)
     icon = models.ImageField('Иконка', upload_to='uploads/icons/', null=True)
-    text = models.TextField('Текст')
+    text = HTMLField('Текст')
     url = models.CharField('URL', max_length=150)
     approved = models.BooleanField(default=False)
 

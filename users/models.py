@@ -1,13 +1,15 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 
+from tinymce.models import HTMLField
+
 User = get_user_model()
 
 
 class Skills(models.Model):
     icon = models.ImageField('Иконка', upload_to='uploads/icons/', null=True)
     skill = models.CharField('Название', max_length=30)
-    text = models.TextField('Описание')
+    text = HTMLField('Описание')
 
     class Meta:
         verbose_name = 'Навык'
