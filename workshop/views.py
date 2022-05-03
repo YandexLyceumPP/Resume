@@ -3,4 +3,4 @@ from django.http import HttpResponse
 
 
 def workshop(request):
-    return HttpResponse('Создание резюме')
+    return HttpResponse("Создание резюме")

@@ -2,8 +2,8 @@ import os
 
 from resume.settings import INSTALLED_APPS, BASE_DIR, MIDDLEWARE
 
-INSTALLED_APPS.append('debug_toolbar')
-MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
+INSTALLED_APPS.append("debug_toolbar")
+MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")
 
 # Database
 DATABASES = {

@@ -16,29 +16,61 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Skill',
+            name="Skill",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('icon', models.ImageField(null=True, upload_to='uploads/icons/', verbose_name='Иконка')),
-                ('skill', models.CharField(max_length=30, verbose_name='Название')),
-                ('text', tinymce.models.HTMLField(verbose_name='Описание')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "icon",
+                    models.ImageField(
+                        null=True, upload_to="uploads/icons/", verbose_name="Иконка"
+                    ),
+                ),
+                ("skill", models.CharField(max_length=30, verbose_name="Название")),
+                ("text", tinymce.models.HTMLField(verbose_name="Описание")),
             ],
             options={
-                'verbose_name': 'Навык',
-                'verbose_name_plural': 'Навыки',
+                "verbose_name": "Навык",
+                "verbose_name_plural": "Навыки",
             },
         ),
         migrations.CreateModel(
-            name='Profile',
+            name="Profile",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('image', models.ImageField(null=True, upload_to='upload/avatars/')),
-                ('skills', models.ManyToManyField(related_name='profile', to='users.Skill', verbose_name='Skill')),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("image", models.ImageField(null=True, upload_to="upload/avatars/")),
+                (
+                    "skills",
+                    models.ManyToManyField(
+                        related_name="profile", to="users.Skill", verbose_name="Skill"
+                    ),
+                ),
+                (
+                    "user",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Пользователь',
-                'verbose_name_plural': 'Пользователи',
+                "verbose_name": "Пользователь",
+                "verbose_name_plural": "Пользователи",
             },
         ),
     ]

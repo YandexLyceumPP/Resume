@@ -9,35 +9,57 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Topic',
+            name="Topic",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('show', models.BooleanField(default=True, verbose_name='Показать')),
-                ('title', models.CharField(max_length=150, verbose_name='Название')),
-                ('text', tinymce.models.HTMLField(verbose_name='Описание')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("show", models.BooleanField(default=True, verbose_name="Показать")),
+                ("title", models.CharField(max_length=150, verbose_name="Название")),
+                ("text", tinymce.models.HTMLField(verbose_name="Описание")),
             ],
             options={
-                'verbose_name': 'Тема',
-                'verbose_name_plural': 'Темы',
+                "verbose_name": "Тема",
+                "verbose_name_plural": "Темы",
             },
         ),
         migrations.CreateModel(
-            name='Lesson',
+            name="Lesson",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('show', models.BooleanField(default=True, verbose_name='Показать')),
-                ('title', models.CharField(max_length=200, verbose_name='Название')),
-                ('text', tinymce.models.HTMLField(verbose_name='Текст')),
-                ('topic', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='topic', to='lessons.topic')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("show", models.BooleanField(default=True, verbose_name="Показать")),
+                ("title", models.CharField(max_length=200, verbose_name="Название")),
+                ("text", tinymce.models.HTMLField(verbose_name="Текст")),
+                (
+                    "topic",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="topic",
+                        to="lessons.topic",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Урок',
-                'verbose_name_plural': 'Уроки',
+                "verbose_name": "Урок",
+                "verbose_name_plural": "Уроки",
             },
         ),
     ]
