@@ -1,22 +1,20 @@
-from decouple import config
-
+import os
 from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+from decouple import config
+
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 SECRET_KEY = config('SECRET_KEY', 'vetopwu2v5m9phh50fd7=59j7p*+d*17q8cor7vjg+*j1dwk')
-DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = ['*']
 
 INTERNAL_IPS = ['127.0.0.1']
 
-
 # Application definition
 
 INSTALLED_APPS = [
     # install
-    'debug_toolbar',
     'tinymce',
 
     # main
@@ -36,9 +34,6 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    # install
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
-
     # main
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -54,7 +49,7 @@ ROOT_URLCONF = 'resume.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -68,21 +63,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'resume.wsgi.application'
-
-
-# Database
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'resume',
-        'USER': config('DATABASE_USER', default='postgres'),
-        'PASSWORD': config('DATABASE_PASSWORD', default='231860Aa'),
-        'HOST': config('DATABASE_HOST', default='localhost'),
-        'PORT': config('PORT', default='5432'),
-    }
-}
-
 
 # Password validation
 
@@ -101,7 +81,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 
 LANGUAGE_CODE = 'en-us'
@@ -114,10 +93,9 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 
-STATIC_URL = '/static/'
+STATIC_URL = 'static/'
 
 # Default primary key field type
 
