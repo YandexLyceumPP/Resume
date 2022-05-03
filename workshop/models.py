@@ -1,10 +1,13 @@
 from django.db import models
+
 from tinymce.models import HTMLField
 
 from users.models import Profile
 
+from core.models import ShowBaseModel
 
-class Field(models.Model):
+
+class Field(ShowBaseModel):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="owner")
     icon = models.ImageField("Иконка", upload_to="uploads/icons/", null=True)
     title = models.CharField("Навазние", max_length=20)
@@ -15,7 +18,7 @@ class Field(models.Model):
         verbose_name_plural = "Факты"
 
 
-class Tag(models.Model):
+class Tag(ShowBaseModel):
     icon = models.ImageField("Иконка", upload_to="uploads/icons/", null=True)
     name = models.CharField("Название", max_length=100)
 
@@ -24,7 +27,7 @@ class Tag(models.Model):
         verbose_name_plural = "Тэги"
 
 
-class Publication(models.Model):
+class Publication(ShowBaseModel):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="profile")
     blog = models.BooleanField(default=True)
     text = HTMLField("Текст")
@@ -36,7 +39,7 @@ class Publication(models.Model):
         verbose_name_plural = "Публикации"
 
 
-class File(models.Model):
+class File(ShowBaseModel):
     publication = models.ForeignKey(
         Publication, related_name="publication", on_delete=models.CASCADE
     )
@@ -47,7 +50,7 @@ class File(models.Model):
         verbose_name_plural = "Вложения"
 
 
-class Link(models.Model):
+class Link(ShowBaseModel):
     publication = models.ForeignKey(
         Publication, related_name="link_publication", on_delete=models.CASCADE
     )
