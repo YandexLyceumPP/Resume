@@ -2,10 +2,11 @@ import os
 from pathlib import Path
 
 from decouple import config
+from django.core.management.utils import get_random_secret_key
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
-SECRET_KEY = config('SECRET_KEY', 'vetopwu2v5m9phh50fd7=59j7p*+d*17q8cor7vjg+*j1dwk')
+SECRET_KEY = config('SECRET_KEY', get_random_secret_key())
 
 ALLOWED_HOSTS = ['*']
 
