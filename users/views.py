@@ -1,11 +1,14 @@
-from django.http import HttpResponse
-
-# from django.shortcuts import render
+from django.shortcuts import render
 
 
 def user_detail(request, user_name):
-    return HttpResponse(f"Подробный просмотр пользователя {user_name}")
+    TEMPLATE = "users/user_detail.html"
+    context = {
+        "user_name": user_name
+    }
+    return render(request, TEMPLATE, context)
 
 
 def profile(request):
-    return HttpResponse("Просмотр страницы авторизованного пользователя")
+    TEMPLATE = "users/profile.html"
+    return render(request, TEMPLATE)

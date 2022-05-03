@@ -1,6 +1,6 @@
-# from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render
 
 
 def workshop(request):
-    return HttpResponse("Создание резюме")
+    TEMPLATE = "workshop/create.html"
+    return render(request, TEMPLATE)
