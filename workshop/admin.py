@@ -1,9 +1,9 @@
 from django.contrib import admin
 
-from workshop.models import Fields, Tags, Publications, Files, Links
+from workshop.models import Field, Tag, Publication, File, Link
 
-admin.site.register(Fields)
-admin.site.register(Tags)
-admin.site.register(Publications)
-admin.site.register(Files)
-admin.site.register(Links)
+admin.site.register(Field)
+admin.site.register(Tag)
+admin.site.register(Publication)
+admin.site.register(File)
+admin.site.register(Link)

@@ -6,7 +6,7 @@ from tinymce.models import HTMLField
 User = get_user_model()
 
 
-class Skills(models.Model):
+class Skill(models.Model):
     icon = models.ImageField('Иконка', upload_to='uploads/icons/', null=True)
     skill = models.CharField('Название', max_length=30)
     text = HTMLField('Описание')
@@ -22,7 +22,7 @@ class Skills(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='upload/avatars/', null=True)
-    skills = models.ManyToManyField(Skills, verbose_name='Skills', related_name='profile')
+    skills = models.ManyToManyField(Skill, verbose_name='Skill', related_name='profile')
 
     class Meta:
         verbose_name = 'Пользователь'

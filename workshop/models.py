@@ -5,7 +5,7 @@ from users.models import Profile
 from tinymce.models import HTMLField
 
 
-class Fields(models.Model):
+class Field(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='owner')
     icon = models.ImageField('Иконка', upload_to='uploads/icons/', null=True)
     title = models.CharField('Навазние', max_length=20)
@@ -16,7 +16,7 @@ class Fields(models.Model):
         verbose_name_plural = 'Факты'
 
 
-class Tags(models.Model):
+class Tag(models.Model):
     icon = models.ImageField('Иконка', upload_to='uploads/icons/', null=True)
     name = models.CharField('Название', max_length=100)
 
@@ -25,11 +25,11 @@ class Tags(models.Model):
         verbose_name_plural = 'Тэги'
 
 
-class Publications(models.Model):
+class Publication(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='profile')
     blog = models.BooleanField(default=True)
     text = HTMLField('Текст')
-    tags = models.ManyToManyField(Tags, verbose_name='Тэги', related_name='tags')
+    tags = models.ManyToManyField(Tag, verbose_name='Тэги', related_name='tags')
     editDate = models.DateField('Дата редактирования', auto_now_add=True)
 
     class Meta:
@@ -37,8 +37,8 @@ class Publications(models.Model):
         verbose_name_plural = 'Публикации'
 
 
-class Files(models.Model):
-    publication = models.ForeignKey(Publications, related_name='publication', on_delete=models.CASCADE)
+class File(models.Model):
+    publication = models.ForeignKey(Publication, related_name='publication', on_delete=models.CASCADE)
     file = models.FileField(upload_to='uploads/files/')
 
     class Meta:
@@ -46,8 +46,8 @@ class Files(models.Model):
         verbose_name_plural = 'Вложения'
 
 
-class Links(models.Model):
-    publication = models.ForeignKey(Publications, related_name='link_publication', on_delete=models.CASCADE)
+class Link(models.Model):
+    publication = models.ForeignKey(Publication, related_name='link_publication', on_delete=models.CASCADE)
     icon = models.ImageField('Иконка', upload_to='uploads/icons/', null=True)
     text = HTMLField('Текст')
     url = models.CharField('URL', max_length=150)
