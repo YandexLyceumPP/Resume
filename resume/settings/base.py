@@ -93,9 +93,14 @@ USE_L10N = True
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
-
-STATIC_URL = "static/"
+STATIC_URL = "/static_dev/"
 
 # Default primary key field type
-
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+MEDIA_ROOT = BASE_DIR / "media/"
+MEDIA_URL = "/media/"
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static_dev",
+]
