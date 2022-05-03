@@ -1,8 +1,7 @@
 from django.db import models
+from tinymce.models import HTMLField
 
 from users.models import Profile
-
-from tinymce.models import HTMLField
 
 
 class Field(models.Model):

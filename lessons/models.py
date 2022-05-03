@@ -1,8 +1,7 @@
 from django.db import models
+from tinymce.models import HTMLField
 
 from core.models import ShowBaseModel
-
-from tinymce.models import HTMLField
 
 
 class Topic(ShowBaseModel):
