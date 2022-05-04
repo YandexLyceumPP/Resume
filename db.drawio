@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2022-05-02T13:59:09.756Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.84 Safari/537.36 OPR/85.0.4341.75" etag="tM2VLuD5vNJnpmNpzFd0" version="17.5.0" type="github" pages="2">
+<mxfile host="app.diagrams.net" modified="2022-05-04T19:33:28.451Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.84 Safari/537.36 OPR/85.0.4341.75" etag="f7khuLvB2XzBW1nI2Mre" version="17.5.0" type="github" pages="2">
   <diagram id="diV4F7xLku2t1hONYJBm" name="Основная БД">
     <mxGraphModel dx="1382" dy="764" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -46,7 +46,7 @@
         <mxCell id="bQsFyaaz6VniipHngEQU-28" value="Publication" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;" parent="bQsFyaaz6VniipHngEQU-17" vertex="1">
           <mxGeometry y="30" width="160" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="Ect3eV3HKoE3AQfCkprJ-1" value="Подтверждена " style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;" vertex="1" parent="bQsFyaaz6VniipHngEQU-17">
+        <mxCell id="Ect3eV3HKoE3AQfCkprJ-1" value="Подтверждена " style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;" parent="bQsFyaaz6VniipHngEQU-17" vertex="1">
           <mxGeometry y="60" width="160" height="30" as="geometry" />
         </mxCell>
         <mxCell id="bQsFyaaz6VniipHngEQU-18" value="Иконка" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;" parent="bQsFyaaz6VniipHngEQU-17" vertex="1">
@@ -73,7 +73,7 @@
           <mxGeometry y="30" width="120" height="30" as="geometry" />
         </mxCell>
         <mxCell id="bQsFyaaz6VniipHngEQU-47" value="&lt;h1&gt;Файлы&lt;/h1&gt;&lt;p&gt;Некоторые файлы будут использоваться для разметки&lt;/p&gt;&lt;p&gt;* &lt;i&gt;README.md&lt;/i&gt; - файл заменяющий описание/текст&lt;/p&gt;&lt;p&gt;*&amp;nbsp;&lt;i&gt;Markup.json&lt;/i&gt; - разметка&lt;/p&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontFamily=Helvetica;fontSize=12;opacity=40;" parent="1" vertex="1">
-          <mxGeometry x="50" y="490" width="190" height="150" as="geometry" />
+          <mxGeometry x="40" y="490" width="190" height="150" as="geometry" />
         </mxCell>
         <mxCell id="bQsFyaaz6VniipHngEQU-51" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontFamily=Helvetica;fontSize=12;curved=1;" parent="1" source="bQsFyaaz6VniipHngEQU-44" target="bQsFyaaz6VniipHngEQU-1" edge="1">
           <mxGeometry relative="1" as="geometry">
