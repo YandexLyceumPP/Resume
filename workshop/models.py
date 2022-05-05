@@ -7,9 +7,16 @@ from core.models import ShowBaseModel
 
 User = get_user_model()
 
+class Icon(ShowBaseModel):
+    image = models.ImageField("Иконка", upload_to="uploads/icons/", null=True)
+
+    class Meta:
+        verbose_name = "Иконка"
+        verbose_name_plural = "Иконки"
 
 class Tag(ShowBaseModel):
-    icon = models.ImageField("Иконка", upload_to="uploads/icons/", null=True)
+    icon = models.ForeignKey(Icon, on_delete=models.CASCADE,
+                                 related_name='tag_icons',)
     name = models.CharField("Название", max_length=100)
 
     class Meta:
@@ -53,7 +60,8 @@ class Link(ShowBaseModel):
     publication = models.ForeignKey(
         Publication, on_delete=models.CASCADE
     )
-    icon = models.ImageField("Иконка", upload_to="uploads/icons/", null=True)
+    icon = models.ForeignKey(Icon, on_delete=models.CASCADE,
+                                 related_name='link_icons',)
     text = models.CharField("Текст", max_length=150)
     url = models.URLField("URL")
 
