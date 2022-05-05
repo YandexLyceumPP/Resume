@@ -1,25 +1,22 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 
 from tinymce.models import HTMLField
 
-from users.models import Profile
-
 from core.models import ShowBaseModel
 
+User = get_user_model()
 
-class Field(ShowBaseModel):
-    user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="owner")
-    icon = models.ImageField("Иконка", upload_to="uploads/icons/", null=True)
-    title = models.CharField("Навазние", max_length=20)
-    value = models.CharField("Значение", max_length=100)
+class Icon(ShowBaseModel):
+    image = models.ImageField("Иконка", upload_to="uploads/icons/", null=True)
 
     class Meta:
-        verbose_name = "Факт"
-        verbose_name_plural = "Факты"
-
+        verbose_name = "Иконка"
+        verbose_name_plural = "Иконки"
 
 class Tag(ShowBaseModel):
-    icon = models.ImageField("Иконка", upload_to="uploads/icons/", null=True)
+    icon = models.ForeignKey(Icon, on_delete=models.CASCADE,
+                                 related_name='tag_icons',)
     name = models.CharField("Название", max_length=100)
 
     class Meta:
@@ -27,12 +24,21 @@ class Tag(ShowBaseModel):
         verbose_name_plural = "Тэги"
 
 
-class Publication(ShowBaseModel):
-    user = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="profile")
-    blog = models.BooleanField(default=True)
+class Resume(ShowBaseModel):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to="upload/avatars/", null=True)
+    tags = models.ManyToManyField(Tag, verbose_name="Тэги")
     text = HTMLField("Текст")
-    tags = models.ManyToManyField(Tag, verbose_name="Тэги", related_name="tags")
-    editDate = models.DateField("Дата редактирования", auto_now_add=True)
+    date_edit = models.DateField()
+
+    class Meta:
+        verbose_name = verbose_name_plural = "Резюме"
+
+
+class Publication(ShowBaseModel):
+    resume = models.ForeignKey(Resume, on_delete=models.CASCADE)
+    text = HTMLField("Текст")
+    date_edit = models.DateField("Дата редактирования", auto_now_add=True)
 
     class Meta:
         verbose_name = "Публикация"
@@ -41,7 +47,7 @@ class Publication(ShowBaseModel):
 
 class File(ShowBaseModel):
     publication = models.ForeignKey(
-        Publication, related_name="publication", on_delete=models.CASCADE
+        Publication, on_delete=models.CASCADE
     )
     file = models.FileField(upload_to="uploads/files/")
 
@@ -52,12 +58,12 @@ class File(ShowBaseModel):
 
 class Link(ShowBaseModel):
     publication = models.ForeignKey(
-        Publication, related_name="link_publication", on_delete=models.CASCADE
+        Publication, on_delete=models.CASCADE
     )
-    icon = models.ImageField("Иконка", upload_to="uploads/icons/", null=True)
-    text = HTMLField("Текст")
-    url = models.CharField("URL", max_length=150)
-    approved = models.BooleanField(default=False)
+    icon = models.ForeignKey(Icon, on_delete=models.CASCADE,
+                                 related_name='link_icons',)
+    text = models.CharField("Текст", max_length=150)
+    url = models.URLField("URL")
 
     class Meta:
         verbose_name = "Ссылка"

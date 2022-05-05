@@ -1,6 +1,6 @@
 from .base import *
 
-DEBUG = config("DEBUG", default=False, cast=bool)
+DEBUG = config("DEBUG", default=True, cast=bool)
 
 if DEBUG:
     from .dev import *
