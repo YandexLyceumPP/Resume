@@ -24,8 +24,19 @@ class Skill(ShowBaseModel):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to="upload/avatars/", null=True)
-    skills = models.ManyToManyField(Skill, verbose_name="Skill", related_name="profile")
+    skills = models.ManyToManyField(Skill, verbose_name="Skill")
 
     class Meta:
         verbose_name = "Пользователь"
         verbose_name_plural = "Пользователи"
+
+
+class Field(ShowBaseModel):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    icon = models.ImageField("Иконка", upload_to="uploads/icons/", null=True)
+    title = models.CharField("Навазние", max_length=20)
+    value = models.CharField("Значение", max_length=100)
+
+    class Meta:
+        verbose_name = "Факт"
+        verbose_name_plural = "Факты"
