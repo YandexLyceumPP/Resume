@@ -2,14 +2,15 @@ from django.contrib.auth import get_user_model
 from django.db import models
 
 from tinymce.models import HTMLField
-
+from workshop.models import Icon
 from core.models import ShowBaseModel
 
 User = get_user_model()
 
 
 class Skill(ShowBaseModel):
-    icon = models.ImageField("Иконка", upload_to="uploads/icons/", null=True)
+    icon = models.ForeignKey(Icon, on_delete=models.CASCADE,
+                                 related_name='skill_icons',)
     skill = models.CharField("Название", max_length=30)
     text = HTMLField("Описание")
 

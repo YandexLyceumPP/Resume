@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     "homepage.apps.HomepageConfig",
     "workshop.apps.WorkshopConfig",
     "lessons.apps.LessonsConfig",
+    "sorl.thumbnail",
 ]
 
 MIDDLEWARE = [
