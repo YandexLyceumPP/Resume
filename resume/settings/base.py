@@ -104,3 +104,7 @@ MEDIA_URL = "/media/"
 STATICFILES_DIRS = [
     BASE_DIR / "static_dev",
 ]
+
+LOGIN_URL = "/user/login"
+LOGOUT_URL = "/user/logout"
+LOGIN_REDIRECT_URL = "/user/"
