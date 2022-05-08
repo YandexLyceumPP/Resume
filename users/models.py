@@ -9,8 +9,7 @@ User = get_user_model()
 
 
 class Skill(ShowBaseModel):
-    icon = models.ForeignKey(Icon, on_delete=models.CASCADE,
-                                 related_name='skill_icons',)
+    icon = models.ForeignKey(Icon, on_delete=models.CASCADE)
     skill = models.CharField("Название", max_length=30)
     text = HTMLField("Описание")
 

@@ -6,18 +6,8 @@ from django.contrib.auth.decorators import login_required
 
 from users.forms import UserForm, UserLoginForm, UserRegistrationForm
 
+from users.forms import CreateSkillForm
 
-class CreateSkillForm(forms.Form):
-    icon_choice = []
-    icons = Icon.objects.all()
-    cnt = 1
-    for i in icons:
-        icon_choice  += [(cnt, i)]
-        cnt += 1
-    print(icon_choice)
-    skill = forms.CharField()
-    text = forms.CharField()
-    img = forms.ChoiceField(choices=icon_choice,  widget=forms.RadioSelect())
 
 def user_detail(request, user_name):
     TEMPLATE = "users/user_detail.html"
