@@ -1,37 +1,9 @@
 {% extends "base.html" %}
 
+
 {% block title %}Мой профиль{% endblock %}
+
 {% block content %}
-
-<h1>Мой профиль</h1>
-<form method='post'>
-	{% csrf_token %}
-	<div>Название навыка: {{form.skill}}</div>
-	<br>
-	<div>Описание: {{form.text}}</div>
-	<br>
-	<fieldset>
-		{% for radio in form.img %}
-		<label for="{{ radio.id_for_label }}">
-			<div>
-				{{radio.tag}}
-				<img src="{{radio.choice_label.image.url}}" width="32px" style="margin: 10px">
-			</div>
-		</label>
-		<br>
-		{% endfor %}
-	</fieldset>
-	<br>
-	<button type="submit">Отправить</button>
-	<!-- {% for radio in user_personal.form.star %}
-	<div class="form-check">
-		{{ radio }}
-	</div>
-	{% endfor %}
-	<button type="submit" class="btn btn-primary">{% if star_user == 0 %}Поставить оценку{% else %}
-		Изменить оценку{% endif %}</button> -->
-</form>
-
-
-
+    <h1>Мой профиль</h1>
+    {% include "core/include/form.html" with form=form btn_text="Добавить" %}
 {% endblock %}
