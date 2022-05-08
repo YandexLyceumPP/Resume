@@ -1,11 +1,13 @@
-from django.contrib.auth import get_user_model
 from django.db import models
-from sorl.thumbnail import get_thumbnail
-from tinymce.models import HTMLField
+from django.contrib.auth import get_user_model
 
+from sorl.thumbnail import get_thumbnail
+
+from tinymce.models import HTMLField
 from core.models import ShowBaseModel
 
 User = get_user_model()
+
 
 class Icon(ShowBaseModel):
     image = models.ImageField("Иконка", upload_to="uploads/icons/", null=True)
@@ -17,9 +19,9 @@ class Icon(ShowBaseModel):
         verbose_name = "Иконка"
         verbose_name_plural = "Иконки"
 
+
 class Tag(ShowBaseModel):
-    icon = models.ForeignKey(Icon, on_delete=models.CASCADE,
-                                 related_name='tag_icons',)
+    icon = models.ForeignKey(Icon, on_delete=models.CASCADE)
     name = models.CharField("Название", max_length=100)
 
     class Meta:
@@ -60,11 +62,8 @@ class File(ShowBaseModel):
 
 
 class Link(ShowBaseModel):
-    publication = models.ForeignKey(
-        Publication, on_delete=models.CASCADE
-    )
-    icon = models.ForeignKey(Icon, on_delete=models.CASCADE,
-                                 related_name='link_icons',)
+    publication = models.ForeignKey(Publication, on_delete=models.CASCADE)
+    icon = models.ForeignKey(Icon, on_delete=models.CASCADE)
     text = models.CharField("Текст", max_length=150)
     url = models.URLField("URL")
 
