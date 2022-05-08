@@ -13,6 +13,5 @@ def user_detail(request, user_name):
 def profile(request):
     TEMPLATE = "users/profile.html"
     form = CreateSkillForm(request.POST or None)
-
     context = {"form": form}
     return render(request, TEMPLATE, context=context)
