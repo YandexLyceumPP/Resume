@@ -75,7 +75,7 @@ def profile(request):
         # form = CreateSkillForm(request.POST or None)
     context = {
         "user_form": user_form,
-        "form": form,
+        # "form": form,
     }
     return render(request, "users/profile.html", context=context)
 
