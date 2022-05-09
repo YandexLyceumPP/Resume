@@ -92,6 +92,7 @@ class TextInfo(ShowBaseModel):
 
 class FileInfo(ShowBaseModel):
     file = models.FileField(upload_to="uploads/files/")
+    description = models.CharField("Подпись", max_length=200)
     order = models.IntegerField("Порядок")
     block = models.ForeignKey(Block, on_delete=models.CASCADE)
     decorate=models.TextField("Настройки отображения", blank=True)
@@ -102,6 +103,7 @@ class FileInfo(ShowBaseModel):
 
 class FileConfig(ShowBaseModel):
     text = HTMLField("Настройки")
+
 
     class Meta:
         verbose_name = "Файл настройки"
