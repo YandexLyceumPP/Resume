@@ -40,33 +40,69 @@ class Resume(ShowBaseModel):
         verbose_name = verbose_name_plural = "Резюме"
 
 
-class Publication(ShowBaseModel):
+# class Publication(ShowBaseModel):
+#     resume = models.ForeignKey(Resume, on_delete=models.CASCADE)
+#     text = HTMLField("Текст")
+#     date_edit = models.DateField("Дата редактирования", auto_now_add=True)
+
+#     class Meta:
+#         verbose_name = "Публикация"
+#         verbose_name_plural = "Публикации"
+
+
+# class File(ShowBaseModel):
+#     publication = models.ForeignKey(
+#         Publication, on_delete=models.CASCADE
+#     )
+#     file = models.FileField(upload_to="uploads/files/")
+
+#     class Meta:
+#         verbose_name = "Вложение"
+#         verbose_name_plural = "Вложения"
+
+
+# class Link(ShowBaseModel):
+#     publication = models.ForeignKey(Publication, on_delete=models.CASCADE)
+#     icon = models.ForeignKey(Icon, on_delete=models.CASCADE)
+#     text = models.CharField("Текст", max_length=150)
+#     url = models.URLField("URL")
+
+#     class Meta:
+#         verbose_name = "Ссылка"
+#         verbose_name_plural = "Ссылки"
+
+class Block(ShowBaseModel):
+    title = models.CharField("Загаловок", max_length=200)
+    order = models.IntegerField("Порядок")
     resume = models.ForeignKey(Resume, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = "Раздел"
+        verbose_name_plural = "Разделы"
+
+class TextInfo(ShowBaseModel):
     text = HTMLField("Текст")
-    date_edit = models.DateField("Дата редактирования", auto_now_add=True)
+    order = models.IntegerField("Порядок")
+    block = models.ForeignKey(Block, on_delete=models.CASCADE)
+    decorate=models.TextField("Настройки отображения", blank=True)
 
     class Meta:
-        verbose_name = "Публикация"
-        verbose_name_plural = "Публикации"
+        verbose_name = "Описание"
+        verbose_name_plural = "Описания"
 
-
-class File(ShowBaseModel):
-    publication = models.ForeignKey(
-        Publication, on_delete=models.CASCADE
-    )
+class FileInfo(ShowBaseModel):
     file = models.FileField(upload_to="uploads/files/")
+    order = models.IntegerField("Порядок")
+    block = models.ForeignKey(Block, on_delete=models.CASCADE)
+    decorate=models.TextField("Настройки отображения", blank=True)
 
     class Meta:
-        verbose_name = "Вложение"
-        verbose_name_plural = "Вложения"
+        verbose_name = "Файл"
+        verbose_name_plural = "Файлы"
 
-
-class Link(ShowBaseModel):
-    publication = models.ForeignKey(Publication, on_delete=models.CASCADE)
-    icon = models.ForeignKey(Icon, on_delete=models.CASCADE)
-    text = models.CharField("Текст", max_length=150)
-    url = models.URLField("URL")
+class FileConfig(ShowBaseModel):
+    text = HTMLField("Настройки")
 
     class Meta:
-        verbose_name = "Ссылка"
-        verbose_name_plural = "Ссылки"
+        verbose_name = "Файл настройки"
+        verbose_name_plural = "Файлы настройки"
