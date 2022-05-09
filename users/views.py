@@ -66,13 +66,13 @@ def profile(request):
 def profile(request):
     if request.method == "POST":
         user_form = UserForm(request.POST, instance=request.user)
-        form = CreateSkillForm(request.POST or None)
+        # form = CreateSkillForm(request.POST or None)
         if user_form.is_valid():
             user_form.save()
             return redirect("users:profile")
     else:
         user_form = UserForm(instance=request.user)
-        form = CreateSkillForm(request.POST or None)
+        # form = CreateSkillForm(request.POST or None)
     context = {
         "user_form": user_form,
         "form": form,
