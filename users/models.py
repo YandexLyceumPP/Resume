@@ -40,3 +40,8 @@ class Field(ShowBaseModel):
     class Meta:
         verbose_name = "Факт"
         verbose_name_plural = "Факты"
+
+
+class Block(ShowBaseModel):
+    title = models.CharField("Загаловок", max_length=200)
+    

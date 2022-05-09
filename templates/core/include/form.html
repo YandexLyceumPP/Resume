@@ -5,7 +5,6 @@
 		<form method="{{ method|default:" post" }}">
 			{% csrf_token %}
 			{% for field in form %}
-			{% if field != form.img %}
 			<div class="mb-3">
 				{{ field.errors }}
 				<label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
@@ -14,9 +13,8 @@
 				{% endif %}
 				{{ field }}
 			</div>
-			{% endif %}
 			{% endfor %}
-			<label for="{{ form.img.id_for_label }}" class="form-label">Выбор иконки</label>
+			<!-- <label for="{{ form.img.id_for_label }}" class="form-label">Выбор иконки</label>
 			<fieldset>
 				{% for radio in form.img %}
 				<label for="{{ radio.id_for_label }}">
@@ -29,7 +27,7 @@
 				{% endfor %}
 			</fieldset>
 			<br>
-			<button type="submit" class="btn btn-primary">{{ btn_text }}</button>
+			<button type="submit" class="btn btn-primary">{{ btn_text }}</button> -->
 		</form>
 	</div>
 </section>
