@@ -115,3 +115,6 @@ dmypy.json
 
 # Dev database
 dev-database.sqlite3
+
+# Mac OS X stuff
+.DS_Store
