@@ -5,6 +5,7 @@ from sorl.thumbnail import get_thumbnail
 
 from tinymce.models import HTMLField
 from core.models import ShowBaseModel
+from workshop.validators import OrReValidator
 
 User = get_user_model()
 
@@ -27,6 +28,27 @@ class Tag(ShowBaseModel):
     class Meta:
         verbose_name = "Тэг"
         verbose_name_plural = "Тэги"
+
+
+class Contact(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    contact = models.CharField(
+        'Номер телефона | Email | URL',
+        max_length=1000,
+        validators=[
+            OrReValidator(
+                (
+                    r"[a-zA-Z0-9_]+@[a-zA-Z0-9_]+.[a-z0-9]+",
+                    r"\+?1?\d{8,15}",
+                    r"https?://[a-zA-Z0-1]+.[a-zA-Z0-1]+(/[a-zA-Z0-1]+)*/?"
+                )
+            )
+        ]
+    )
+
+    class Meta:
+        verbose_name = "Контакт"
+        verbose_name_plural = "Контакты"
 
 
 class Resume(ShowBaseModel):
@@ -80,30 +102,32 @@ class Block(ShowBaseModel):
         verbose_name = "Раздел"
         verbose_name_plural = "Разделы"
 
+
 class TextInfo(ShowBaseModel):
     text = HTMLField("Текст")
     order = models.IntegerField("Порядок")
     block = models.ForeignKey(Block, on_delete=models.CASCADE)
-    decorate=models.TextField("Настройки отображения", blank=True)
+    decorate = models.TextField("Настройки отображения", blank=True)
 
     class Meta:
         verbose_name = "Описание"
         verbose_name_plural = "Описания"
+
 
 class FileInfo(ShowBaseModel):
     file = models.FileField(upload_to="uploads/files/")
     description = models.CharField("Подпись", max_length=200)
     order = models.IntegerField("Порядок")
     block = models.ForeignKey(Block, on_delete=models.CASCADE)
-    decorate=models.TextField("Настройки отображения", blank=True)
+    decorate = models.TextField("Настройки отображения", blank=True)
 
     class Meta:
         verbose_name = "Файл"
         verbose_name_plural = "Файлы"
 
+
 class FileConfig(ShowBaseModel):
     text = HTMLField("Настройки")
-
 
     class Meta:
         verbose_name = "Файл настройки"

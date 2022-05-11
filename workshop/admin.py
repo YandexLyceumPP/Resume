@@ -1,8 +1,10 @@
-from typing import Text
+# from typing import Text
 from django.contrib import admin
 
-from workshop.models import Tag, Resume, Icon, Block, FileInfo, TextInfo, FileConfig
-# from workshop.models import Publication, File, Link, 
+from workshop.models import Tag, Resume, Icon, Block, FileInfo, TextInfo, FileConfig, Contact
+# from workshop.models import Publication, File, Link,
+
+admin.site.register(Contact)
 admin.site.register(Icon)
 admin.site.register(Resume)
 admin.site.register(Tag)
