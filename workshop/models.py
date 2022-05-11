@@ -89,11 +89,3 @@ class File(ShowBaseModel):
     class Meta:
         verbose_name = "Файл"
         verbose_name_plural = "Файлы"
-
-
-class FileConfig(ShowBaseModel):
-    text = HTMLField("Настройки")
-
-    class Meta:
-        verbose_name = "Файл настройки"
-        verbose_name_plural = "Файлы настройки"
