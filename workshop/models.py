@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.utils.datetime_safe import date
 from ordered_model.models import OrderedModel
 
 from sorl.thumbnail import get_thumbnail
@@ -9,6 +10,18 @@ from core.models import ShowBaseModel
 from workshop.validators import OrReValidator
 
 User = get_user_model()
+
+
+class DateEditBaseModel(models.Model):
+    date_edit = models.DateField("Дата последнего редактирования", default=date.today)
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        self.date_edit = date.today
+        super().save(force_insert, force_update, using, update_fields)
+
+    class Meta:
+        abstract = True
 
 
 class Icon(ShowBaseModel):
@@ -52,19 +65,18 @@ class Contact(models.Model):
         verbose_name_plural = "Контакты"
 
 
-class Resume(ShowBaseModel):
+class Resume(ShowBaseModel, DateEditBaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to="upload/avatars/", null=True)
     contacts = models.ManyToManyField(Contact, verbose_name="Контакты")
     tags = models.ManyToManyField(Tag, verbose_name="Тэги")
     text = HTMLField("Описание")
-    date_edit = models.DateField()
 
     class Meta:
         verbose_name = verbose_name_plural = "Резюме"
 
 
-class Block(ShowBaseModel, OrderedModel):
+class Block(ShowBaseModel, OrderedModel, DateEditBaseModel):
     title = models.CharField("Загаловок", max_length=200)
     resume = models.ForeignKey(Resume, on_delete=models.CASCADE)
 
