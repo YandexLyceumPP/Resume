@@ -17,6 +17,7 @@ INTERNAL_IPS = ["127.0.0.1"]
 INSTALLED_APPS = [
     # install
     "tinymce",
+    "ordered_model",
     # main
     "django.contrib.admin",
     "django.contrib.auth",
