@@ -20,7 +20,9 @@
         <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicons/favicon-16x16.png' %}">
     </head>
     <body>
-        {% include "includes/header.html" %}
+        {% block header %}
+            {% include "includes/header.html" %}
+        {% endblock %}
 
         <main>
             {% block content_free %}{% endblock %}
@@ -29,6 +31,8 @@
             </div>
         </main>
 
-        {% include "includes/footer.html" %}
+        {% block footer %}
+            {% include "includes/footer.html" %}
+        {% endblock %}
     </body>
 </html>
