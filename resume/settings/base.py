@@ -18,6 +18,7 @@ INSTALLED_APPS = [
     # install
     "tinymce",
     "ordered_model",
+    "sorl.thumbnail",
     # main
     "django.contrib.admin",
     "django.contrib.auth",
@@ -31,7 +32,6 @@ INSTALLED_APPS = [
     "homepage.apps.HomepageConfig",
     "workshop.apps.WorkshopConfig",
     "lessons.apps.LessonsConfig",
-    "sorl.thumbnail",
 ]
 
 MIDDLEWARE = [
