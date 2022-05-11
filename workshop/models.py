@@ -54,8 +54,9 @@ class Contact(models.Model):
 class Resume(ShowBaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to="upload/avatars/", null=True)
+    contacts = models.ManyToManyField(Contact, verbose_name="Контакты")
     tags = models.ManyToManyField(Tag, verbose_name="Тэги")
-    text = HTMLField("Текст")
+    text = HTMLField("Описание")
     date_edit = models.DateField()
 
     class Meta:
