@@ -73,15 +73,13 @@ class Block(ShowBaseModel, OrderedModel):
         verbose_name_plural = "Блоки"
 
 
-class TextInfo(ShowBaseModel):
+class Text(models.Model):
+    block = models.OneToOneField(Block, on_delete=models.CASCADE)
     text = HTMLField("Текст")
-    order = models.IntegerField("Порядок")
-    block = models.ForeignKey(Block, on_delete=models.CASCADE)
-    decorate = models.TextField("Настройки отображения", blank=True)
 
     class Meta:
-        verbose_name = "Описание"
-        verbose_name_plural = "Описания"
+        verbose_name = "Текст"
+        verbose_name_plural = "Текста"
 
 
 class File(ShowBaseModel):
