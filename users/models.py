@@ -24,7 +24,7 @@ class Skill(ShowBaseModel):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to="upload/avatars/", null=True)
-    skills = models.ManyToManyField(Skill, verbose_name="Skill")
+    skills = models.ManyToManyField(Skill)
 
     class Meta:
         verbose_name = "Пользователь"
@@ -40,8 +40,4 @@ class Field(ShowBaseModel):
     class Meta:
         verbose_name = "Факт"
         verbose_name_plural = "Факты"
-
-
-class Block(ShowBaseModel):
-    title = models.CharField("Загаловок", max_length=200)
     
