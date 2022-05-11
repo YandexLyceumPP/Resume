@@ -83,11 +83,8 @@ class Text(models.Model):
 
 
 class File(ShowBaseModel):
-    file = models.FileField(upload_to="uploads/files/")
-    description = models.CharField("Подпись", max_length=200)
-    order = models.IntegerField("Порядок")
     block = models.ForeignKey(Block, on_delete=models.CASCADE)
-    decorate = models.TextField("Настройки отображения", blank=True)
+    file = models.FileField(upload_to="uploads/files/")
 
     class Meta:
         verbose_name = "Файл"
