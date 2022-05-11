@@ -33,7 +33,7 @@ class Tag(ShowBaseModel):
 class Contact(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     contact = models.CharField(
-        'Номер телефона | Email | URL',
+        "Номер телефона | Email | URL",
         max_length=1000,
         validators=[
             OrReValidator(
