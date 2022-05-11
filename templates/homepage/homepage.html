@@ -62,4 +62,25 @@
             <span class="visually-hidden">Next</span>
         </button>
     </div>
+
+    <section class="py-5 text-center container">
+        <div class="row py-lg-5">
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <h1 class="fw-light">Создай резюме под себя</h1>
+                <p class="lead text-muted">Всего за пару кликов вы сможете создать резюме под свой стиль и
+                    получите доступ для просмотра и редактирования из любой точки вселенной</p>
+
+                {% if user.is_authenticated %}
+                    <a class="btn btn-primary my-2"
+                       href="{% url 'users:profile' %}">Перейти в профиль</a>
+                {% else %}
+                    <a class="btn btn-primary my-2"
+                       href="{% url 'users:signup' %}">Попробовать</a>
+                {% endif %}
+
+                <br>
+                <a href="{% url 'about:about' %}">Подробнее о проекте</a>
+            </div>
+        </div>
+    </section>
 {% endblock %}
