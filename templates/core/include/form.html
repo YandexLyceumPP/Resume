@@ -1,19 +1,23 @@
 <section class="container">
-	<div class="container">
-        {% if title %}<h1>{{ title }}</h1>{% endif %}
-		{{ form.media }}
-		<form method="{{ method|default:'post' }}">
-			{% csrf_token %}
+    {% if title %}<h1>{{ title }}</h1>{% endif %}
 
-			{% for field in form %}
-			    <div class="mb-3">
-				    {{ field.errors }}
-				    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+    {{ form.media }}
+    <form method="{{ method|default:'post' }}">
+        {% csrf_token %}
+
+        {% for field in form %}
+            <div class="form-group">
+                {{ field.errors }}
+                <label for="exampleInputEmail1">
+                    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
                     {% if field.field.required %}<span>*</span>{% endif %}
-				    {{ field }}
-                    <small id="emailHelp" class="form-text text-muted">{{ field.help_text }}</small>
-			    </div>
-            {% endfor %}
-		</form>
-	</div>
+                </label>
+
+                {{ field }}
+                <small id="emailHelp" class="form-text text-muted">{{ field.help_text|safe }}</small>
+            </div>
+        {% endfor %}
+
+        <button type="submit" class="btn btn-primary">{{ btn_text|default:'Отправить' }}</button>
+    </form>
 </section>
