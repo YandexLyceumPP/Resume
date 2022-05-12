@@ -1,16 +1,12 @@
-{% extends 'users/extend/form.html' %}
+{% extends 'base.html' %}
 
 
-{% block title %}
-	Вход
-{% endblock %}
+{% block title %}Вход{% endblock %}
 
-{% block form_title %}
-	Вход
-{% endblock %}
+{% block content %}
+    {% include 'core/include/form.html' with form=form title='Вход' btn_text='Войти' %}
 
-{% block buttons %}
-	<button type="submit" class="btn btn-primary">Войти</button>
-	<a class="btn btn-primary" href="{% url 'users:password_reset' %}">Забыл пароль</a>
+    <a class="btn btn-primary" href="{% url 'users:password_reset' %}">Забыл пароль</a>
 	<a class="btn btn-primary" href="{% url 'users:signup' %}">Регистрация</a>
 {% endblock %}
+
