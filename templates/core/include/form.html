@@ -1,7 +1,7 @@
 <section class="container">
 	<div class="container">
+        {% if title %}<h1>{{ title }}</h1>{% endif %}
 		{{ form.media }}
-
 		<form method="{{ method|default:'post' }}">
 			{% csrf_token %}
 
@@ -11,6 +11,7 @@
 				    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
                     {% if field.field.required %}<span>*</span>{% endif %}
 				    {{ field }}
+                    <small id="emailHelp" class="form-text text-muted">{{ field.help_text }}</small>
 			    </div>
             {% endfor %}
 		</form>
