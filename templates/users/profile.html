@@ -1,23 +1,26 @@
 {% extends "base.html" %}
 
+
 {% block title %}Мой профиль{% endblock %}
+
 {% block content %}
-<h1>Мой профиль</h1>
-<div class="container">
-    <form action="" method="post">
-        {% csrf_token %}
-        {% for field in user_form %}
-        <div class="mb-3">
-            {{ field.errors }}
-            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
-            {{ field }}
-        </div>
-        {% endfor %}
-        {% block buttons %}
-        <button type="submit" class="btn btn-primary">Изменить</button>
-        <a type="button" class="btn btn-danger" href="{% url 'users:logout' %}">Выйти</a>
-        {% endblock %}
-    </form>
-</div>
-{% include "core/include/form.html" with form=form btn_text="Добавить" %}
+    <h1>Мой профиль</h1>
+    <div class="container">
+        <form action="" method="post">
+            {% csrf_token %}
+            {% for field in user_form %}
+                <div class="mb-3">
+                    {{ field.errors }}
+                    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                    {{ field }}
+                </div>
+            {% endfor %}
+            {% block buttons %}
+                <button type="submit" class="btn btn-primary">Изменить</button>
+                <a type="button" class="btn btn-danger" href="{% url 'users:logout' %}">Выйти</a>
+            {% endblock %}
+        </form>
+    </div>
+
+    {% include 'core/include/form.html' with form=form btn_text='Добавить' %}
 {% endblock %}
