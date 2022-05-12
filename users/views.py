@@ -1,21 +1,16 @@
-from django.shortcuts import render, redirect
-from workshop.models import Icon
-from django import forms
 from django.contrib.auth import views, authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-
-from users.forms import UserForm, UserLoginForm, UserRegistrationForm
+from django.shortcuts import render, redirect
+from django.urls import reverse
 
 from users.forms import CreateSkillForm
+from users.forms import UserForm, UserLoginForm, UserRegistrationForm
 
 
 def user_detail(request, user_name):
     TEMPLATE = "users/user_detail.html"
     context = {"user_name": user_name}
     return render(request, TEMPLATE, context)
-
-
-
 
 
 def signup(request):
@@ -49,13 +44,31 @@ def login_page(request):
     else:
         form = UserLoginForm()
 
-    context = {"form": form}
+    buttons = [
+        {
+            'class': 'btn btn-primary',
+            'url': reverse('users:signup'),
+            'name': 'Регистрация',
+        },
+        {
+            'class': 'btn btn-danger',
+            'url': reverse('users:password_reset'),
+            'name': 'Забыл пароль',
+        }
+    ]
+
+    context = {
+        "form": form,
+        "buttons": buttons,
+    }
+
     return render(request, "users/login.html", context)
 
 
 def logout_page(request):
     logout(request)
     return redirect("homepage")
+
 
 def profile(request):
     TEMPLATE = "users/profile.html"
@@ -65,23 +78,44 @@ def profile(request):
 @login_required
 def profile(request):
     if request.method == "POST":
-        user_form = UserForm(request.POST, instance=request.user)
-        # form = CreateSkillForm(request.POST or None)
-        if user_form.is_valid():
-            user_form.save()
+        form = CreateSkillForm(request.POST or None)
+        if form.is_valid():
+            form.save()
             return redirect("users:profile")
     else:
-        user_form = UserForm(instance=request.user)
-        # form = CreateSkillForm(request.POST or None)
+        form = CreateSkillForm(request.POST or None)
     context = {
-        "user_form": user_form,
-        # "form": form,
+        "form": form,
     }
     return render(request, "users/profile.html", context=context)
 
 
-class LoginView(views.LoginView):
-    template_name = "users/login.html"
+def settings(request):
+    TEMPLATE = "users/settings.html"
+    return render(request, TEMPLATE)
+
+
+@login_required
+def settings(request):
+    if request.method == "POST":
+        form = UserForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect("users:settings")
+    else:
+        form = UserForm(instance=request.user)
+    buttons = [
+        {
+            'class': 'btn btn-danger',
+            'url': reverse('users:logout'),
+            'name': 'Выйти',
+        }
+    ]
+    context = {
+        "form": form,
+        "buttons": buttons,
+    }
+    return render(request, "users/settings.html", context=context)
 
 
 class LogoutView(views.LogoutView):
