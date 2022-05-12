@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+
+{% block title %}Настройки пользователя{% endblock %}
+
+{% block content %}
+	<h1>Настройки пользователя</h1>
+	{% include 'core/include/form.html' with form=form btn_text='Изменить' %}
+{% endblock %}

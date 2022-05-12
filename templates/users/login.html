@@ -4,9 +4,6 @@
 {% block title %}Вход{% endblock %}
 
 {% block content %}
-    {% include 'core/include/form.html' with form=form title='Вход' btn_text='Войти' %}
-
-    <a class="btn btn-primary" href="{% url 'users:password_reset' %}">Забыл пароль</a>
-	<a class="btn btn-primary" href="{% url 'users:signup' %}">Регистрация</a>
+    {% include 'core/include/form.html' with form=form title='Вход' btn_text='Войти' buttons=buttons %}
 {% endblock %}
 
