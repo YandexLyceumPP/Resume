@@ -2,32 +2,17 @@
 	<div class="container">
 		{{ form.media }}
 
-		<form method="{{ method|default:" post" }}">
+		<form method="{{ method|default:'post' }}">
 			{% csrf_token %}
+
 			{% for field in form %}
-			<div class="mb-3">
-				{{ field.errors }}
-				<label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
-				{% if field.field.required %}
-				<span>*</span>
-				{% endif %}
-				{{ field }}
-			</div>
-			{% endfor %}
-			<!-- <label for="{{ form.img.id_for_label }}" class="form-label">Выбор иконки</label>
-			<fieldset>
-				{% for radio in form.img %}
-				<label for="{{ radio.id_for_label }}">
-					<div>
-						{{radio.tag}}
-						<img src="{{radio.choice_label.image.url}}" width="32px" style="margin: 10px">
-					</div>
-				</label>
-				<br>
-				{% endfor %}
-			</fieldset>
-			<br>
-			<button type="submit" class="btn btn-primary">{{ btn_text }}</button> -->
+			    <div class="mb-3">
+				    {{ field.errors }}
+				    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                    {% if field.field.required %}<span>*</span>{% endif %}
+				    {{ field }}
+			    </div>
+            {% endfor %}
 		</form>
 	</div>
 </section>
