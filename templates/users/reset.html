@@ -1,14 +1,8 @@
-{% extends 'users/extend/form.html' %}
+{% extends 'base.html' %}
 
 
-{% block title %}
-	Сброс пароля
-{% endblock %}
+{% block title %}Сброс пароля{% endblock %}
 
-{% block form_title %}
-	Введите новый пароль
-{% endblock %}
-
-{% block buttons %}
-	<button type="submit" class="btn btn-primary">Изменить пароль</button>
+{% block content %}
+    {% include 'core/include/form.html' with form=form title='Сброс пароля' btn_text='Изменить пароль' %}
 {% endblock %}
