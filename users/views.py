@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from workshop.models import Icon
 from django import forms
 from django.contrib.auth import views, authenticate, login, logout
 from django.contrib.auth.decorators import login_required

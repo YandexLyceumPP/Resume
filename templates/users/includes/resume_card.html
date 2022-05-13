@@ -1,0 +1,19 @@
+<div class="card border-info mb-3" style="max-width: 18rem;">
+    <img src="{{ img }}" class="card-img-top" alt="Фото резюме">
+
+    <div class="card-body">
+        <h5 class="card-title">{{ title}}</h5>
+        <p class="card-text">{{ description }}</p>
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">{{ contact }}</li>
+        <li class="list-group-item">
+            {% for tag in tags %}
+                <span class="badge rounded-pill bg-success">{{ tag.title }}</span>
+            {% endfor %}
+        </li>
+    </ul>
+    <div class="card-body">
+        <a href="#" class="card-link">Подробнее</a>
+    </div>
+</div>
