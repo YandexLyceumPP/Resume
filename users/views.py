@@ -4,12 +4,14 @@ from django.contrib.auth.decorators import login_required
 
 from users.admin import User
 from users.forms import UserForm, UserLoginForm, UserRegistrationForm
+from workshop.models import Resume
 
 
 def user_detail(request, user_name):
     user = get_object_or_404(User, username=user_name)
+    resumes = Resume.objects.filter(user=user)
 
-    context = {"user": user}
+    context = {"user": user, "resumes": resumes}
     return render(request, "users/user_detail.html", context)
 
 

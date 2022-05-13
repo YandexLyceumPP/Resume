@@ -4,5 +4,11 @@
 {% block title %}{{ user.username }}{% endblock %}
 
 {% block content %}
-
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+        {% for resume in resumes %}
+            <div class="col">
+                {% include 'users/includes/resume_card.html' with resume=resume %}
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

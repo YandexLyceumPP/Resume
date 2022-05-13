@@ -1,15 +1,17 @@
 <div class="card border-info mb-3" style="max-width: 18rem;">
-    <img src="{{ img }}" class="card-img-top" alt="Фото резюме">
+    <img src="{{ resume.get_image_100x100.url }}" class="card-img-top" alt="Фото резюме">
 
     <div class="card-body">
-        <h5 class="card-title">{{ title}}</h5>
-        <p class="card-text">{{ description }}</p>
+        <h5 class="card-title">{{ resume.date_edit }}</h5>
+        {% autoescape off %}
+            <p class="card-text">{{ resume.text|truncatewords:15 }}</p>
+        {% endautoescape %}
     </div>
     <ul class="list-group list-group-flush">
-        <li class="list-group-item">{{ contact }}</li>
         <li class="list-group-item">
-            {% for tag in tags %}
-                <span class="badge rounded-pill bg-success">{{ tag.title }}</span>
+            {% for tag in resume.tags.all %}
+                <span class="badge rounded-pill
+                bg-{% cycle 'primary' 'secondary' 'success' 'danger' 'warning text-dark' 'info text-dark' 'light text-dark' 'dark' %}">{{ tag.name }}</span>
             {% endfor %}
         </li>
     </ul>

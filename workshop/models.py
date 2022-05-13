@@ -60,12 +60,15 @@ class Resume(ShowBaseModel):
     text = HTMLField("Описание")
     date_edit = models.DateField()
 
+    def get_image_100x100(self):
+        return get_thumbnail(self.image, "100x100", quality=51)
+
     class Meta:
         verbose_name = verbose_name_plural = "Резюме"
 
 
 class Block(ShowBaseModel, OrderedModel):
-    title = models.CharField("Загаловок", max_length=200)
+    title = models.CharField("Заголовок", max_length=200)
     resume = models.ForeignKey(Resume, on_delete=models.CASCADE)
 
     class Meta:
