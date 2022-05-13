@@ -1,21 +1,19 @@
-from django.shortcuts import render, redirect
-from workshop.models import Icon
-from django import forms
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import views, authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
+from users.admin import User
 from users.forms import UserForm, UserLoginForm, UserRegistrationForm
+from workshop.models import Resume
 
-from users.forms import CreateSkillForm
 
 
 def user_detail(request, user_name):
-    TEMPLATE = "users/user_detail.html"
-    context = {"user_name": user_name}
-    return render(request, TEMPLATE, context)
+    user = get_object_or_404(User, username=user_name)
+    resumes = Resume.objects.filter(user=user)
 
-
-
+    context = {"user": user, "resumes": resumes}
+    return render(request, "users/user_detail.html", context)
 
 
 def signup(request):
@@ -56,6 +54,7 @@ def login_page(request):
 def logout_page(request):
     logout(request)
     return redirect("homepage")
+
 
 def profile(request):
     TEMPLATE = "users/profile.html"
