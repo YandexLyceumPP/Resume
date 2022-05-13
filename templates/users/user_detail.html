@@ -4,6 +4,23 @@
 {% block title %}{{ user.username }}{% endblock %}
 
 {% block content %}
+    <div class="card-body p-4">
+        <div class="d-flex text-black">
+            <div class="flex-shrink-0">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                     alt="Generic placeholder image" class="img-fluid" style="width: 180px; border-radius: 10px;">
+            </div>
+            <div class="flex-grow-1 ms-3">
+                <h5 class="mb-1">Danny McLoan</h5>
+
+                <span class="badge rounded-pill bg-primary">Primary</span>
+                <span class="badge rounded-pill bg-secondary">Secondary</span>
+
+                <p class="mb-2 pb-1" style="color: #2b2a2a;"><p>Безусловно, современная методология разработки напрямую зависит от системы обучения кадров, соответствующей насущным потребностям. Высокий уровень вовлечения представителей целевой аудитории является четким доказательством простого факта: современная методология разработки выявляет срочную потребность форм воздействия. Лишь интерактивные прототипы смешаны с не уникальными данными до степени совершенной неузнаваемости, из-за чего возрастает их статус бесполезности.</p></p>
+            </div>
+        </div>
+    </div>
+
     <div class="row row-cols-1 row-cols-md-4 g-4">
         {% for resume in resumes %}
             <div class="col">
