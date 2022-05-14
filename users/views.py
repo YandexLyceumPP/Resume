@@ -1,18 +1,26 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import views, authenticate, login, logout
+from django.contrib.auth import views, authenticate, login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
 
-from users.admin import User
 from users.forms import UserForm, UserLoginForm, UserRegistrationForm
+from users.models import Field
+
 from workshop.models import Resume
+
+User = get_user_model()
 
 
 
 def user_detail(request, user_name):
     user = get_object_or_404(User, username=user_name)
     resumes = Resume.objects.filter(user=user)
+    fields = Field.objects.filter(user=user)
 
-    context = {"user": user, "resumes": resumes}
+    context = {
+        "user": user,
+        "resumes": resumes,
+        "fields": fields
+    }
     return render(request, "users/user_detail.html", context)
 
 
