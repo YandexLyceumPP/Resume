@@ -15,12 +15,12 @@ class Skill(ShowBaseModel):
     skill = models.CharField("Название", max_length=30)
     text = HTMLField("Описание")
 
+    def __str__(self):
+        return self.skill
+
     class Meta:
         verbose_name = "Навык"
         verbose_name_plural = "Навыки"
-
-    def __str__(self):
-        return self.skill
 
 
 class Profile(models.Model):
@@ -38,6 +38,9 @@ class Field(ShowBaseModel):
     icon = models.ForeignKey(Icon, on_delete=models.CASCADE)
     title = models.CharField("Название", max_length=300)
     value = HTMLField("Значение")
+
+    def __str__(self):
+        return self.title
 
     class Meta:
         verbose_name = "Факт"

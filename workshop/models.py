@@ -26,6 +26,9 @@ class Tag(ShowBaseModel):
     icon = models.ForeignKey(Icon, on_delete=models.CASCADE)
     name = models.CharField("Название", max_length=100)
 
+    def __str__(self):
+        return self.name
+
     class Meta:
         verbose_name = "Тэг"
         verbose_name_plural = "Тэги"
@@ -47,6 +50,9 @@ class Contact(models.Model):
         ]
     )
 
+    def __str__(self):
+        return self.contact
+
     class Meta:
         verbose_name = "Контакт"
         verbose_name_plural = "Контакты"
@@ -60,6 +66,9 @@ class Resume(ShowBaseModel):
     text = HTMLField("Описание")
     date_edit = models.DateField()
 
+    def __str__(self):
+        return f"[{self.date_edit}] {self.text[:20]}"
+
     class Meta:
         verbose_name = verbose_name_plural = "Резюме"
 
@@ -67,6 +76,9 @@ class Resume(ShowBaseModel):
 class Block(ShowBaseModel, OrderedModel):
     title = models.CharField("Загаловок", max_length=200)
     resume = models.ForeignKey(Resume, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.title
 
     class Meta:
         verbose_name = "Блок"
