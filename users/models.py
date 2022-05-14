@@ -34,8 +34,8 @@ class Profile(models.Model):
 class Field(ShowBaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     icon = models.ImageField("Иконка", upload_to="uploads/icons/", null=True)
-    title = models.CharField("Навазние", max_length=20)
-    value = models.CharField("Значение", max_length=100)
+    title = models.CharField("Навазние", max_length=200)
+    value = models.CharField("Значение", max_length=500)
 
     class Meta:
         verbose_name = "Факт"

@@ -8,15 +8,47 @@
         <div class="d-flex text-black">
             <div class="flex-shrink-0">
                 <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
-                     alt="Generic placeholder image" class="img-fluid" style="width: 180px; border-radius: 10px;">
+                     alt="Generic placeholder image" class="img-fluid" style="width: 300px; border-radius: 10px;">
             </div>
             <div class="flex-grow-1 ms-3">
-                <h5 class="mb-1">Danny McLoan</h5>
+                <h3 class="mb-1">
+                    {% if user.first_name or user.last_name %}
+                        {{ user.first_name }} {{ user.last_name }}
+                    {% else %}
+                        {{ user.username }}
+                    {% endif %}
+                </h3>
 
-                <span class="badge rounded-pill bg-primary">Primary</span>
-                <span class="badge rounded-pill bg-secondary">Secondary</span>
+                <p>
+                    <span class="badge rounded-pill bg-primary">Primary</span>
+                    <span class="badge rounded-pill bg-secondary">Secondary</span>
+                </p>
 
-                <p class="mb-2 pb-1" style="color: #2b2a2a;"><p>Безусловно, современная методология разработки напрямую зависит от системы обучения кадров, соответствующей насущным потребностям. Высокий уровень вовлечения представителей целевой аудитории является четким доказательством простого факта: современная методология разработки выявляет срочную потребность форм воздействия. Лишь интерактивные прототипы смешаны с не уникальными данными до степени совершенной неузнаваемости, из-за чего возрастает их статус бесполезности.</p></p>
+                {% if fields %}
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="list-group" id="list-tab" role="tablist">
+                                {% for field in fields %}
+                                    <a class="list-group-item list-group-item-action {% if forloop.first %}active{% endif %}"
+                                       id="list-{{ field.id }}-list" data-bs-toggle="list" href="#list-{{ field.id }}"
+                                       role="tab" aria-controls="list-{{ field.id }}">{{ field.title|truncatechars:30 }}</a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="col-8">
+                            <div class="tab-content" id="nav-tabContent">
+                                {% for field in fields %}
+                                    <div class="tab-pane fade {% if forloop.first %}show active{% endif %}" id="list-{{ field.id }}"
+                                         role="tabpanel" aria-labelledby="list-{{ field.id }}-list">
+                                        <h5>{{ field.title }}</h5>
+                                        {{ field.value }}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
             </div>
         </div>
     </div>
