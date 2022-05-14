@@ -1,3 +1,4 @@
+<!--
 <div class="card border-info mb-3" style="max-width: 18rem;">
     <img src="{{ resume.get_image_100x100.url }}" class="card-img-top" alt="Фото резюме">
 
@@ -17,5 +18,29 @@
     </ul>
     <div class="card-body">
         <a href="#" class="card-link">Подробнее</a>
+    </div>
+</div>
+-->
+
+<div class="card mb-3">
+    <div class="row g-0">
+        <div class="col-md-4">
+            <img src="{{ resume.image.url }}" class="img-fluid rounded-start" alt="Фото резюме">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body" href="#">
+                <h5 class="card-title">{{ resume.date_edit }}</h5>
+                {% for tag in resume.tags.all %}
+                    <span class="badge rounded-pill
+                    bg-{% cycle 'primary' 'secondary' 'success' 'danger' 'warning text-dark' 'info text-dark' 'light text-dark' 'dark' %}">{{ tag.name }}</span>
+                {% endfor %}
+                <p class="card-text">
+                    {% autoescape off %}
+                        <p class="card-text">{{ resume.text|truncatewords:15 }}</p>
+                    {% endautoescape %} <a href="#" class="card-link">Подробнее</a>
+                </p>
+
+            </div>
+        </div>
     </div>
 </div>
