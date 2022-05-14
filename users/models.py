@@ -2,8 +2,10 @@ from django.contrib.auth import get_user_model
 from django.db import models
 
 from tinymce.models import HTMLField
-from workshop.models import Icon
+
 from core.models import ShowBaseModel
+
+from workshop.models import Icon
 
 User = get_user_model()
 
@@ -33,9 +35,9 @@ class Profile(models.Model):
 
 class Field(ShowBaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    icon = models.ImageField("Иконка", upload_to="uploads/icons/", null=True)
-    title = models.CharField("Навазние", max_length=20)
-    value = models.CharField("Значение", max_length=100)
+    icon = models.ForeignKey(Icon, on_delete=models.CASCADE)
+    title = models.CharField("Название", max_length=300)
+    value = HTMLField("Значение")
 
     class Meta:
         verbose_name = "Факт"
