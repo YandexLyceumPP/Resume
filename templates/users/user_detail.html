@@ -1,13 +1,15 @@
 {% extends 'base.html' %}
 
 
+{% load static %}
+
 {% block title %}{{ user.username }}{% endblock %}
 
 {% block content %}
     <div class="card-body p-4">
         <div class="d-flex text-black">
             <div class="flex-shrink-0">
-                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp"
+                <img src="{% if user.profile.image %}{{ user.profile.image.url }}{% else %}{% static 'img/users/avatar.png' %}{% endif %}"
                      alt="Generic placeholder image" class="img-fluid" style="width: 300px; border-radius: 10px;">
             </div>
             <div class="flex-grow-1 ms-3">

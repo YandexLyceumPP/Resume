@@ -3,7 +3,7 @@ from django.contrib.auth import views, authenticate, login, logout, get_user_mod
 from django.contrib.auth.decorators import login_required
 
 from users.forms import UserForm, UserLoginForm, UserRegistrationForm
-from users.models import Field
+from users.models import Field, Profile
 
 from workshop.models import Resume
 
@@ -15,11 +15,13 @@ def user_detail(request, user_name):
     user = get_object_or_404(User, username=user_name)
     resumes = Resume.objects.filter(user=user)
     fields = Field.objects.filter(user=user)
+    # profile = Profile.objects.get(user=user)
 
     context = {
         "user": user,
         "resumes": resumes,
-        "fields": fields
+        "fields": fields,
+        # "profile": profile
     }
     return render(request, "users/user_detail.html", context)
 
