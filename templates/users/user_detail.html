@@ -21,10 +21,13 @@
                     {% endif %}
                 </h3>
 
-                <p>
-                    <span class="badge rounded-pill bg-primary">Primary</span>
-                    <span class="badge rounded-pill bg-secondary">Secondary</span>
-                </p>
+                {% if user.profile.skills.all %}
+                    <p>
+                        {% for skill in user.profile.skills.all %}
+                            <span class="badge rounded-pill bg-{{ random_bootstrap_color }}">{{ skill.skill }}</span>
+                        {% endfor %}
+                    </p>
+                {% endif %}
 
                 {% if fields %}
                     <div class="row">

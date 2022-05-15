@@ -4,12 +4,12 @@
             <img src="{{ resume.image.url }}" class="img-fluid rounded-start" alt="Фото резюме">
         </div>
         <div class="col-md-8">
-            <div class="card-body" href="#">
+            <div class="card-body">
                 <h5 class="card-title">{{ resume.date_edit }}</h5>
                 {% for tag in resume.tags.all %}
-                    <span class="badge rounded-pill
-                    bg-{% cycle 'primary' 'secondary' 'success' 'danger' 'warning text-dark' 'info text-dark' 'light text-dark' 'dark' %}">
-                        {{ tag.name }}</span>
+                    <span class="badge rounded-pill bg-{{ random_bootstrap_color }}">
+                        {{ tag.name }}
+                    </span>
                 {% endfor %}
                 <p class="card-text">
                     <p class="card-text">{{ resume.text|striptags|truncatewords:20 }}</p>
