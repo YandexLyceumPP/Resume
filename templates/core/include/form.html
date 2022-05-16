@@ -1,33 +1,24 @@
-<section class="container">
-	<div class="container">
-		{{ form.media }}
-
-		<form method="{{ method|default:" post" }}">
-			{% csrf_token %}
+<div class="container">
+	{% if title %}<h1>{{ title }}</h1>{% endif %}
+	{{ form.media }}
+	<form method="{{ method|default:'post' }}">
+		{% csrf_token %}
+		<div class="mb-3">
 			{% for field in form %}
-			<div class="mb-3">
-				{{ field.errors }}
-				<label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
-				{% if field.field.required %}
-				<span>*</span>
-				{% endif %}
-				{{ field }}
-			</div>
+				<div class="form-group">
+					{{ field.errors }}
+					<label for="exampleInputEmail1">
+						<label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+						{% if field.field.required %}<span>*</span>{% endif %}
+					</label>
+					{{ field }}
+					<small id="emailHelp" class="form-text text-muted">{{ field.help_text|safe }}</small>
+				</div>
 			{% endfor %}
-			<!-- <label for="{{ form.img.id_for_label }}" class="form-label">Выбор иконки</label>
-			<fieldset>
-				{% for radio in form.img %}
-				<label for="{{ radio.id_for_label }}">
-					<div>
-						{{radio.tag}}
-						<img src="{{radio.choice_label.image.url}}" width="32px" style="margin: 10px">
-					</div>
-				</label>
-				<br>
-				{% endfor %}
-			</fieldset>
-			<br>
-			<button type="submit" class="btn btn-primary">{{ btn_text }}</button> -->
-		</form>
-	</div>
-</section>
+		</div>
+		<button type="submit" class="btn btn-primary">{{ btn_text|default:'Отправить' }}</button>
+		{% for button in buttons %}
+			<a type="button" class="{{ button.class }}" href="{{ button.url }}">{{ button.name }}</a>
+		{% endfor %}
+	</form>
+</div>

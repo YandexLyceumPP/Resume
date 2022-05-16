@@ -5,14 +5,11 @@ from tinymce.models import HTMLField
 
 from core.models import ShowBaseModel
 
-from workshop.models import Icon
-
 User = get_user_model()
 
 
 class Skill(ShowBaseModel):
-    icon = models.ForeignKey(Icon, on_delete=models.CASCADE)
-    skill = models.CharField("Название", max_length=30)
+    skill = models.CharField("Название", max_length=100)
     text = HTMLField("Описание")
 
     def __str__(self):
@@ -35,7 +32,6 @@ class Profile(models.Model):
 
 class Field(ShowBaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    icon = models.ForeignKey(Icon, on_delete=models.CASCADE)
     title = models.CharField("Название", max_length=300)
     value = HTMLField("Значение")
 

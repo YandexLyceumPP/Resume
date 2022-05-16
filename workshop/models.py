@@ -2,8 +2,6 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from ordered_model.models import OrderedModel
 
-from sorl.thumbnail import get_thumbnail
-
 from tinymce.models import HTMLField
 from core.models import ShowBaseModel
 from workshop.validators import OrReValidator
@@ -11,19 +9,7 @@ from workshop.validators import OrReValidator
 User = get_user_model()
 
 
-class Icon(ShowBaseModel):
-    image = models.ImageField("Иконка", upload_to="uploads/icons/", null=True)
-
-    def get_image_100x100(self):
-        return get_thumbnail(self.image, "100x100", quality=51)
-
-    class Meta:
-        verbose_name = "Иконка"
-        verbose_name_plural = "Иконки"
-
-
 class Tag(ShowBaseModel):
-    icon = models.ForeignKey(Icon, on_delete=models.CASCADE)
     name = models.CharField("Название", max_length=100)
 
     def __str__(self):
