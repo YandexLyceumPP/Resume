@@ -1,7 +1,7 @@
 from django.contrib.auth import views, authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 
 from users.forms import CreateSkillForm
 from users.forms import UserForm, UserLoginForm, UserRegistrationForm
@@ -132,6 +132,8 @@ class PasswordChangeDoneView(views.PasswordChangeDoneView):
 
 class PasswordResetView(views.PasswordResetView):
     template_name = "users/password_reset.html"
+    email_template_name = 'users/password_reset_email.html'
+    success_url = reverse_lazy('users:password_reset_done')
 
 
 class PasswordResetDoneView(views.PasswordResetDoneView):
