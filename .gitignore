@@ -118,3 +118,6 @@ dev-database.sqlite3
 
 # Mac OS X stuff
 .DS_Store
+
+# Debug emails folder
+emails/
