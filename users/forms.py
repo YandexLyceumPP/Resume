@@ -1,9 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 
-from tinymce.widgets import TinyMCE
 from users.models import Skill
-from .models import Profile
 
 
 class BaseForm(forms.BaseForm):
