@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import views, authenticate, login, logout, get_user_model
-from django.contrib.auth.decorators import login_required
 from django.views import View
 
 from users.forms import UserForm, UserLoginForm, UserRegistrationForm, AddSkillForm
@@ -97,13 +96,19 @@ class ProfileView(View):
         return render(request, "users/profile.html", context=context)
 
     def post(self, request):
-        # user_form = UserForm(request.POST or None)
+        user_form = UserForm(request.POST or None)
         skill_form = AddSkillForm(request.POST or None)
 
-        if skill_form.is_valid() and request.user.is_authenticated:
+        if skill_form.is_valid():
             profile = Profile.objects.get_or_create(user=request.user)[0]
             profile.skills.set(skill_form.cleaned_data["skills"])
             # profile.save(update_fields=["skills"])
+
+        if user_form.is_valid():
+            request.user.email = user_form.cleaned_data["email"]
+            request.user.last_name = user_form.cleaned_data["last_name"]
+            request.user.first_name = user_form.cleaned_data["first_name"]
+            request.user.save(update_fields=["email", "last_name", "first_name"])
 
         return redirect("users:profile")
 
