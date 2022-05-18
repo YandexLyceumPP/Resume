@@ -36,9 +36,9 @@ class ProfileView(View):
 
         buttons = [
             {
-                'class': 'btn btn-danger',
-                'url': reverse('users:logout'),
-                'name': 'Выйти',
+                "class": "btn btn-danger",
+                "url": reverse("users:logout"),
+                "name": "Выйти",
             }
         ]
 
@@ -85,6 +85,7 @@ def settings(request):
             return redirect("users:settings")
     else:
         form = UserForm(instance=request.user)
+
     buttons = [
         {
             'class': 'btn btn-danger',
@@ -92,6 +93,7 @@ def settings(request):
             'name': 'Выйти',
         }
     ]
+
     context = {
         "form": form,
         "buttons": buttons,
