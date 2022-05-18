@@ -29,6 +29,7 @@ def user_detail(request, user_name):
 class ProfileView(View):
     def get(self, request):
         profile = Profile.objects.get_or_create(user=request.user)[0]
+        user_fields = Field.objects.filter(user=request.user).only("title", "value")
 
         user_form = UserForm(instance=request.user)
         skill_form = AddSkillForm(initial={"skills": profile.skills.all()})
@@ -43,10 +44,13 @@ class ProfileView(View):
         ]
 
         context = {
-            "user_form": user_form,
-            "skill_form": skill_form,
-            "field_form": field_form,
+            "forms": {
+                "user_form": user_form,
+                "skill_form": skill_form,
+                "field_form": field_form,
+            },
             "buttons": buttons,
+            "user_fields": user_fields
         }
         return render(request, "users/profile.html", context=context)
 
