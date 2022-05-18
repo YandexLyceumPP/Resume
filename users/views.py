@@ -2,7 +2,7 @@ from django.contrib.auth import views
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse_lazy
 
 from users.forms import CreateSkillForm
 from users.forms import UserForm, UserRegistrationForm
@@ -85,34 +85,3 @@ class LoginView(views.LoginView):
     redirect_authenticated_user = True
     template_name = "users/login.html"
     extra_context = {"buttons": buttons}
-
-
-class LogoutView(views.LogoutView):
-    next_page = reverse_lazy("users:login")
-    template_name = "users/logout.html"
-
-
-class PasswordChangeView(views.PasswordChangeView):
-    template_name = "users/password_change.html"
-
-
-class PasswordChangeDoneView(views.PasswordChangeDoneView):
-    template_name = "users/password_change_done.html"
-
-
-class PasswordResetView(views.PasswordResetView):
-    template_name = "users/password_reset.html"
-    email_template_name = 'users/password_reset_email.html'
-    success_url = reverse_lazy('users:password_reset_done')
-
-
-class PasswordResetDoneView(views.PasswordResetDoneView):
-    template_name = "users/password_reset_done.html"
-
-
-class PasswordResetConfirmView(views.PasswordResetConfirmView):
-    template_name = "users/reset.html"
-
-
-class PasswordResetCompleteView(views.PasswordResetCompleteView):
-    template_name = "users/reset_done.html"
