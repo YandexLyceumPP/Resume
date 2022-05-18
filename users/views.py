@@ -1,78 +1,17 @@
-from django.contrib.auth import views, authenticate, login, logout
+from django.contrib.auth import views
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 
 from users.forms import CreateSkillForm
-from users.forms import UserForm, UserLoginForm, UserRegistrationForm
+from users.forms import UserForm, UserRegistrationForm
 
 
 def user_detail(request, user_name):
     TEMPLATE = "users/user_detail.html"
     context = {"user_name": user_name}
     return render(request, TEMPLATE, context)
-
-
-def signup(request):
-    if request.method == "POST":
-        form = UserRegistrationForm(request.POST)
-        if form.is_valid():
-            new_user = form.save(commit=False)
-            new_user.set_password(form.cleaned_data["password"])
-            new_user.save()
-            return redirect("users:login")
-    else:
-        form = UserRegistrationForm()
-
-    context = {"form": form}
-    return render(request, "users/signup.html", context)
-
-
-def login_page(request):
-    if request.method == "POST":
-        form = UserLoginForm(request.POST)
-        if form.is_valid():
-            cd = form.cleaned_data
-            user = authenticate(username=cd["username"], password=cd["password"])
-            if user is None:
-                form.add_error(None, "Пользователь не найден")
-            elif user.is_active:
-                login(request, user)
-                return redirect("users:profile")
-            else:
-                form.add_error(None, "Аккаунт не активен")
-    else:
-        form = UserLoginForm()
-
-    buttons = [
-        {
-            'class': 'btn btn-primary',
-            'url': reverse('users:signup'),
-            'name': 'Регистрация',
-        },
-        {
-            'class': 'btn btn-danger',
-            'url': reverse('users:password_reset'),
-            'name': 'Забыл пароль',
-        }
-    ]
-
-    context = {
-        "form": form,
-        "buttons": buttons,
-    }
-
-    return render(request, "users/login.html", context)
-
-
-def logout_page(request):
-    logout(request)
-    return redirect("homepage")
-
-
-def profile(request):
-    TEMPLATE = "users/profile.html"
-    return render(request, TEMPLATE)
 
 
 @login_required
@@ -90,11 +29,6 @@ def profile(request):
     return render(request, "users/profile.html", context=context)
 
 
-def settings(request):
-    TEMPLATE = "users/settings.html"
-    return render(request, TEMPLATE)
-
-
 @login_required
 def settings(request):
     if request.method == "POST":
@@ -107,7 +41,7 @@ def settings(request):
     buttons = [
         {
             'class': 'btn btn-danger',
-            'url': reverse('users:logout'),
+            'url': reverse_lazy('users:logout'),
             'name': 'Выйти',
         }
     ]
@@ -118,7 +52,43 @@ def settings(request):
     return render(request, "users/settings.html", context=context)
 
 
+def signup(request):
+    if request.method == "POST":
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+            new_user = form.save(commit=False)
+            new_user.set_password(form.cleaned_data["password"])
+            new_user.save()
+            return redirect("users:login")
+    else:
+        form = UserRegistrationForm()
+
+    context = {"form": form}
+    return render(request, "users/signup.html", context)
+
+
+class LoginView(views.LoginView):
+    buttons = [
+        {
+            "class": "btn btn-primary",
+            "url": reverse_lazy("users:signup"),
+            "name": "Регистрация",
+        },
+        {
+            "class": "btn btn-danger",
+            "url": reverse_lazy("users:password_reset"),
+            "name": "Забыл пароль",
+        }
+    ]
+
+    authentication_form = AuthenticationForm
+    redirect_authenticated_user = True
+    template_name = "users/login.html"
+    extra_context = {"buttons": buttons}
+
+
 class LogoutView(views.LogoutView):
+    next_page = reverse_lazy("users:login")
     template_name = "users/logout.html"
 
 
