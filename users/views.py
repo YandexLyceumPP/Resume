@@ -1,14 +1,12 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import views, authenticate, login, logout, get_user_model
-from django.contrib.auth.decorators import login_required
 from django.views import View
-from users.forms import UserForm, UserLoginForm, UserRegistrationForm, AddSkillForm
-from users.models import Field, Profile
-from workshop.models import Resume
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import views, get_user_model
+from django.contrib.auth.decorators import login_required
 from django.urls import reverse, reverse_lazy
-from users.forms import UserForm, UserLoginForm, UserRegistrationForm
 from django.contrib.auth.forms import AuthenticationForm
 
+from users.models import Field, Profile
+from users.forms import AddSkillForm, UserForm, UserRegistrationForm
 
 from workshop.models import Resume
 
@@ -26,90 +24,6 @@ def user_detail(request, user_name):
         "fields": fields
     }
     return render(request, "users/user_detail.html", context)
-
-
-def signup(request):
-    if request.method == "POST":
-        form = UserRegistrationForm(request.POST)
-        if form.is_valid():
-            new_user = form.save(commit=False)
-            new_user.set_password(form.cleaned_data["password"])
-            new_user.save()
-            return redirect("users:login")
-    else:
-        form = UserRegistrationForm()
-
-    context = {"form": form}
-    return render(request, "users/signup.html", context)
-
-
-def login_page(request):
-    if request.method == "POST":
-        form = UserLoginForm(request.POST)
-        if form.is_valid():
-            cd = form.cleaned_data
-            user = authenticate(username=cd["username"], password=cd["password"])
-            if user is None:
-                form.add_error(None, "Пользователь не найден")
-            elif user.is_active:
-                login(request, user)
-                return redirect("users:profile")
-            else:
-                form.add_error(None, "Аккаунт не активен")
-    else:
-        form = UserLoginForm()
-
-    buttons = [
-        {
-            'class': 'btn btn-primary',
-            'url': reverse('users:signup'),
-            'name': 'Регистрация',
-        },
-        {
-            'class': 'btn btn-danger',
-            'url': reverse('users:password_reset'),
-            'name': 'Забыл пароль',
-        }
-    ]
-
-    context = {
-        "form": form,
-        "buttons": buttons,
-    }
-
-    return render(request, "users/login.html", context)
-
-
-def logout_page(request):
-    logout(request)
-    return redirect("homepage")
-
-
-@login_required
-def profile(request):
-    if request.method == "POST":
-        user_form = UserForm(request.POST or None, instance=request.user)
-        # skill_form = AddSkillForm(request.POST or None)
-        if user_form.is_valid():
-            user_form.save()
-            return redirect("users:profile")
-    else:
-        user_form = UserForm(instance=request.user)
-        skill_form = AddSkillForm(instance=request.user)
-        # skill_form = AddSkillForm(request.POST or None)
-    buttons = [
-        {
-            'class': 'btn btn-danger',
-            'url': reverse('users:logout'),
-            'name': 'Выйти',
-        }
-    ]
-    context = {
-        "user_form": user_form,
-        # "skill_form": skill_form,
-        "buttons": buttons,
-    }
-    return render(request, "users/profile.html", context=context)
 
 
 class ProfileView(View):
@@ -153,11 +67,6 @@ class ProfileView(View):
         return redirect("users:profile")
 
 
-def settings(request):
-    TEMPLATE = "users/settings.html"
-    return render(request, TEMPLATE)
-
-
 @login_required
 def settings(request):
     if request.method == "POST":
@@ -180,6 +89,20 @@ def settings(request):
     }
     return render(request, "users/settings.html", context=context)
 
+
+def signup(request):
+    if request.method == "POST":
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+            new_user = form.save(commit=False)
+            new_user.set_password(form.cleaned_data["password"])
+            new_user.save()
+            return redirect("users:login")
+    else:
+        form = UserRegistrationForm()
+
+    context = {"form": form}
+    return render(request, "users/signup.html", context)
 
 
 class LoginView(views.LoginView):

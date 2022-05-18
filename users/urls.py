@@ -6,10 +6,12 @@ from django.contrib.auth.views import (LogoutView, PasswordResetView, PasswordRe
 from users.views import *
 
 app_name = "users"
+
 urlpatterns = [
     path("", ProfileView.as_view(), name="profile"),
+
     path("settings/", settings, name="settings"),
-    path("detail/<str:user_name>/", user_detail, name="detail"),
+
     path("signup/", signup, name="signup"),
     path("login/", LoginView.as_view(), name="login"),
     path("logout/", LogoutView.as_view(next_page=reverse_lazy("users:login")), name="logout"),
