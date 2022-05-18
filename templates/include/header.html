@@ -27,7 +27,7 @@
 			</div>
 
 			{% if user.is_authenticated %}
-			<a type="button" class="btn btn-primary" href="{% url 'users:settings' %}">{{ user.username }}</a>
+			<a type="button" class="btn btn-primary" href="{% url 'users:profile' %}">{{ user.username }}</a>
 			{% else %}
 			<a type="button" class="btn btn-success" href="{% url 'users:login' %}?next={{ request.path }}">Войти</a>
 			{% endif %}
