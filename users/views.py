@@ -53,6 +53,7 @@ class ProfileView(View):
     def post(self, request):
         user_form = UserForm(request.POST or None)
         skill_form = AddSkillForm(request.POST or None)
+        field_form = AddFieldForm(request.POST or None)
 
         if skill_form.is_valid():
             profile = Profile.objects.get_or_create(user=request.user)[0]
@@ -64,6 +65,13 @@ class ProfileView(View):
             request.user.last_name = user_form.cleaned_data["last_name"]
             request.user.first_name = user_form.cleaned_data["first_name"]
             request.user.save(update_fields=["email", "last_name", "first_name"])
+
+        if field_form.is_valid():
+            Field(
+                user=request.user,
+                title=field_form.cleaned_data["title"],
+                value=field_form.cleaned_data["value"]
+            ).save()
 
         return redirect("users:profile")
 
