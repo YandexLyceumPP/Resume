@@ -7,6 +7,8 @@ from users.models import Field, Profile
 from workshop.models import Resume
 from django.urls import reverse, reverse_lazy
 from users.forms import UserForm, UserLoginForm, UserRegistrationForm
+from django.contrib.auth.forms import AuthenticationForm
+
 
 from workshop.models import Resume
 
@@ -117,9 +119,19 @@ class ProfileView(View):
         user_form = UserForm(instance=request.user)
         skill_form = AddSkillForm(initial={"skills": profile.skills.all()})
 
+        buttons = [
+        {
+            'class': 'btn btn-danger',
+            'url': reverse('users:logout'),
+            'name': 'Выйти',
+        }
+        ]
+
+
         context = {
             "user_form": user_form,
             "skill_form": skill_form,
+            "buttons": buttons,
         }
         return render(request, "users/profile.html", context=context)
 
@@ -158,7 +170,7 @@ def settings(request):
     buttons = [
         {
             'class': 'btn btn-danger',
-            'url': reverse('users:logout'),
+            'url': reverse_lazy('users:logout'),
             'name': 'Выйти',
         }
     ]
@@ -169,31 +181,22 @@ def settings(request):
     return render(request, "users/settings.html", context=context)
 
 
-class LogoutView(views.LogoutView):
-    template_name = "users/logout.html"
 
+class LoginView(views.LoginView):
+    buttons = [
+        {
+            "class": "btn btn-primary",
+            "url": reverse_lazy("users:signup"),
+            "name": "Регистрация",
+        },
+        {
+            "class": "btn btn-danger",
+            "url": reverse_lazy("users:password_reset"),
+            "name": "Забыл пароль",
+        }
+    ]
 
-class PasswordChangeView(views.PasswordChangeView):
-    template_name = "users/password_change.html"
-
-
-class PasswordChangeDoneView(views.PasswordChangeDoneView):
-    template_name = "users/password_change_done.html"
-
-
-class PasswordResetView(views.PasswordResetView):
-    template_name = "users/password_reset.html"
-    email_template_name = 'users/password_reset_email.html'
-    success_url = reverse_lazy('users:password_reset_done')
-
-
-class PasswordResetDoneView(views.PasswordResetDoneView):
-    template_name = "users/password_reset_done.html"
-
-
-class PasswordResetConfirmView(views.PasswordResetConfirmView):
-    template_name = "users/reset.html"
-
-
-class PasswordResetCompleteView(views.PasswordResetCompleteView):
-    template_name = "users/reset_done.html"
+    authentication_form = AuthenticationForm
+    redirect_authenticated_user = True
+    template_name = "users/login.html"
+    extra_context = {"buttons": buttons}
