@@ -6,9 +6,11 @@ from users.models import Field, Profile
 from workshop.models import Resume
 from django.urls import reverse, reverse_lazy
 from users.forms import UserForm, UserLoginForm, UserRegistrationForm
+from users.models import Field
+
+from workshop.models import Resume
 
 User = get_user_model()
-
 
 
 def user_detail(request, user_name):
