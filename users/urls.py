@@ -4,7 +4,7 @@ from users.views import *
 
 app_name = "users"
 urlpatterns = [
-    path("", profile, name="profile"),
+    path("", ProfileView.as_view(), name="profile"),
     path("settings/", settings, name="settings"),
     path("detail/<str:user_name>/", user_detail, name="detail"),
     path("signup/", signup, name="signup"),

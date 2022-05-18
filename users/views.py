@@ -87,14 +87,14 @@ def logout_page(request):
 def profile(request):
     if request.method == "POST":
         user_form = UserForm(request.POST or None, instance=request.user)
-        # form = AddSkillForm(request.POST or None)
+        # skill_form = AddSkillForm(request.POST or None)
         if user_form.is_valid():
             user_form.save()
             return redirect("users:profile")
     else:
         user_form = UserForm(instance=request.user)
         skill_form = AddSkillForm(instance=request.user)
-        # form = AddSkillForm(request.POST or None)
+        # skill_form = AddSkillForm(request.POST or None)
     buttons = [
         {
             'class': 'btn btn-danger',
@@ -104,7 +104,7 @@ def profile(request):
     ]
     context = {
         "user_form": user_form,
-        "skill_form": skill_form,
+        # "skill_form": skill_form,
         "buttons": buttons,
     }
     return render(request, "users/profile.html", context=context)
