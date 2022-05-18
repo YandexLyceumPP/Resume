@@ -12,7 +12,7 @@ urlpatterns = [
     path("detail/<str:user_name>/", user_detail, name="detail"),
     path("signup/", signup, name="signup"),
     path("login/", LoginView.as_view(), name="login"),
-    path("logout/", LogoutView.as_view(), name="logout"),
+    path("logout/", LogoutView.as_view(next_page=reverse_lazy("users:login")), name="logout"),
 
     path("password_change/", PasswordChangeView.as_view(
         template_name="users/password_change.html"), name="password_change"),
