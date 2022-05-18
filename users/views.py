@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import views, authenticate, login, logout, get_user_model
 from django.contrib.auth.decorators import login_required
-
-from users.forms import UserForm, UserLoginForm, UserRegistrationForm
+from users.forms import UserForm, UserLoginForm, UserRegistrationForm, CreateSkillForm
 from users.models import Field, Profile
-
 from workshop.models import Resume
+from django.urls import reverse, reverse_lazy
+from users.forms import UserForm, UserLoginForm, UserRegistrationForm
 
 User = get_user_model()
 
@@ -57,7 +57,24 @@ def login_page(request):
     else:
         form = UserLoginForm()
 
-    context = {"form": form}
+    buttons = [
+        {
+            'class': 'btn btn-primary',
+            'url': reverse('users:signup'),
+            'name': 'Регистрация',
+        },
+        {
+            'class': 'btn btn-danger',
+            'url': reverse('users:password_reset'),
+            'name': 'Забыл пароль',
+        }
+    ]
+
+    context = {
+        "form": form,
+        "buttons": buttons,
+    }
+
     return render(request, "users/login.html", context)
 
 
@@ -74,23 +91,44 @@ def profile(request):
 @login_required
 def profile(request):
     if request.method == "POST":
-        user_form = UserForm(request.POST, instance=request.user)
-        # form = CreateSkillForm(request.POST or None)
-        if user_form.is_valid():
-            user_form.save()
+        form = CreateSkillForm(request.POST or None)
+        if form.is_valid():
+            form.save()
             return redirect("users:profile")
     else:
-        user_form = UserForm(instance=request.user)
-        # form = CreateSkillForm(request.POST or None)
+        form = CreateSkillForm(request.POST or None)
     context = {
-        "user_form": user_form,
-        # "form": form,
+        "form": form,
     }
     return render(request, "users/profile.html", context=context)
 
 
-class LoginView(views.LoginView):
-    template_name = "users/login.html"
+def settings(request):
+    TEMPLATE = "users/settings.html"
+    return render(request, TEMPLATE)
+
+
+@login_required
+def settings(request):
+    if request.method == "POST":
+        form = UserForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect("users:settings")
+    else:
+        form = UserForm(instance=request.user)
+    buttons = [
+        {
+            'class': 'btn btn-danger',
+            'url': reverse('users:logout'),
+            'name': 'Выйти',
+        }
+    ]
+    context = {
+        "form": form,
+        "buttons": buttons,
+    }
+    return render(request, "users/settings.html", context=context)
 
 
 class LogoutView(views.LogoutView):
@@ -107,6 +145,8 @@ class PasswordChangeDoneView(views.PasswordChangeDoneView):
 
 class PasswordResetView(views.PasswordResetView):
     template_name = "users/password_reset.html"
+    email_template_name = 'users/password_reset_email.html'
+    success_url = reverse_lazy('users:password_reset_done')
 
 
 class PasswordResetDoneView(views.PasswordResetDoneView):

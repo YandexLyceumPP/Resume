@@ -1,42 +1,10 @@
 {% extends 'base.html' %}
 
 
+
 {% block title %}Мой профиль{% endblock %}
 
 {% block content %}
-    <h1>Мой профиль</h1>
-
-    <div class="row">
-        <div class="col-4">
-            <div class="list-group" id="list-tab" role="tablist">
-                <a class="list-group-item list-group-item-action active"
-                   id="list-basic-list" data-bs-toggle="list" href="#list-basic"
-                   role="tab" aria-controls="list-basic">Основное</a>
-                <a class="list-group-item list-group-item-action"
-                   id="list-skills-list" data-bs-toggle="list" href="#list-skills"
-                   role="tab" aria-controls="list-skills">Навыки</a>
-            </div>
-        </div>
-        <div class="col-8">
-            <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="list-basic"
-                     role="tabpanel" aria-labelledby="list-basic-list">
-
-                    {% include 'core/include/form.html' with form=user_form btn_text='Изменить' %}
-
-                    <a type="button" class="btn btn-danger" href="{% url 'users:logout' %}">Выйти</a>
-                </div>
-                <div class="tab-pane fade show" id="list-skills"
-                     role="tabpanel" aria-labelledby="list-skills-list">
-                    Учитывая ключевые сценарии поведения, новая модель организационной деятельности создаёт предпосылки
-                    для направлений прогрессивного развития. Учитывая ключевые сценарии поведения, экономическая
-                    повестка сегодняшнего дня обеспечивает широкому кругу (специалистов) участие в формировании модели
-                    развития. Являясь всего лишь частью общей картины, сделанные на базе интернет-аналитики выводы,
-                    которые представляют собой яркий пример континентально-европейского типа политической культуры,
-                    будут превращены в посмешище, хотя само их существование приносит несомненную пользу обществу.
-                </div>
-            </div>
-        </div>
-    </div>
-
+<h1>Мой профиль</h1>
+{% include 'core/include/form.html' with form=form btn_text='Добавить' %}
 {% endblock %}

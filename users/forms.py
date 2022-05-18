@@ -1,9 +1,8 @@
 from django import forms
 from django.contrib.auth.models import User
-
 from tinymce.widgets import TinyMCE
+
 from users.models import Skill
-from .models import Profile
 
 
 class BaseForm(forms.BaseForm):
@@ -40,17 +39,13 @@ class UserForm(forms.ModelForm, BaseForm):
 
 
 class CreateSkillForm(forms.ModelForm):
-    '''icon_choice = []
-    icons = Icon.objects.all()
-    cnt = 1
-    for i in icons:
-        icon_choice += [(i.id, i)]
-        cnt += 1
-    # print(icon_choice)'''
+    # icons = Icon.objects.all()
+    # icon_choice = [(i.id, i) for cnt, i in enumerate(icons, start=1)]
 
-    skill = forms.CharField()
+    # skill = forms.CharField()
     text = forms.CharField(widget=TinyMCE(attrs={'cols': 80, 'rows': 30}))
-    '''img = forms.ChoiceField(choices=icon_choice,  widget=forms.RadioSelect())'''
+
+    # img = forms.ChoiceField(choices=icon_choice,  widget=forms.RadioSelect())
 
     class Meta:
         fields = ('skill', 'text')

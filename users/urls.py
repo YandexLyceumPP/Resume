@@ -6,9 +6,10 @@ app_name = "users"
 
 urlpatterns = [
     path("", profile, name="profile"),
-
+    path("settings/", settings, name="settings"),
+    path("detail/<str:user_name>/", user_detail, name="detail"),
     path("signup/", signup, name="signup"),
-    path("login/", LoginView.as_view(), name="login"),
+    path("login/", login_page, name="login"),
     path("logout/", LogoutView.as_view(), name="logout"),
 
     path("password_change/", PasswordChangeView.as_view(), name="password_change"),

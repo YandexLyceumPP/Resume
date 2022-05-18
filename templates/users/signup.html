@@ -1,13 +1,8 @@
-{% extends 'users/includes/form.html' %}
+{% extends 'base.html' %}
 
-{% block title %}
-	Зарегистрироваться
-{% endblock %}
 
-{% block form_title %}
-	Зарегистрироваться
-{% endblock %}
+{% block title %}Регистрация{% endblock %}
 
-{% block buttons %}
-	<button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+{% block content %}
+    {% include 'core/include/form.html' with form=form title='Регистрация' btn_text='Зарегистрироваться' %}
 {% endblock %}
