@@ -9,20 +9,25 @@
     <div class="row">
         <div class="col-4">
             <div class="list-group" id="list-tab" role="tablist">
+                <!-- Основное -->
                 <a class="list-group-item list-group-item-action active" id="list-basic-list" data-bs-toggle="list"
                     href="#list-basic" role="tab" aria-controls="list-basic">Основное</a>
+                <!-- Навыки -->
                 <a class="list-group-item list-group-item-action" id="list-skills-list" data-bs-toggle="list"
                     href="#list-skills" role="tab" aria-controls="list-skills">Навыки</a>
+                <!-- Факты -->
                 <a class="list-group-item list-group-item-action" id="list-fields-list" data-bs-toggle="list"
                     href="#list-fields" role="tab" aria-controls="list-fields">Факты</a>
             </div>
         </div>
         <div class="col-8">
             <div class="tab-content" id="nav-tabContent">
+                <!-- Основное -->
                 <div class="tab-pane fade show active" id="list-basic" role="tabpanel"
                      aria-labelledby="list-basic-list">
                     {% include 'core/include/form.html' with form=forms.user_form btn_text='Изменить' %}
                 </div>
+                <!-- Навыки -->
                 <div class="tab-pane fade show" id="list-skills" role="tabpanel" aria-labelledby="list-skills-list">
                     <div class="container">
                         <form method="post">
@@ -48,6 +53,7 @@
                         </form>
                     </div>
                 </div>
+                <!-- Факты -->
                 <div class="tab-pane fade show" id="list-fields" role="tabpanel" aria-labelledby="list-fields-list">
                     <h5>Добавить</h5>
                     {% include 'core/include/form.html' with form=forms.field_form btn_text='Добавить' %}
