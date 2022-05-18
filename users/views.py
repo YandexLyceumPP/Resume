@@ -6,7 +6,7 @@ from django.urls import reverse, reverse_lazy
 from django.contrib.auth.forms import AuthenticationForm
 
 from users.models import Field, Profile
-from users.forms import AddSkillForm, UserForm, UserRegistrationForm
+from users.forms import AddSkillForm, UserForm, UserRegistrationForm, AddFieldForm
 
 from workshop.models import Resume
 
@@ -32,19 +32,20 @@ class ProfileView(View):
 
         user_form = UserForm(instance=request.user)
         skill_form = AddSkillForm(initial={"skills": profile.skills.all()})
+        field_form = AddFieldForm()
 
         buttons = [
-        {
-            'class': 'btn btn-danger',
-            'url': reverse('users:logout'),
-            'name': 'Выйти',
-        }
+            {
+                'class': 'btn btn-danger',
+                'url': reverse('users:logout'),
+                'name': 'Выйти',
+            }
         ]
-
 
         context = {
             "user_form": user_form,
             "skill_form": skill_form,
+            "field_form": field_form,
             "buttons": buttons,
         }
         return render(request, "users/profile.html", context=context)
