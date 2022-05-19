@@ -23,7 +23,7 @@ class FieldUpdateView(LoginRequiredMixin, UpdateView):
         return Field.objects.filter(user=self.request.user)
 
     def get_success_url(self):
-        return reverse("workshop:field_update", kwargs={"pk": self.object.id})
+        return reverse_lazy("workshop:field_update", kwargs={"pk": self.object.id})
 
 
 class ArticleDeleteView(LoginRequiredMixin, DeleteView):

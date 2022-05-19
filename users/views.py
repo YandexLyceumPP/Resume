@@ -38,7 +38,7 @@ class ProfileView(View):
         buttons = [
             {
                 "class": "btn btn-danger",
-                "url": reverse("users:logout"),
+                "url": reverse_lazy("users:logout"),
                 "name": "Выйти",
             }
         ]
