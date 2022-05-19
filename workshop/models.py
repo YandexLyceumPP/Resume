@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from ordered_model.models import OrderedModel
+from sorl.thumbnail import get_thumbnail
 
 from tinymce.models import HTMLField
 from core.models import ShowBaseModel
@@ -43,7 +44,7 @@ class Resume(ShowBaseModel):
     image = models.ImageField(upload_to="upload/avatars/", null=True)
     contacts = models.ManyToManyField(Contact, verbose_name="Контакты")
     tags = models.ManyToManyField(Tag, verbose_name="Тэги")
-    text = HTMLField("Описание")
+    text = HTMLField("Описание", null=True)
     date_edit = models.DateField()
 
     def get_image_100x100(self):

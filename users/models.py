@@ -10,7 +10,7 @@ User = get_user_model()
 
 class Skill(ShowBaseModel):
     skill = models.CharField("Название", max_length=100)
-    text = HTMLField("Описание")
+    text = HTMLField("Описание", null=True)
 
     def __str__(self):
         return self.skill
