@@ -32,6 +32,7 @@ class ProfileView(View):
     def get(self, request):
         profile = Profile.objects.get_or_create(user=request.user)[0]
         user_fields = Field.objects.filter(user=request.user).only("title", "value")
+        user_contacts = Contact.objects.filter(user=request.user).only("contact")
 
         user_form = UserForm(instance=request.user)
         skill_form = AddSkillForm(initial={"skills": profile.skills.all()})
@@ -54,7 +55,8 @@ class ProfileView(View):
                 "contact_form": contact_form,
             },
             "buttons": buttons,
-            "user_fields": user_fields
+            "user_fields": user_fields,
+            "user_contacts": user_contacts
         }
         return render(request, "users/profile.html", context=context)
 
