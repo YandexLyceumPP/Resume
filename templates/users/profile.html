@@ -55,24 +55,38 @@
                 </div>
                 <!-- Факты -->
                 <div class="tab-pane fade show" id="list-fields" role="tabpanel" aria-labelledby="list-fields-list">
-                    <h5>Добавить</h5>
-                    {% include 'core/include/form.html' with form=forms.field_form btn_text='Добавить' %}
-                    <h5>Просмотр</h5>
+                    <h5>
+                        Просмотр
+                        <a class="btn btn-outline-success" data-bs-toggle="collapse" href="#collapseExample"
+                           role="button" aria-expanded="false" aria-controls="collapseExample">
+                            Добавить
+                        </a>
+                    </h5>
+                    <div class="collapse" id="collapseExample">
+                        <div class="card card-body">
+                            {% include 'core/include/form.html' with form=forms.field_form btn_text='Добавить' %}
+                        </div>
+                        <br>
+                    </div>
+
                     {% for field in user_fields %}
-                        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
+                        <button class="btn btn-light" type="button" data-bs-toggle="offcanvas"
                                 data-bs-target="#offcanvasBottom-{{ field.id }}"
                                 aria-controls="offcanvasBottom">{{ field.title }}</button>
                         <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom-{{ field.id }}"
                              aria-labelledby="offcanvasBottomLabel">
                             <div class="offcanvas-header">
-                                <h5 class="offcanvas-title" id="offcanvasBottomLabel">{{ field.title }}</h5>
+                                <h3 class="offcanvas-title" id="offcanvasBottomLabel">{{ field.title }}</h3>
                                 <button type="button" class="btn-close text-reset"
                                         data-bs-dismiss="offcanvas" aria-label="Close"></button>
                             </div>
+                            <hr>
                             <div class="offcanvas-body small">
                                 {{ field.value|safe }}
                             </div>
                         </div>
+                        <br>
+                        <br>
                     {% endfor %}
                 </div>
             </div>
