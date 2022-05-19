@@ -8,7 +8,8 @@ from django.views import View
 
 from users.forms import AddSkillForm, UserForm, UserRegistrationForm, FieldForm
 from users.models import Field, Profile
-from workshop.models import Resume
+from workshop.forms import ContactForm
+from workshop.models import Resume, Contact
 
 User = get_user_model()
 
@@ -35,6 +36,7 @@ class ProfileView(View):
         user_form = UserForm(instance=request.user)
         skill_form = AddSkillForm(initial={"skills": profile.skills.all()})
         field_form = FieldForm()
+        contact_form = ContactForm()
 
         buttons = [
             {
@@ -49,6 +51,7 @@ class ProfileView(View):
                 "user_form": user_form,
                 "skill_form": skill_form,
                 "field_form": field_form,
+                "contact_form": contact_form,
             },
             "buttons": buttons,
             "user_fields": user_fields
@@ -59,6 +62,7 @@ class ProfileView(View):
         user_form = UserForm(request.POST or None)
         skill_form = AddSkillForm(request.POST or None)
         field_form = FieldForm(request.POST or None)
+        contact_form = ContactForm(request.POST or None)
 
         if skill_form.is_valid():
             profile = Profile.objects.get_or_create(user=request.user)[0]
@@ -76,6 +80,12 @@ class ProfileView(View):
                 user=request.user,
                 title=field_form.cleaned_data["title"],
                 value=field_form.cleaned_data["value"]
+            ).save()
+
+        if contact_form.is_valid():
+            Contact(
+                user=request.user,
+                contact=contact_form.cleaned_data["contact"]
             ).save()
 
         return redirect("users:profile")

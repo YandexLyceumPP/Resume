@@ -63,12 +63,12 @@
                 <div class="tab-pane fade show" id="list-fields" role="tabpanel" aria-labelledby="list-fields-list">
                     <h5>
                         Просмотр
-                        <a class="btn btn-outline-success" data-bs-toggle="collapse" href="#collapseExample"
-                           role="button" aria-expanded="false" aria-controls="collapseExample">
+                        <a class="btn btn-outline-success" data-bs-toggle="collapse" href="#collapseField"
+                           role="button" aria-expanded="false" aria-controls="collapseField">
                             Добавить
                         </a>
                     </h5>
-                    <div class="collapse" id="collapseExample">
+                    <div class="collapse" id="collapseField">
                         <div class="card card-body">
                             {% include 'core/include/form.html' with form=forms.field_form btn_text='Добавить' %}
                         </div>
@@ -102,12 +102,35 @@
                 <!-- Контакты -->
                 <div class="tab-pane fade" id="list-contacts" role="tabpanel"
                      aria-labelledby="list-contacts-list">
-                    Сложно сказать, почему тщательные исследования конкурентов являются только методом политического
-                    участия и смешаны с не уникальными данными до степени совершенной неузнаваемости, из-за чего
-                    возрастает их статус бесполезности. Внезапно, интерактивные прототипы, вне зависимости от их уровня,
-                    должны быть в равной степени предоставлены сами себе! Кстати, предприниматели в сети интернет и по
-                    сей день остаются уделом либералов, которые жаждут быть объявлены нарушающими общечеловеческие нормы
-                    этики и морали.
+                    <h5>
+                        Просмотр
+                        <a class="btn btn-outline-success" data-bs-toggle="collapse" href="#collapseContacts"
+                           role="button" aria-expanded="false" aria-controls="collapseContacts">
+                            Добавить
+                        </a>
+                    </h5>
+                    <div class="collapse" id="collapseContacts">
+                        <div class="card card-body">
+                            {% include 'core/include/form.html' with form=forms.contact_form btn_text='Добавить' %}
+                        </div>
+                        <br>
+                    </div>
+
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            +79061237302
+                            <button type="button" class="btn-close rounded-pill" aria-label="Close"></button>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            galeevruskan@yahoo.com
+                            <button type="button" class="btn-close rounded-pill" aria-label="Close"></button>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            https://vk.com/galeev.ruslan
+                            <button type="button" class="btn-close rounded-pill" aria-label="Close"></button>
+                        </li>
+                    </ul>
+
                 </div>
             </div>
         </div>
