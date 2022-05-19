@@ -72,25 +72,27 @@
                         <br>
                     </div>
 
-                    {% for field in user_fields %}
-                        <button class="btn btn-light" type="button" data-bs-toggle="offcanvas"
-                                data-bs-target="#offcanvasBottom-{{ field.id }}"
-                                aria-controls="offcanvasBottom">{{ field.title }}</button>
-                        <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom-{{ field.id }}"
-                             aria-labelledby="offcanvasBottomLabel">
-                            <div class="offcanvas-header">
-                                <h3 class="offcanvas-title" id="offcanvasBottomLabel">{{ field.title }}</h3>
-                                <button type="button" class="btn-close text-reset"
-                                        data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    <div class="accordion accordion-flush" id="accordionFields">
+                        {% for field in user_fields %}
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading{{ field.id }}">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#collapse{{ field.id }}" aria-expanded="false"
+                                            aria-controls="collapse{{ field.id }}">
+                                        {{ field.title }}
+                                    </button>
+                                </h2>
+                                <div id="collapse{{ field.id }}" class="accordion-collapse collapse"
+                                     aria-labelledby="heading{{ field.id }}"
+                                     data-bs-parent="#accordionFields">
+                                    <div class="accordion-body">
+                                        {{ field.value|safe }}
+                                    </div>
+                                </div>
                             </div>
-                            <hr>
-                            <div class="offcanvas-body small">
-                                {{ field.value|safe }}
-                            </div>
-                        </div>
-                        <br>
-                        <br>
-                    {% endfor %}
+                        {% endfor %}
+                    </div>
+
                 </div>
             </div>
         </div>
