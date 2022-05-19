@@ -10,8 +10,6 @@ app_name = "users"
 urlpatterns = [
     path("", ProfileView.as_view(), name="profile"),
 
-    path("settings/", settings, name="settings"),
-
     path("signup/", signup, name="signup"),
     path("login/", LoginView.as_view(), name="login"),
     path("logout/", LogoutView.as_view(next_page=reverse_lazy("users:login")), name="logout"),
