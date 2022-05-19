@@ -32,7 +32,7 @@ class UserForm(forms.ModelForm, BaseForm):
         fields = ("first_name", "last_name", "email")
 
 
-class AddSkillForm(forms.ModelForm):
+class SkillForm(forms.ModelForm):
     skills = forms.ModelMultipleChoiceField(
         queryset=Skill.objects.all().only("skill"),
         widget=forms.CheckboxSelectMultiple(attrs={"class": "form-check-input me-1"})
@@ -45,5 +45,5 @@ class AddSkillForm(forms.ModelForm):
 
 class FieldForm(forms.ModelForm):
     class Meta:
-        fields = ("title", "value")
+        fields = ("title", "show", "value")
         model = Field

@@ -2,11 +2,11 @@ from django.contrib.auth import views, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views import View
 
-from users.forms import AddSkillForm, UserForm, UserRegistrationForm, FieldForm
+from users.forms import SkillForm, UserForm, UserRegistrationForm, FieldForm
 from users.models import Field, Profile
 from workshop.forms import ContactForm
 from workshop.models import Resume, Contact
@@ -35,7 +35,7 @@ class ProfileView(View):
         user_contacts = Contact.objects.filter(user=request.user).only("contact")
 
         user_form = UserForm(instance=request.user)
-        skill_form = AddSkillForm(initial={"skills": profile.skills.all()})
+        skill_form = SkillForm(initial={"skills": profile.skills.all()})
         field_form = FieldForm()
         contact_form = ContactForm()
 
@@ -62,7 +62,7 @@ class ProfileView(View):
 
     def post(self, request):
         user_form = UserForm(request.POST or None)
-        skill_form = AddSkillForm(request.POST or None)
+        skill_form = SkillForm(request.POST or None)
         field_form = FieldForm(request.POST or None)
         contact_form = ContactForm(request.POST or None)
 
