@@ -1,13 +1,13 @@
-from django.views import View
-from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import views, get_user_model
 from django.contrib.auth.decorators import login_required
-from django.urls import reverse, reverse_lazy
 from django.contrib.auth.forms import AuthenticationForm
+from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse, reverse_lazy
+from django.utils.decorators import method_decorator
+from django.views import View
 
-from users.models import Field, Profile
 from users.forms import AddSkillForm, UserForm, UserRegistrationForm, FieldForm
-
+from users.models import Field, Profile
 from workshop.models import Resume
 
 User = get_user_model()
@@ -26,6 +26,7 @@ def user_detail(request, user_name):
     return render(request, "users/user_detail.html", context)
 
 
+@method_decorator(login_required, name='get')
 class ProfileView(View):
     def get(self, request):
         profile = Profile.objects.get_or_create(user=request.user)[0]
