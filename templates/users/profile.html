@@ -89,6 +89,8 @@
                                      aria-labelledby="heading{{ field.id }}"
                                      data-bs-parent="#accordionFields">
                                     <div class="accordion-body">
+                                        <a class="btn btn-warning" href="{% url 'workshop:field_update' field.id %}"
+                                           role="button">Редактировать</a>
                                         {{ field.value|safe }}
                                     </div>
                                 </div>
