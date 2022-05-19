@@ -43,7 +43,7 @@ class AddSkillForm(forms.ModelForm):
         model = Skill
 
 
-class AddFieldForm(forms.ModelForm):
+class FieldForm(forms.ModelForm):
     class Meta:
         fields = ("title", "value")
         model = Field

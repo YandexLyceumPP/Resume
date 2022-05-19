@@ -6,7 +6,7 @@ from django.urls import reverse, reverse_lazy
 from django.contrib.auth.forms import AuthenticationForm
 
 from users.models import Field, Profile
-from users.forms import AddSkillForm, UserForm, UserRegistrationForm, AddFieldForm
+from users.forms import AddSkillForm, UserForm, UserRegistrationForm, FieldForm
 
 from workshop.models import Resume
 
@@ -33,7 +33,7 @@ class ProfileView(View):
 
         user_form = UserForm(instance=request.user)
         skill_form = AddSkillForm(initial={"skills": profile.skills.all()})
-        field_form = AddFieldForm()
+        field_form = FieldForm()
 
         buttons = [
             {
@@ -57,7 +57,7 @@ class ProfileView(View):
     def post(self, request):
         user_form = UserForm(request.POST or None)
         skill_form = AddSkillForm(request.POST or None)
-        field_form = AddFieldForm(request.POST or None)
+        field_form = FieldForm(request.POST or None)
 
         if skill_form.is_valid():
             profile = Profile.objects.get_or_create(user=request.user)[0]
