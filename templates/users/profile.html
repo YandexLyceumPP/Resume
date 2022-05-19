@@ -41,10 +41,13 @@
                                         </label>
                                         {% if forms.skill_form.skills.field.required %}<span>*</span>{% endif %}
                                     </label>
-                                    {% for skill in forms.skill_form.skills %}
-                                    <br>
-                                    {{ skill }}
-                                    {% endfor %}
+                                    <ul class="list-group">
+                                        {% for skill in forms.skill_form.skills %}
+                                            <li class="list-group-item">
+                                                {{ skill }}
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
                                     <small id="emailHelp" class="form-text text-muted">
                                         {{ field.help_text|safe }}</small>
                                 </div>
