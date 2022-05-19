@@ -6,6 +6,7 @@ from django.views.generic import UpdateView, DeleteView
 
 from users.forms import FieldForm
 from users.models import Field
+from workshop.models import Contact
 
 
 @login_required
@@ -26,8 +27,15 @@ class FieldUpdateView(LoginRequiredMixin, UpdateView):
         return reverse_lazy("workshop:field_update", kwargs={"pk": self.object.id})
 
 
-class ArticleDeleteView(LoginRequiredMixin, DeleteView):
+class FieldDeleteView(LoginRequiredMixin, DeleteView):
     model = Field
     template_name = "workshop/field/delete.html"
+
+    success_url = reverse_lazy("users:profile")
+
+
+class ContactDeleteView(LoginRequiredMixin, DeleteView):
+    model = Contact
+    template_name = "workshop/contact/delete.html"
 
     success_url = reverse_lazy("users:profile")
