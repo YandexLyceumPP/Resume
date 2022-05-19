@@ -80,31 +80,6 @@ class ProfileView(View):
         return redirect("users:profile")
 
 
-@login_required
-def settings(request):
-    if request.method == "POST":
-        form = UserForm(request.POST, instance=request.user)
-        if form.is_valid():
-            form.save()
-            return redirect("users:settings")
-    else:
-        form = UserForm(instance=request.user)
-
-    buttons = [
-        {
-            'class': 'btn btn-danger',
-            'url': reverse_lazy('users:logout'),
-            'name': 'Выйти',
-        }
-    ]
-
-    context = {
-        "form": form,
-        "buttons": buttons,
-    }
-    return render(request, "users/settings.html", context=context)
-
-
 def signup(request):
     if request.method == "POST":
         form = UserRegistrationForm(request.POST)
