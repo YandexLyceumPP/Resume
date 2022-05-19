@@ -1,8 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
-from django.urls import reverse
-from django.views.generic import UpdateView
+from django.urls import reverse, reverse_lazy
+from django.views.generic import UpdateView, DeleteView
 
 from users.forms import FieldForm
 from users.models import Field
@@ -14,7 +14,7 @@ def workshop(request):
     return render(request, TEMPLATE)
 
 
-class FieldUpdate(LoginRequiredMixin, UpdateView):
+class FieldUpdateView(LoginRequiredMixin, UpdateView):
     model = Field
     form_class = FieldForm
     template_name = "workshop/field/update.html"
@@ -23,4 +23,11 @@ class FieldUpdate(LoginRequiredMixin, UpdateView):
         return Field.objects.filter(user=self.request.user)
 
     def get_success_url(self):
-        return reverse("workshop:field_update", kwargs={"pk": self.object.id})
+        return reverse_lazy("workshop:field_update", kwargs={"pk": self.object.id})
+
+
+class ArticleDeleteView(LoginRequiredMixin, DeleteView):
+    model = Field
+    template_name = "workshop/field/delete.html"
+
+    success_url = reverse_lazy("users:profile")

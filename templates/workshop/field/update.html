@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 
 
-{% block title %}Мой профиль{% endblock %}
+{% block title %}Редактирование факта{% endblock %}
 
 {% block content %}
-    <h1>Мой профиль</h1>
-
+    <h1>
+        Редактировать
+        <a type="button" class="btn btn-danger" href="{% url 'workshop:field_delete' object.id %}">Удалить</a>
+    </h1>
     {% include 'core/include/form.html' with form=form btn_text='Сохранить' %}
 {% endblock %}

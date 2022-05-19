@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Подтверждение удаления{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        <h3>Вы уверены, что хотите удалить факт "{{ object }}"?</h3>
+        <div class="alert alert-danger" role="alert">
+            Обратите внимание на то, что процесс необратимый!
+        </div>
+        <input type="submit" type="button" class="btn btn-outline-danger" value="Да, я уверен">
+        <a class="btn btn-primary" href="{% url 'workshop:field_update' object.id %}"
+           role="button">Нет! Верните меня к редактированию!</a>
+    </form>
+{% endblock %}
