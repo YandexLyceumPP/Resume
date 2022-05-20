@@ -6,46 +6,74 @@
 {% block title %}Просмотр резюме{% endblock %}
 
 {% block content %}
-    <br>
-    <div class="text-center">
-        <img src="{% static 'img/users/avatar.png' %}"
-             alt="Generic placeholder image" class="img-fluid" style="width: 300px; border-radius: 10px;">
+	<br>
+	<div class="text-center">
+		<img src="{% static 'img/users/avatar.png' %}"
+		     alt="Generic placeholder image" class="img-fluid" style="width: 300px; border-radius: 10px;">
 
-        <p class="lead">
-            Банальные, но неопровержимые выводы, а также ключевые особенности структуры проекта неоднозначны и
-            будут указаны как претенденты на роль ключевых факторов. Господа, сложившаяся структура организации
-            обеспечивает актуальность прогресса профессионального сообщества. Равным образом, высокотехнологичная
-            концепция общественного уклада способствует подготовке и реализации прогресса профессионального
-            сообщества.
-        </p>
+		{{ tags }}
 
-        <p>
-            <a class="btn btn-primary" data-bs-toggle="collapse" href="#multiCollapseExample1"
-               role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Факты</a>
-            <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#multiCollapseExample2" aria-expanded="false"
-                    aria-controls="multiCollapseExample2">Контакты</button>
-            <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
-                    data-bs-target=".multi-collapse" aria-expanded="false"
-                    aria-controls="multiCollapseExample1 multiCollapseExample2">Все</button>
-        </p>
-        <div class="row">
-            <div class="col">
-                <div class="collapse multi-collapse" id="multiCollapseExample1">
-                    <div class="card card-body">
-                        Some placeholder content for the first collapse component of this multi-collapse example.
-                        This panel is hidden by default but revealed when the user activates the relevant trigger.
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="collapse multi-collapse" id="multiCollapseExample2">
-                    <div class="card card-body">
-                        Some placeholder content for the second collapse component of this multi-collapse example.
-                        This panel is hidden by default but revealed when the user activates the relevant trigger.
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+		<p class="lead">
+			Банальные, но неопровержимые выводы, а также ключевые особенности структуры проекта неоднозначны и
+			будут указаны как претенденты на роль ключевых факторов. Господа, сложившаяся структура организации
+			обеспечивает актуальность прогресса профессионального сообщества. Равным образом, высокотехнологичная
+			концепция общественного уклада способствует подготовке и реализации прогресса профессионального
+			сообщества.
+		</p>
+
+		<h5><span class="badge bg-primary">Tag</span> <span class="badge bg-info">Tag2</span></h5>
+
+		<p>
+			<a class="btn btn-primary" data-bs-toggle="collapse" href="#multiCollapseExample1"
+			   role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Факты</a>
+			<button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+			        data-bs-target="#multiCollapseExample2" aria-expanded="false"
+			        aria-controls="multiCollapseExample2">Контакты
+			</button>
+			<button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+			        data-bs-target=".multi-collapse" aria-expanded="false"
+			        aria-controls="multiCollapseExample1 multiCollapseExample2">Все
+			</button>
+		</p>
+		<div class="row">
+			<div class="col">
+				<div class="collapse multi-collapse" id="multiCollapseExample1">
+					<div class="list-group">
+						<a href="#" class="list-group-item list-group-item-action active" aria-current="true">
+							<div class="d-flex w-100 justify-content-between">
+								<h5 class="mb-1">List group item heading</h5>
+								<small>3 days ago</small>
+							</div>
+							<p class="mb-1">Some placeholder content in a paragraph.</p>
+							<small>And some small print.</small>
+						</a>
+						<a href="#" class="list-group-item list-group-item-action">
+							<div class="d-flex w-100 justify-content-between">
+								<h5 class="mb-1">List group item heading</h5>
+								<small class="text-muted">3 days ago</small>
+							</div>
+							<p class="mb-1">Some placeholder content in a paragraph.</p>
+							<small class="text-muted">And some muted small print.</small>
+						</a>
+						<a href="#" class="list-group-item list-group-item-action">
+							<div class="d-flex w-100 justify-content-between">
+								<h5 class="mb-1">List group item heading</h5>
+								<small class="text-muted">3 days ago</small>
+							</div>
+							<p class="mb-1">Some placeholder content in a paragraph.</p>
+							<small class="text-muted">And some muted small print.</small>
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="col">
+				<div class="collapse multi-collapse" id="multiCollapseExample2">
+					<ul class="list-group">
+						<li class="list-group-item">24928958925838</li>
+						<li class="list-group-item">mail@example.com</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock %}
