@@ -1,0 +1,30 @@
+<main class="form-signin w-100 m-auto">
+	{% if title %}<h1>{{ title }}</h1>{% endif %}
+	{{ form.media }}
+	<form method="{{ method|default:'post' }}">
+		{% csrf_token %}
+		<div class="mb-3">
+			{% for field in form %}
+				<div class="form-group">
+					{{ field.errors }}
+					<label for="exampleInputEmail1">
+						<label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+						{% if field.field.required %}<span>*</span>{% endif %}
+					</label>
+					{{ field }}
+					<small id="emailHelp" class="form-text text-muted">{{ field.help_text|safe }}</small>
+				</div>
+			{% endfor %}
+		</div>
+		<div class="mb-2">
+			<button type="submit" class="w-100 btn btn-lg btn-primary">{{ btn_text|default:'Отправить' }}</button>
+		</div>
+
+		{% for button in buttons %}
+			<div class="mb-2">
+				<a type="button" class="w-100 btn btn-lg {{ button.class }}"
+				   href="{{ button.url }}">{{ button.name }}</a>
+			</div>
+		{% endfor %}
+	</form>
+</main>
