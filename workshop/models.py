@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.datetime_safe import date
 from ordered_model.models import OrderedModel
+from sorl.thumbnail import get_thumbnail
 
 from tinymce.models import HTMLField
 from core.models import ShowBaseModel
