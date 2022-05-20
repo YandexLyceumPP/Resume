@@ -1,8 +1,51 @@
 {% extends 'base.html' %}
 
 
+{% load static %}
+
 {% block title %}Просмотр резюме{% endblock %}
 
 {% block content %}
-    <h1>Подтверждено: потускнели светлые лики икон</h1>
+    <br>
+    <div class="text-center">
+        <img src="{% static 'img/users/avatar.png' %}"
+             alt="Generic placeholder image" class="img-fluid" style="width: 300px; border-radius: 10px;">
+
+        <p class="lead">
+            Банальные, но неопровержимые выводы, а также ключевые особенности структуры проекта неоднозначны и
+            будут указаны как претенденты на роль ключевых факторов. Господа, сложившаяся структура организации
+            обеспечивает актуальность прогресса профессионального сообщества. Равным образом, высокотехнологичная
+            концепция общественного уклада способствует подготовке и реализации прогресса профессионального
+            сообщества.
+        </p>
+
+        <p>
+            <a class="btn btn-primary" data-bs-toggle="collapse" href="#multiCollapseExample1"
+               role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Факты</a>
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#multiCollapseExample2" aria-expanded="false"
+                    aria-controls="multiCollapseExample2">Контакты</button>
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                    data-bs-target=".multi-collapse" aria-expanded="false"
+                    aria-controls="multiCollapseExample1 multiCollapseExample2">Все</button>
+        </p>
+        <div class="row">
+            <div class="col">
+                <div class="collapse multi-collapse" id="multiCollapseExample1">
+                    <div class="card card-body">
+                        Some placeholder content for the first collapse component of this multi-collapse example.
+                        This panel is hidden by default but revealed when the user activates the relevant trigger.
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="collapse multi-collapse" id="multiCollapseExample2">
+                    <div class="card card-body">
+                        Some placeholder content for the second collapse component of this multi-collapse example.
+                        This panel is hidden by default but revealed when the user activates the relevant trigger.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
