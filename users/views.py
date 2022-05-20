@@ -10,7 +10,7 @@ from users.forms import SkillForm, UserForm, UserRegistrationForm, FieldForm
 from users.models import Field, Profile
 
 from workshop.forms import ContactForm
-from workshop.models import Resume, Contact
+from workshop.models import Resume, Contact, Tag
 
 User = get_user_model()
 
@@ -19,11 +19,15 @@ def user_detail(request, user_name):
     user = get_object_or_404(User, username=user_name)
     resumes = Resume.objects.filter(user=user)
     fields = Field.objects.filter(user=user)
+    contacts = Contact.objects.filter(user=user)
+    tags = Tag.objects.filter()
 
     context = {
         "user": user,
         "resumes": resumes,
-        "fields": fields
+        "fields": fields,
+        "contacts": contacts,
+        "tags": tags
     }
     return render(request, "users/user_detail.html", context)
 
