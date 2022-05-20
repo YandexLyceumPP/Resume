@@ -5,11 +5,13 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views import View
-
+import resume.settings
+from resume.settings.base import MEDIA_ROOT
 from users.forms import SkillForm, UserForm, UserRegistrationForm, FieldForm
 from users.models import Field, Profile
 from workshop.forms import ContactForm
 from workshop.models import Resume, Contact
+from django.core.files.storage import default_storage
 
 User = get_user_model()
 
@@ -54,6 +56,7 @@ class ProfileView(View):
                 "field_form": field_form,
                 "contact_form": contact_form,
             },
+            "profile": profile,
             "buttons": buttons,
             "user_fields": user_fields,
             "user_contacts": user_contacts
@@ -76,6 +79,16 @@ class ProfileView(View):
             request.user.last_name = user_form.cleaned_data["last_name"]
             request.user.first_name = user_form.cleaned_data["first_name"]
             request.user.save(update_fields=["email", "last_name", "first_name"])
+
+            profile = Profile.objects.get_or_create(user=request.user)[0]
+            for filename, file in request.FILES.items():
+                path = f'{MEDIA_ROOT}/upload/avatars/{request.FILES[filename].name}'
+                with default_storage.open(path, 'wb+') as destination:
+                        for chunk in file.chunks():
+                            destination.write(chunk)
+                profile.image = f'upload/avatars/{request.FILES[filename].name}'
+                profile.save(update_fields=["image"])
+
 
         if field_form.is_valid():
             Field(

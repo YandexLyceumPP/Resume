@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
-
+from sorl.thumbnail import get_thumbnail
 from tinymce.models import HTMLField
 
 from core.models import ShowBaseModel
@@ -24,6 +24,9 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to="upload/avatars/", null=True)
     skills = models.ManyToManyField(Skill)
+
+    def get_image(self):
+        return get_thumbnail(self.image, "200x200", quality=51)
 
     class Meta:
         verbose_name = "Пользователь"
