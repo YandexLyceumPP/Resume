@@ -8,6 +8,7 @@ from django.views import View
 
 from users.forms import SkillForm, UserForm, UserRegistrationForm, FieldForm
 from users.models import Field, Profile
+
 from workshop.forms import ContactForm
 from workshop.models import Resume, Contact
 

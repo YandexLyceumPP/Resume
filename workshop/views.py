@@ -1,12 +1,12 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
-from django.urls import reverse, reverse_lazy
-from django.views.generic import UpdateView, DeleteView
+from django.urls import reverse_lazy
+from django.views.generic import UpdateView, DeleteView, DetailView
 
 from users.forms import FieldForm
 from users.models import Field
-from workshop.models import Contact
+from workshop.models import Contact, Resume
 
 
 @login_required
@@ -14,6 +14,8 @@ def workshop(request):
     TEMPLATE = "workshop/create.html"
     return render(request, TEMPLATE)
 
+
+# Field
 
 class FieldUpdateView(LoginRequiredMixin, UpdateView):
     model = Field
@@ -34,8 +36,17 @@ class FieldDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy("users:profile")
 
 
+# Contact
+
 class ContactDeleteView(LoginRequiredMixin, DeleteView):
     model = Contact
     template_name = "workshop/contact/delete.html"
 
     success_url = reverse_lazy("users:profile")
+
+
+# Resume
+
+class ResumeDetailView(DetailView):
+    model = Resume
+    template_name = "workshop/resume/detail.html"
