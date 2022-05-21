@@ -1,25 +1,33 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
+from django.shortcuts import render, redirect
 from django.views.generic import UpdateView, DeleteView, DetailView
 
 from users.forms import FieldForm
 from users.models import Field
-from workshop.models import Contact, Resume
-from django.shortcuts import render, redirect
 
 from workshop.forms import CreateResumeForm
+from workshop.models import Contact, Resume
 
 
 @login_required
 def workshop(request):
     if request.method == "POST":
-        form = CreateResumeForm(request.POST or None)
+        form = CreateResumeForm(request.POST or None, request.FILES)
         if form.is_valid():
-            form.save()
+            resume = Resume(
+                user=request.user,
+                image=form.cleaned_data["image"],
+                text=form.cleaned_data["text"],
+                date_edit=form.cleaned_data["date_edit"],
+            )
+            resume.save()
+            resume.contacts.set(form.cleaned_data["contacts"])
+            resume.tags.set(form.cleaned_data["tags"])
             return redirect("users:profile")
     else:
-        form = CreateResumeForm(request.POST or None)
+        form = CreateResumeForm()
     context = {
         "form": form,
     }

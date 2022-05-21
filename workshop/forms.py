@@ -10,7 +10,7 @@ class CreateResumeForm(forms.ModelForm):
     text = forms.CharField(widget=TinyMCE(attrs={'cols': 80, 'rows': 30}))
 
     class Meta:
-        fields = ('image', 'text')
+        fields = ("image", "text", "contacts", "tags", "date_edit")
         model = Resume
 
 
