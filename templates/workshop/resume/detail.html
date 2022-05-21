@@ -8,32 +8,38 @@
 {% block content %}
 	<br>
 	<div class="text-center">
-		<img src="{% static 'img/users/avatar.png' %}"
+		<img src="{% if object.image %}{{ object.image.url }}{% else %}
+                  {% static 'img/users/avatar.png' %}{% endif %}"
 		     alt="Generic placeholder image" class="img-fluid" style="width: 300px; border-radius: 10px;">
 
-        <br>
-        <br>
-		<h5><span class="badge bg-primary">Tag</span> <span class="badge bg-info">Tag2</span></h5>
+        {% if object.tags %}
+            <br>
+            <br>
+            <h5>
+                {% for tag in object.tags.all %}
+                    <span class="badge bg-{{ random_bootstrap_color }}">{{ tag.name }}</span>
+                {% endfor %}
+            </h5>
+        {% endif %}
 
 		<p class="lead">
-			Банальные, но неопровержимые выводы, а также ключевые особенности структуры проекта неоднозначны и
-			будут указаны как претенденты на роль ключевых факторов. Господа, сложившаяся структура организации
-			обеспечивает актуальность прогресса профессионального сообщества. Равным образом, высокотехнологичная
-			концепция общественного уклада способствует подготовке и реализации прогресса профессионального
-			сообщества.
+			{{ object.text|safe }}
 		</p>
 
-        <p>
-            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
-                    aria-expanded="false" aria-controls="collapseExample">
-                Контакты
-            </button>
-        </p>
-        <div class="collapse" id="collapseExample">
-            <ul class="list-group">
-                <li class="list-group-item">24928958925838</li>
-                <li class="list-group-item">mail@example.com</li>
-            </ul>
-        </div>
+        {% if object.contacts %}
+            <p>
+                <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseСontact"
+                        aria-expanded="false" aria-controls="collapseСontact">
+                    Контакты
+                </button>
+            </p>
+            <div class="collapse" id="collapseСontact">
+                <ul class="list-group">
+                    {% for contact in object.contacts.all %}
+                        <li class="list-group-item">{{ contact.contact }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}

@@ -10,7 +10,11 @@
 		<div class="d-flex text-black">
 			<div class="flex-shrink-0">
 				<img src="
-						{% if user.profile.image %}{{ user.profile.image.url }}{% else %}{% static 'img/users/avatar.png' %}{% endif %}"
+						{% if user.profile.image %}
+                            {{ user.profile.image.url }}
+                        {% else %}
+                            {% static 'img/users/avatar.png' %}
+                        {% endif %}"
 				     alt="Generic placeholder image" class="img-fluid" style="width: 300px; border-radius: 10px;">
 			</div>
 			<div class="flex-grow-1 ms-3">
