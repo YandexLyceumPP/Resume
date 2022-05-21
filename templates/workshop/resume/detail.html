@@ -12,9 +12,12 @@
                   {% static 'img/users/avatar.png' %}{% endif %}"
 		     alt="Generic placeholder image" class="img-fluid" style="width: 300px; border-radius: 10px;">
 
+        <p class="text-lowercase">
+            {{ object.date_edit }}
+            <a href="{% url 'users:detail' object.user.username %}">@{{ object.user.username }}</a>
+        </p>
+
         {% if object.tags %}
-            <br>
-            <br>
             <h5>
                 {% for tag in object.tags.all %}
                     <span class="badge bg-{{ random_bootstrap_color }}">{{ tag.name }}</span>
