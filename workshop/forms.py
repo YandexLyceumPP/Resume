@@ -1,8 +1,6 @@
 from django import forms
-from tinymce.widgets import TinyMCE
 
-from workshop.models import Resume
-from workshop.models import Contact
+from workshop.models import Resume, Contact
 
 
 class ResumeForm(forms.ModelForm):
