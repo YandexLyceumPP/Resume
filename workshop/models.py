@@ -80,7 +80,7 @@ class Resume(ShowBaseModel, DateEditBaseModel):
 
 
 class Block(ShowBaseModel, OrderedModel, DateEditBaseModel):
-    title = models.CharField("Загаловок", max_length=200)
+    title = models.CharField("Заголовок", max_length=200)
     resume = models.ForeignKey(Resume, on_delete=models.CASCADE)
 
     class Meta:

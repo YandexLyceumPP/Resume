@@ -6,14 +6,12 @@ from workshop.models import Contact
 
 
 class ResumeForm(forms.ModelForm):
-    # image = forms.ImageField()
-    # text = forms.CharField(widget=TinyMCE(attrs={'cols': 80, 'rows': 30}))
+    def __init__(self, user=None, *args, **kwargs):
+        super(ResumeForm, self).__init__(*args, **kwargs)
 
-    """skills = forms.ModelMultipleChoiceField(
-        queryset=Skill.objects.all().only("skill"),
-        widget=forms.CheckboxSelectMultiple(attrs={"class": "form-check-input me-1"})
-    )"""
-    
+        if user:
+            self.fields["contacts"].queryset = Contact.objects.filter(user=user)
+
     class Meta:
         fields = ("image", "tags", "contacts", "text")
         model = Resume

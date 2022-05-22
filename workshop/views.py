@@ -37,7 +37,7 @@ def resume_create(request):
 @login_required
 def resume_update(request, pk):
     if request.method == "POST":
-        form = ResumeForm(request.POST or None, request.FILES)
+        form = ResumeForm(request.POST, request.FILES, user=request.user)
         if form.is_valid():
             resume = Resume(
                 image=form.cleaned_data["image"],
@@ -48,7 +48,8 @@ def resume_update(request, pk):
             resume.tags.set(form.cleaned_data["tags"])
             return redirect("users:profile")
     else:
-        form = ResumeForm(instance=get_object_or_404(Resume, id=pk, user=request.user))
+        form = ResumeForm(instance=get_object_or_404(Resume, id=pk, user=request.user), user=request.user)
+
     context = {
         "form": form,
     }
