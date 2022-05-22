@@ -31,7 +31,7 @@
                     <img src="{{ profile.get_image.url }}" alt="{{profile.image}}">
                 </div>
                 <br>
-                {% include 'core/include/form.html' with form=forms.user_form btn_text='Изменить' %}
+                {% include 'core/include/form.html' with form=forms.user btn_text='Изменить' %}
             </div>
             <!-- Навыки -->
             <div class=" tab-pane fade show" id="list-skills" role="tabpanel" aria-labelledby="list-skills-list">
@@ -40,15 +40,15 @@
                         {% csrf_token %}
                         <div class="mb-3">
                             <div class="form-group">
-                                {{ forms.skill_form.skills.errors }}
+                                {{ forms.skill.skills.errors }}
                                 <label for="exampleInputEmail1">
-                                    <label for="{{ forms.skill_form.skills.id_for_label }}" class="form-label">
-                                        {{ forms.skill_form.skills.label }}
+                                    <label for="{{ forms.skill.skills.id_for_label }}" class="form-label">
+                                        {{ forms.skill.skills.label }}
                                     </label>
-                                    {% if forms.skill_form.skills.field.required %}<span>*</span>{% endif %}
+                                    {% if forms.skill.skills.field.required %}<span>*</span>{% endif %}
                                 </label>
                                 <ul class="list-group">
-                                    {% for skill in forms.skill_form.skills %}
+                                    {% for skill in forms.skill.skills %}
                                     <li class="list-group-item">
                                         {{ skill }}
                                     </li>
@@ -73,7 +73,7 @@
                 </h5>
                 <div class="collapse" id="collapseField">
                     <div class="card card-body">
-                        {% include 'core/include/form.html' with form=forms.field_form btn_text='Добавить' %}
+                        {% include 'core/include/form.html' with form=forms.field btn_text='Добавить' %}
                     </div>
                     <br>
                 </div>
@@ -112,7 +112,7 @@
                 </h5>
                 <div class="collapse" id="collapseContacts">
                     <div class="card card-body">
-                        {% include 'core/include/form.html' with form=forms.contact_form btn_text='Добавить' %}
+                        {% include 'core/include/form.html' with form=forms.contact btn_text='Добавить' %}
                     </div>
                     <br>
                 </div>

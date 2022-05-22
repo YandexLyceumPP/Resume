@@ -2,16 +2,18 @@ from django.contrib.auth import views, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse_lazy
+from django.core.files.storage import default_storage
 from django.utils.decorators import method_decorator
+from django.urls import reverse_lazy
 from django.views import View
-import resume.settings
+
 from resume.settings.base import MEDIA_ROOT
+
 from users.forms import SkillForm, UserForm, UserRegistrationForm, FieldForm
 from users.models import Field, Profile
+
 from workshop.forms import ContactForm
 from workshop.models import Resume, Contact
-from django.core.files.storage import default_storage
 
 User = get_user_model()
 
@@ -51,10 +53,10 @@ class ProfileView(View):
 
         context = {
             "forms": {
-                "user_form": user_form,
-                "skill_form": skill_form,
-                "field_form": field_form,
-                "contact_form": contact_form,
+                "user": user_form,
+                "skill": skill_form,
+                "field": field_form,
+                "contact": contact_form,
             },
             "profile": profile,
             "buttons": buttons,
@@ -84,11 +86,10 @@ class ProfileView(View):
             for filename, file in request.FILES.items():
                 path = f'{MEDIA_ROOT}/upload/avatars/{request.FILES[filename].name}'
                 with default_storage.open(path, 'wb+') as destination:
-                        for chunk in file.chunks():
-                            destination.write(chunk)
+                    for chunk in file.chunks():
+                        destination.write(chunk)
                 profile.image = f'upload/avatars/{request.FILES[filename].name}'
                 profile.save(update_fields=["image"])
-
 
         if field_form.is_valid():
             Field(
