@@ -35,6 +35,7 @@ def user_detail(request, user_name):
 class ProfileView(View):
     def get(self, request):
         profile = Profile.objects.get_or_create(user=request.user)[0]
+        resumes = Resume.objects.filter(user=request.user)
         user_fields = Field.objects.filter(user=request.user).only("title", "value")
         user_contacts = Contact.objects.filter(user=request.user).only("contact")
 
@@ -61,7 +62,8 @@ class ProfileView(View):
             "profile": profile,
             "buttons": buttons,
             "user_fields": user_fields,
-            "user_contacts": user_contacts
+            "user_contacts": user_contacts,
+            "resumes": resumes
         }
         return render(request, "users/profile.html", context=context)
 

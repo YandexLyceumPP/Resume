@@ -26,7 +26,7 @@ class Profile(models.Model):
     skills = models.ManyToManyField(Skill)
 
     def get_image(self):
-        return get_thumbnail(self.image, "200x200", quality=51)
+        return get_thumbnail(self.image, "200x200", quality=51) if self.image else None
 
     class Meta:
         verbose_name = "Пользователь"
