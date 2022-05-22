@@ -55,6 +55,13 @@ def resume_update(request, pk):
     return render(request, "workshop/resume/update.html", context=context)
 
 
+class ResumeDeleteView(LoginRequiredMixin, DeleteView):
+    model = Resume
+    template_name = "workshop/resume/delete.html"
+
+    success_url = reverse_lazy("users:profile")
+
+
 # Field
 
 class FieldUpdateView(LoginRequiredMixin, UpdateView):
