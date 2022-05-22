@@ -16,10 +16,10 @@ User = get_user_model()
 class DateEditBaseModel(models.Model):
     date_edit = models.DateField("Дата последнего редактирования", default=date.today)
 
-    """def save(self, force_insert=False, force_update=False, using=None,
-             update_fields=None):
+    """def save(self, *args, **kwargs):
         self.date_edit = date.today
-        super().save(force_insert, force_update, using, update_fields)"""
+        # kwargs["commit"] = True
+        super(DateEditBaseModel, self).save(*args, **kwargs)"""
 
     class Meta:
         abstract = True

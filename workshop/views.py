@@ -40,12 +40,10 @@ def resume_update(request, pk):
         form = ResumeForm(request.POST or None, request.FILES)
         if form.is_valid():
             resume = Resume(
-                user=request.user,
                 image=form.cleaned_data["image"],
                 text=form.cleaned_data["text"],
-                date_edit=form.cleaned_data["date_edit"],
             )
-            resume.save()
+            resume.save(update_fields=("image", "text"))
             resume.contacts.set(form.cleaned_data["contacts"])
             resume.tags.set(form.cleaned_data["tags"])
             return redirect("users:profile")
