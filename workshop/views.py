@@ -11,8 +11,30 @@ from workshop.forms import CreateResumeForm
 from workshop.models import Contact, Resume
 
 
+# Resume
+
 @login_required
-def workshop(request):
+def resume_create(request):
+    if request.method == "POST":
+        form = CreateResumeForm(request.POST or None, request.FILES)
+        if form.is_valid():
+            resume = Resume(
+                user=request.user,
+                image=form.cleaned_data["image"],
+                text=form.cleaned_data["text"],
+            )
+            resume.save()
+            return redirect("users:profile")
+    else:
+        form = CreateResumeForm()
+    context = {
+        "form": form,
+    }
+    return render(request, "workshop/create.html", context=context)
+
+
+"""@login_required
+def resume_create(request):
     if request.method == "POST":
         form = CreateResumeForm(request.POST or None, request.FILES)
         if form.is_valid():
@@ -31,7 +53,7 @@ def workshop(request):
     context = {
         "form": form,
     }
-    return render(request, "workshop/create.html", context=context)
+    return render(request, "workshop/create.html", context=context)"""
 
 
 # Field
