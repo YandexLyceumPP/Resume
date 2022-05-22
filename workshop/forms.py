@@ -15,7 +15,7 @@ class ResumeForm(forms.ModelForm):
     )"""
     
     class Meta:
-        fields = ("image", "text", "contacts", "tags")
+        fields = ("image", "tags", "contacts", "text")
         model = Resume
 
 

@@ -8,11 +8,19 @@
 {% block content %}
 	<br>
 	<div class="text-center">
-		<img src="{% if object.image %}{{ object.image.url }}{% else %}
-                  {% static 'img/users/avatar.png' %}{% endif %}"
-		     alt="Generic placeholder image" class="img-fluid" style="width: 300px; border-radius: 10px;">
+        {% if user.is_authenticated and user == object.user %}
+            <p>
+                <a type="button" class="btn btn-warning">Редактировать</a>
+                <a type="button" class="btn btn-danger">Удалить</a>
+            </p>
+        {% endif %}
 
         <p class="text-lowercase">
+            <img src="{% if object.image %}{{ object.image.url }}{% else %}
+                      {% static 'img/users/avatar.png' %}{% endif %}"
+                 alt="Generic placeholder image" class="img-fluid" style="width: 300px; border-radius: 10px;">
+
+            <br>
             {{ object.date_edit }}
             <a href="{% url 'users:detail' object.user.username %}">@{{ object.user.username }}</a>
         </p>
@@ -29,7 +37,7 @@
 			{{ object.text|safe }}
 		</p>
 
-        {% if object.contacts %}
+        {% if object.contacts.all %}
             <p>
                 <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseСontact"
                         aria-expanded="false" aria-controls="collapseСontact">
@@ -44,5 +52,8 @@
                 </ul>
             </div>
         {% endif %}
+
+        <hr>
+        <h3>Кажется записей еще нет 😐</h3>
     </div>
 {% endblock %}

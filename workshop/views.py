@@ -1,13 +1,13 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import UpdateView, DeleteView, DetailView
 
 from users.forms import FieldForm
 from users.models import Field
 
-from workshop.forms import CreateResumeForm
+from workshop.forms import CreateResumeForm, ResumeForm
 from workshop.models import Contact, Resume
 
 
@@ -27,16 +27,17 @@ def resume_create(request):
             return redirect("users:profile")
     else:
         form = CreateResumeForm()
+
     context = {
         "form": form,
     }
-    return render(request, "workshop/create.html", context=context)
+    return render(request, "workshop/resume/create.html", context=context)
 
 
-"""@login_required
-def resume_create(request):
+@login_required
+def resume_update(request, pk):
     if request.method == "POST":
-        form = CreateResumeForm(request.POST or None, request.FILES)
+        form = ResumeForm(request.POST or None, request.FILES)
         if form.is_valid():
             resume = Resume(
                 user=request.user,
@@ -49,11 +50,11 @@ def resume_create(request):
             resume.tags.set(form.cleaned_data["tags"])
             return redirect("users:profile")
     else:
-        form = CreateResumeForm()
+        form = ResumeForm(instance=get_object_or_404(Resume, id=pk, user=request.user))
     context = {
         "form": form,
     }
-    return render(request, "workshop/create.html", context=context)"""
+    return render(request, "workshop/resume/update.html", context=context)
 
 
 # Field
