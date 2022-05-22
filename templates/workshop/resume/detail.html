@@ -32,11 +32,15 @@
                 {% endfor %}
             </h5>
         {% endif %}
+    </div>
 
-		<p class="lead">
-			{{ object.text|safe }}
-		</p>
+        <div class="center alert alert-secondary">
+    <p class="lead">
+        {{ object.text|safe }}
+    </p>
+    </div>
 
+    <div class="text-center">
         {% if object.contacts.all %}
             <p>
                 <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseСontact"
@@ -54,6 +58,63 @@
         {% endif %}
 
         <hr>
-        <h3>Кажется записей еще нет 😐</h3>
+        <!--- <h3>Кажется записей еще нет 😐</h3> --->
+    </div>
+
+    <div class="card mb-3">
+
+        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="https://netstar.moy.su/_pu/0/s81778697.jpg"
+                         class="d-block w-100" alt="Generic placeholder image" style="width: 600px;">
+                </div>
+                <div class="carousel-item">
+                    <img src="https://pbs.twimg.com/profile_images/2881220369/2b27ac38b43b17a8c5eacfc443ce3384_400x400.jpeg" class="d-block w-100" alt="...">
+                </div>
+                <div class="carousel-item">
+                    <img src="https://bokmal.com.ua/wp-content/uploads/2016/10/ajnjer.jpg" class="d-block w-100" alt="...">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+                    data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+                    data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+
+        <div class="card-body">
+            <h5 class="card-title">Прототип нового сервиса - это как полуночный пёсий вой!</h5>
+            <p class="card-text">
+                Равным образом, реализация намеченных плановых заданий напрямую зависит от приоритизации разума
+                над эмоциями. Лишь элементы политического процесса призывают нас к новым свершениям, которые,
+                в свою очередь, должны быть указаны как претенденты на роль ключевых факторов. Есть над чем
+                задуматься: непосредственные участники технического прогресса в равной степени предоставлены
+                сами себе.
+            </p>
+
+            <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    2312123213.zip
+                    <button type="button" class="btn btn-primary rounded-pill">Cкачать</button>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    dvshbhdsbvhbvbsdjvbsv.pmg
+                    <button type="button" class="btn btn-primary rounded-pill">Cкачать</button>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    a.pdf
+                    <button type="button" class="btn btn-primary rounded-pill">Cкачать</button>
+                </li>
+            </ul>
+
+            <p class="card-text"><small class="text-muted">Обновлено 22 мая 2022 г.</small></p>
+        </div>
     </div>
 {% endblock %}
