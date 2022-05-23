@@ -1,4 +1,3 @@
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect, get_object_or_404
@@ -14,9 +13,19 @@ from workshop.models import Contact, Resume
 
 # Resume
 
-@login_required
-def resume_create(request):
-    if request.method == "POST":
+class ResumeDetailView(DetailView):
+    model = Resume
+    template_name = "workshop/resume/detail.html"
+
+
+class ResumeCreateView(LoginRequiredMixin, View):
+    def get(self, request):
+        form = CreateResumeForm()
+
+        context = {"form": form}
+        return render(request, "workshop/resume/create.html", context=context)
+
+    def post(self, request):
         form = CreateResumeForm(request.POST or None, request.FILES)
         if form.is_valid():
             resume = Resume(
@@ -25,24 +34,18 @@ def resume_create(request):
                 text=form.cleaned_data["text"],
             )
             resume.save()
-            return redirect("users:profile")
-    else:
-        form = CreateResumeForm()
 
-    context = {
-        "form": form,
-    }
-    return render(request, "workshop/resume/create.html", context=context)
+            return redirect("workshop:resume_detail", pk=resume.id)
+
+        return redirect("workshop:resume_create")
 
 
 class ResumeUpdateView(LoginRequiredMixin, View):
     def get(self, request, pk):
         resume = get_object_or_404(Resume, id=pk, user=request.user)
-        form = ResumeForm(request.user, instance=resume, initial={"image": resume.image})
+        form = ResumeForm(request.user, instance=resume)
 
-        context = {
-            "form": form,
-        }
+        context = {"form": form}
         return render(request, "workshop/resume/update.html", context=context)
 
     def post(self, request, pk):
@@ -99,10 +102,3 @@ class ContactDeleteView(LoginRequiredMixin, DeleteView):
     template_name = "workshop/contact/delete.html"
 
     success_url = reverse_lazy("users:profile")
-
-
-# Resume
-
-class ResumeDetailView(DetailView):
-    model = Resume
-    template_name = "workshop/resume/detail.html"
