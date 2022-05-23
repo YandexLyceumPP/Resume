@@ -6,7 +6,9 @@
 {% block content %}
     <h1>Мой профиль</h1>
 
+    <!-- Настройки -->
     <div class="row">
+        <!-- Кнопки настроек -->
         <div class="col-4">
             <div class="list-group" id="list-tab" role="tablist">
                 <!-- Основное -->
@@ -23,6 +25,7 @@
                     href="#list-contacts" role="tab" aria-controls="list-contacts">Контакты</a>
             </div>
         </div>
+        <!-- Тело настроек -->
         <div class="col-8">
             <div class="tab-content" id="nav-tabContent">
                 <!-- Основное -->
@@ -83,23 +86,23 @@
 
                     <div class="accordion accordion-flush" id="accordionFields">
                         {% for field in user_fields %}
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="heading{{ field.id }}">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapse{{ field.id }}" aria-expanded="false"
-                                    aria-controls="collapse{{ field.id }}">
-                                    {{ field.title }}
-                                </button>
-                            </h2>
-                            <div id="collapse{{ field.id }}" class="accordion-collapse collapse"
-                                aria-labelledby="heading{{ field.id }}" data-bs-parent="#accordionFields">
-                                <div class="accordion-body">
-                                    <a class="btn btn-warning" href="{% url 'workshop:field_update' field.id %}"
-                                        role="button">Редактировать</a>
-                                    {{ field.value|safe }}
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading{{ field.id }}">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapse{{ field.id }}" aria-expanded="false"
+                                        aria-controls="collapse{{ field.id }}">
+                                        {{ field.title }}
+                                    </button>
+                                </h2>
+                                <div id="collapse{{ field.id }}" class="accordion-collapse collapse"
+                                    aria-labelledby="heading{{ field.id }}" data-bs-parent="#accordionFields">
+                                    <div class="accordion-body">
+                                        <a class="btn btn-warning" href="{% url 'workshop:field_update' field.id %}"
+                                            role="button">Редактировать</a>
+                                        {{ field.value|safe }}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         {% endfor %}
                     </div>
 
@@ -122,11 +125,11 @@
 
                     <ul class="list-group">
                         {% for contact in user_contacts %}
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            {{ contact.contact }}
-                            <a type="button" class="btn-close rounded-pill"
-                                href="{% url 'workshop:contact_delete' contact.id %}" aria-label="Close"></a>
-                        </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                {{ contact.contact }}
+                                <a type="button" class="btn-close rounded-pill"
+                                    href="{% url 'workshop:contact_delete' contact.id %}" aria-label="Close"></a>
+                            </li>
                         {% endfor %}
                     </ul>
 
@@ -135,6 +138,7 @@
         </div>
     </div>
 
+    <!-- Список резюме -->
     <h3>
         Ваши резюме
         <a type="button" class="btn btn-success" href="{% url 'workshop:workshop' %}">Создать резюме</a>
