@@ -10,8 +10,10 @@
 	<div class="text-center">
         {% if user.is_authenticated and user == object.user %}
             <p>
-                <a type="button" class="btn btn-warning">Редактировать</a>
-                <a type="button" class="btn btn-danger">Удалить</a>
+                <a type="button" class="btn btn-warning" href="{% url 'workshop:resume_update' object.id %}">
+                    Редактировать</a>
+                <a type="button" class="btn btn-danger"  href="{% url 'workshop:resume_delete' object.id %}">
+                    Удалить</a>
             </p>
         {% endif %}
 
