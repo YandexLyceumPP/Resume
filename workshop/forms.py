@@ -35,7 +35,7 @@ class ContactForm(forms.ModelForm):
 
 class BaseBlockForm(forms.Form):
     title = forms.CharField(label="Название", max_length=200)
-    text = forms.CharField(label="Содержание", widget=TinyMCE(attrs={'cols': 80, 'rows': 30}), required=False)
+    text = forms.CharField(label="Содержание", widget=TinyMCE(attrs={"cols": 80, "rows": 10}), required=False)
 
 
 class FileBlockForm(forms.Form):

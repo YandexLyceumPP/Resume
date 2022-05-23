@@ -8,7 +8,7 @@ from django.views.generic import UpdateView, DeleteView, DetailView
 from users.forms import FieldForm
 from users.models import Field
 
-from workshop.forms import CreateResumeForm, ResumeForm, BaseBlockForm
+from workshop.forms import CreateResumeForm, ResumeForm, BaseBlockForm, FileBlockForm
 from workshop.models import Contact, Resume, Block, File, Text
 
 
@@ -143,6 +143,7 @@ class BlockUpdateView(LoginRequiredMixin, View):
         resume = get_object_or_404(Resume, user=request.user, id=resume_id)
         block = get_object_or_404(Block, resume=resume, id=pk)
         text = Text.objects.filter(block=block)
+        files = File.objects.filter(block=block)
 
         base_form = BaseBlockForm(
             initial={
@@ -150,8 +151,15 @@ class BlockUpdateView(LoginRequiredMixin, View):
                 "text": text.first().text if text else ""
             }
         )
+        file_form = FileBlockForm()
 
-        context = {"base_form": base_form}
+        context = {
+            "forms": {
+                "base": base_form,
+                "file": file_form
+            },
+            "files": files
+        }
         return render(request, "workshop/block/update.html", context=context)
 
     def post(self, request, resume_id, pk):
@@ -159,6 +167,8 @@ class BlockUpdateView(LoginRequiredMixin, View):
         block = get_object_or_404(Block, resume=resume, id=pk)
 
         base_form = BaseBlockForm(request.POST or None)
+        file_form = FileBlockForm(request.POST or None, request.FILES or None)
+
         if base_form.is_valid():
             block.title = base_form.cleaned_data["title"]
             block.save(update_fields=("title", ))
@@ -171,5 +181,11 @@ class BlockUpdateView(LoginRequiredMixin, View):
                 text = Text.objects.filter(block=block)
                 if text:
                     text.delete()
+
+        if file_form.is_valid():
+            File(
+                block=block,
+                file=file_form.cleaned_data["file"]
+            ).save()
 
         return redirect("workshop:block_update", resume_id=resume_id, pk=pk)
