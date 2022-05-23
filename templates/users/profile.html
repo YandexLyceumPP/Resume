@@ -133,7 +133,10 @@
         </div>
     </div>
 
-    <h3>Ваши резюме:</h3>
+    <h3>
+        Ваши резюме
+        <a type="button" class="btn btn-success" href="{% url 'workshop:workshop' %}">Создать резюме</a>
+    </h3>
     {% for resume in resumes %}
         {% include 'users/include/resume_card.html' with resume=resume %}
     {% empty %}
