@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from ordered_model.models import OrderedModel
-
+from sorl.thumbnail import get_thumbnail
 from tinymce.models import HTMLField
 from core.models import ShowBaseModel
 from workshop.validators import OrReValidator
@@ -46,8 +46,8 @@ class Resume(ShowBaseModel):
     text = HTMLField("Описание")
     date_edit = models.DateField()
 
-    def get_image_100x100(self):
-        return get_thumbnail(self.image, "100x100", quality=51)
+    def get_image_200x200(self):
+        return get_thumbnail(self.image, "200x200", quality=51)
 
     class Meta:
         verbose_name = verbose_name_plural = "Резюме"
