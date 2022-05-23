@@ -1,6 +1,9 @@
-from django import forms
+from audioop import reverse
 
-from workshop.models import Resume, Contact
+from django import forms
+from tinymce.widgets import TinyMCE
+
+from workshop.models import Resume, Contact, Block
 
 
 class ResumeForm(forms.ModelForm):
@@ -28,3 +31,8 @@ class ContactForm(forms.ModelForm):
     class Meta:
         fields = ("contact", )
         model = Contact
+
+
+class BaseBlockForm(forms.Form):
+    title = forms.CharField(max_length=200)
+    text = forms.CharField(widget=TinyMCE(attrs={'cols': 80, 'rows': 30}), required=False)

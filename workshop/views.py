@@ -2,13 +2,14 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views import View
 from django.views.generic import UpdateView, DeleteView, DetailView
 
 from users.forms import FieldForm
 from users.models import Field
 
-from workshop.forms import CreateResumeForm, ResumeForm
-from workshop.models import Contact, Resume, Block, Text, File
+from workshop.forms import CreateResumeForm, ResumeForm, BaseBlockForm
+from workshop.models import Contact, Resume, Block, File, Text
 
 
 # Resume
@@ -98,7 +99,6 @@ class ResumeDetailView(DetailView):
     model = Resume
     template_name = "workshop/resume/detail.html"
 
-
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
@@ -107,3 +107,32 @@ class ResumeDetailView(DetailView):
         for i in range(len(blocks)):
             blocks[i].files = File.objects.filter(block=blocks[i].id)
         return context
+
+
+# Block
+
+class BlockCreateView(LoginRequiredMixin, View):
+    def get(self, request, resume_id):
+        form = BaseBlockForm()
+
+        context = {"form": form}
+        return render(request, "workshop/block/create.html", context=context)
+
+    def post(self, request, resume_id):
+        resume = get_object_or_404(Resume, user=request.user, id=resume_id)
+
+        form = BaseBlockForm(request.POST or None)
+        if form.is_valid():
+            block = Block(
+                resume=resume,
+                title=form.cleaned_data["title"]
+            )
+            block.save()
+
+            if form.cleaned_data["text"]:
+                Text(
+                    block=block,
+                    text=form.cleaned_data["text"]
+                ).save()
+
+        return redirect("workshop:resume_detail", pk=resume_id)

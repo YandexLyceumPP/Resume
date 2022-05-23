@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Создание блока{% endblock %}
+
+{% block content %}
+    <h1>Создание</h1>
+    {% include 'core/include/form.html' with form=form btn_text='Создать' %}
+{% endblock %}
