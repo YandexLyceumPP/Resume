@@ -111,6 +111,14 @@ class ResumeDetailView(DetailView):
 
 # Block
 
+class BlockDeleteView(LoginRequiredMixin, DeleteView):
+    model = Block
+    template_name = "workshop/block/delete.html"
+
+    def get_success_url(self):
+        return reverse_lazy("workshop:resume_detail", kwargs={"pk": self.object.resume.id})
+
+
 class BlockCreateView(LoginRequiredMixin, View):
     def get(self, request, resume_id):
         form = BaseBlockForm()
