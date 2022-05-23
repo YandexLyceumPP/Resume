@@ -26,12 +26,13 @@
         <div class="col-8">
             <div class="tab-content" id="nav-tabContent">
                 <!-- Основное -->
-                <div class="tab-pane fade show active" id="list-basic" role="tabpanel" aria-labelledby="list-basic-list">
+                <div class="tab-pane fade show active" id="list-basic" role="tabpanel"
+                     aria-labelledby="list-basic-list">
                     {% if profile.image %}
-                    <div class="container">
-                        <img src="{{ profile.get_image.url }}" alt="{{profile.image}}">
-                    </div>
-                    <br>
+                        <div class="container">
+                            <img src="{{ profile.get_image.url }}" alt="{{profile.image}}">
+                        </div>
+                        <br>
                     {% endif %}
                     {% include 'core/include/form.html' with form=forms.user btn_text='Изменить' %}
                 </div>
@@ -51,9 +52,9 @@
                                     </label>
                                     <ul class="list-group">
                                         {% for skill in forms.skill.skills %}
-                                        <li class="list-group-item">
-                                            {{ skill }}
-                                        </li>
+                                            <li class="list-group-item">
+                                                {{ skill }}
+                                            </li>
                                         {% endfor %}
                                     </ul>
                                     <small id="emailHelp" class="form-text text-muted">
@@ -68,8 +69,8 @@
                 <div class="tab-pane fade show" id="list-fields" role="tabpanel" aria-labelledby="list-fields-list">
                     <h5>
                         Просмотр
-                        <a class="btn btn-outline-success" data-bs-toggle="collapse" href="#collapseField" role="button"
-                            aria-expanded="false" aria-controls="collapseField">
+                        <a class="btn btn-outline-success" data-bs-toggle="collapse" href="#collapseField"
+                           role="button" aria-expanded="false" aria-controls="collapseField">
                             Добавить
                         </a>
                     </h5>
