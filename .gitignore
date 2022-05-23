@@ -113,6 +113,9 @@ dmypy.json
 # PyCharm
 .idea/
 
+# VSCode
+.vscode
+
 # Dev database
 dev-database.sqlite3
 
