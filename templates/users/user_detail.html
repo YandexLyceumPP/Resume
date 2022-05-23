@@ -6,59 +6,61 @@
 {% block title %}{{ user.username }}{% endblock %}
 
 {% block content %}
-<div class="card-body p-4">
-    <div class="d-flex text-black">
-        <div class="flex-shrink-0">
-            <img src="{% if user.profile.image %}{{ user.profile.image.url }}{% else %}{% static 'img/users/avatar.png' %}{% endif %}"
-                alt="Generic placeholder image" class="img-fluid" style="width: 300px; border-radius: 10px;">
-        </div>
-        <div class="flex-grow-1 ms-3">
-            <h3 class="mb-1">
-                {% if user.first_name or user.last_name %}
-                {{ user.first_name }} {{ user.last_name }}
-                {% else %}
-                {{ user.username }}
-                {% endif %}
-            </h3>
-
-            {% if user.profile.skills.all %}
-            <p>
-                {% for skill in user.profile.skills.all %}
-                <span class="badge rounded-pill bg-{{ random_bootstrap_color }}">{{ skill.skill }}</span>
-                {% endfor %}
-            </p>
-            {% endif %}
-
-            {% if fields %}
-            <div class="row">
-                <div class="col-4">
-                    <div class="list-group" id="list-tab" role="tablist">
-                        {% for field in fields %}
-                        <a class="list-group-item list-group-item-action {% if forloop.first %}active{% endif %}"
-                            id="list-{{ field.id }}-list" data-bs-toggle="list" href="#list-{{ field.id }}" role="tab"
-                            aria-controls="list-{{ field.id }}">{{ field.title|truncatechars:30 }}</a>
-                        {% endfor %}
-                    </div>
-                </div>
-                <div class="col-8">
-                    <div class="tab-content" id="nav-tabContent">
-                        {% for field in fields %}
-                        <div class="tab-pane fade {% if forloop.first %}show active{% endif %}" id="list-{{ field.id }}"
-                            role="tabpanel" aria-labelledby="list-{{ field.id }}-list">
-                            <h5>{{ field.title }}</h5>
-                            {{ field.value }}
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
+    <div class="card-body p-4">
+        <div class="d-flex text-black">
+            <div class="flex-shrink-0">
+                <img src="{% if user.profile.image %}{{ user.profile.image.url }}
+                          {% else %}{% static 'img/users/avatar.png' %}{% endif %}"
+                    alt="Generic placeholder image" class="img-fluid" style="width: 300px; border-radius: 10px;">
             </div>
-            {% endif %}
+            <div class="flex-grow-1 ms-3">
+                <h3 class="mb-1">
+                    {% if user.first_name or user.last_name %}
+                        {{ user.first_name }} {{ user.last_name }}
+                    {% else %}
+                        {{ user.username }}
+                    {% endif %}
+                </h3>
 
+                {% if user.profile.skills.all %}
+                    <p>
+                        {% for skill in user.profile.skills.all %}
+                            <span class="badge rounded-pill bg-{{ random_bootstrap_color }}">{{ skill.skill }}</span>
+                        {% endfor %}
+                    </p>
+                {% endif %}
+
+                {% if fields %}
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="list-group" id="list-tab" role="tablist">
+                                {% for field in fields %}
+                                <a class="list-group-item list-group-item-action {% if forloop.first %}active{% endif %}"
+                                    id="list-{{ field.id }}-list" data-bs-toggle="list" href="#list-{{ field.id }}"
+                                   role="tab"aria-controls="list-{{ field.id }}">{{ field.title|truncatechars:30 }}</a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="col-8">
+                            <div class="tab-content" id="nav-tabContent">
+                                {% for field in fields %}
+                                    <div class="tab-pane fade {% if forloop.first %}show active{% endif %}"
+                                         id="list-{{ field.id }}"
+                                         role="tabpanel" aria-labelledby="list-{{ field.id }}-list">
+                                        <h5>{{ field.title }}</h5>
+                                        {{ field.value }}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+            </div>
         </div>
     </div>
-</div>
 
-{% for resume in resumes %}
-{% include 'users/includes/resume_card.html' with resume=resume %}
-{% endfor %}
+    {% for resume in resumes %}
+        {% include 'users/includes/resume_card.html' with resume=resume %}
+    {% endfor %}
 {% endblock %}

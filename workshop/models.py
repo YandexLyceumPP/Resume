@@ -70,8 +70,8 @@ class Resume(ShowBaseModel, DateEditBaseModel):
     tags = models.ManyToManyField(Tag, verbose_name="Тэги")
     text = HTMLField("Описание")
 
-    def get_image_100x100(self):
-        return get_thumbnail(self.image, "100x100", quality=51)
+    def get_image_200x200(self):
+        return get_thumbnail(self.image, "200x200", quality=51)
 
     class Meta:
         verbose_name = verbose_name_plural = "Резюме"

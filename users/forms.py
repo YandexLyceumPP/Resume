@@ -1,8 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
-from tinymce.widgets import TinyMCE
 
-from users.models import Skill
+from users.models import Skill, Field
 
 
 class BaseForm(forms.BaseForm):
@@ -10,11 +9,6 @@ class BaseForm(forms.BaseForm):
         super().__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs["class"] = "form-control"
-
-
-class UserLoginForm(forms.Form, BaseForm):
-    username = forms.CharField(label="Имя пользователя / Email")
-    password = forms.CharField(label="Пароль", widget=forms.PasswordInput)
 
 
 class UserRegistrationForm(forms.ModelForm, BaseForm):
@@ -33,17 +27,27 @@ class UserRegistrationForm(forms.ModelForm, BaseForm):
 
 
 class UserForm(forms.ModelForm, BaseForm):
+    image = forms.ImageField(required=False)
+    field_order = ("image", "first_name", "last_name", "email")
+
+
     class Meta:
         model = User
         fields = ("first_name", "last_name", "email")
 
 
-class AddSkillForm(forms.ModelForm):
+class SkillForm(forms.ModelForm):
     skills = forms.ModelMultipleChoiceField(
         queryset=Skill.objects.all().only("skill"),
-        widget=forms.CheckboxSelectMultiple
+        widget=forms.CheckboxSelectMultiple(attrs={"class": "form-check-input me-1"})
     )
 
     class Meta:
         fields = ("skills", )
         model = Skill
+
+
+class FieldForm(forms.ModelForm):
+    class Meta:
+        fields = ("title", "show", "value")
+        model = Field
