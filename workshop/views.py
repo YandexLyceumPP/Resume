@@ -189,3 +189,14 @@ class BlockUpdateView(LoginRequiredMixin, View):
             ).save()
 
         return redirect("workshop:block_update", resume_id=resume_id, pk=pk)
+
+
+# File
+class FileDeleteView(LoginRequiredMixin, DeleteView):
+    model = File
+    template_name = "workshop/file/delete.html"
+
+    def get_success_url(self):
+        block = self.object.block
+        return reverse_lazy("workshop:block_update", kwargs={"resume_id": block.resume.id, "pk": block.id})
+
