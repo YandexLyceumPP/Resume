@@ -18,7 +18,6 @@ class DateEditBaseModel(models.Model):
 
     """def save(self, *args, **kwargs):
         self.date_edit = date.today
-        # kwargs["commit"] = True
         super(DateEditBaseModel, self).save(*args, **kwargs)"""
 
     class Meta:

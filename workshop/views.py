@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views import View
 from django.views.generic import UpdateView, DeleteView, DetailView
 
 from users.forms import FieldForm
@@ -34,25 +35,33 @@ def resume_create(request):
     return render(request, "workshop/resume/create.html", context=context)
 
 
-@login_required
-def resume_update(request, pk):
-    resume = get_object_or_404(Resume, id=pk, user=request.user)
-    if request.method == "POST":
+class ResumeUpdateView(LoginRequiredMixin, View):
+    def get(self, request, pk):
+        resume = get_object_or_404(Resume, id=pk, user=request.user)
+        form = ResumeForm(request.user, instance=resume, initial={"image": resume.image})
+
+        context = {
+            "form": form,
+        }
+        return render(request, "workshop/resume/update.html", context=context)
+
+    def post(self, request, pk):
+        resume = get_object_or_404(Resume, id=pk, user=request.user)
+
         form = ResumeForm(request.user, request.POST, request.FILES)
         if form.is_valid():
-            resume.image = form.cleaned_data["image"]
+            if form.cleaned_data["image"] is False:
+                resume.image = None
+            elif form.cleaned_data["image"]:
+                resume.image = form.cleaned_data["image"]
+
             resume.text = form.cleaned_data["text"]
             resume.save(update_fields=["image", "text"])
+
             resume.contacts.set(form.cleaned_data["contacts"])
             resume.tags.set(form.cleaned_data["tags"])
-            return redirect("users:profile")
-    else:
-        form = ResumeForm(request.user, instance=resume)
 
-    context = {
-        "form": form,
-    }
-    return render(request, "workshop/resume/update.html", context=context)
+        return redirect("workshop:resume_update", pk=pk)
 
 
 class ResumeDeleteView(LoginRequiredMixin, DeleteView):
