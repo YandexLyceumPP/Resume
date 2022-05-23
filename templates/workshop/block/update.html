@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Редактирование блока{% endblock %}
+
+{% block content %}
+    <h1>Редактировать</h1>
+    <h2>Основное</h2>
+    {% include 'core/include/form.html' with form=base_form btn_text='Сохранить' %}
+
+    <h2>Прикрепленные файлы</h2>
+    <ul class="list-group">
+        {% for file in block.files %}
+            {% if file.is_file %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{file.name|truncatechars:20}}{{file.extension}}
+                    <button type="button" class="btn btn-primary rounded-pill">Cкачать</button>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+{% endblock %}

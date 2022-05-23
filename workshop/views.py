@@ -136,3 +136,40 @@ class BlockCreateView(LoginRequiredMixin, View):
                 ).save()
 
         return redirect("workshop:resume_detail", pk=resume_id)
+
+
+class BlockUpdateView(LoginRequiredMixin, View):
+    def get(self, request, resume_id, pk):
+        resume = get_object_or_404(Resume, user=request.user, id=resume_id)
+        block = get_object_or_404(Block, resume=resume, id=pk)
+        text = Text.objects.filter(block=block)
+
+        base_form = BaseBlockForm(
+            initial={
+                "title": block.title,
+                "text": text.first().text if text else ""
+            }
+        )
+
+        context = {"base_form": base_form}
+        return render(request, "workshop/block/update.html", context=context)
+
+    def post(self, request, resume_id, pk):
+        resume = get_object_or_404(Resume, user=request.user, id=resume_id)
+        block = get_object_or_404(Block, resume=resume, id=pk)
+
+        base_form = BaseBlockForm(request.POST or None)
+        if base_form.is_valid():
+            block.title = base_form.cleaned_data["title"]
+            block.save(update_fields=("title", ))
+
+            if base_form.cleaned_data["text"]:
+                text = Text.objects.get_or_create(block=block)[0]
+                text.text = base_form.cleaned_data["text"]
+                text.save(update_fields=("text", ))
+            else:
+                text = Text.objects.filter(block=block)
+                if text:
+                    text.delete()
+
+        return redirect("workshop:block_update", resume_id=resume_id, pk=pk)

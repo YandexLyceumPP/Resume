@@ -20,4 +20,5 @@ urlpatterns = [
 
     # Block
     path("resume/<int:resume_id>/block/create", views.BlockCreateView.as_view(), name="block_create"),
+    path("resume/<int:resume_id>/block/<int:pk>/update", views.BlockUpdateView.as_view(), name="block_update"),
 ]
