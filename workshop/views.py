@@ -100,7 +100,6 @@ class ResumeDetailView(DetailView):
     template_name = "workshop/resume/detail.html"
 
     def get_context_data(self, **kwargs):
-        # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
         blocks = Block.objects.filter(resume=self.object.id)
         context['blocks'] = blocks
@@ -148,8 +147,9 @@ class BlockCreateView(LoginRequiredMixin, View):
 
 class BlockUpdateView(LoginRequiredMixin, View):
     def get(self, request, resume_id, pk):
-        resume = get_object_or_404(Resume, user=request.user, id=resume_id)
-        block = get_object_or_404(Block, resume=resume, id=pk)
+        get_object_or_404(Resume, user=request.user, id=resume_id)  # Ну эту строку я переделаю)
+        block = get_object_or_404(Block, pk=pk)
+        print(block.__dict__)
         text = Text.objects.filter(block=block)
         files = File.objects.filter(block=block)
 
@@ -166,7 +166,8 @@ class BlockUpdateView(LoginRequiredMixin, View):
                 "base": base_form,
                 "file": file_form
             },
-            "files": files
+            "files": files,
+            "block_id": block.id
         }
         return render(request, "workshop/block/update.html", context=context)
 

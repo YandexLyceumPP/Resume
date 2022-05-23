@@ -87,23 +87,27 @@
             </div>
 
             <div class="card-body">
-                <h5 class="card-title">{{block.title}}</h5>
+                <h5 class="card-title">
+                    {{ block.title }}
+                    <a type="button" class="btn btn-warning"
+                       href="{% url 'workshop:block_update' block.resume.id block.id %}">Редактировать</a>
+                </h5>
                 <p class="card-text">
-                    {{block.text.text|safe}}
+                    {{ block.text.text|safe }}
                 </p>
 
                 <ul class="list-group">
                     {% for file in block.files %}
                         {% if file.is_file %}
                             <li class="list-group-item d-flex justify-content-between align-items-center">
-                                {{file.name|truncatechars:20}}{{file.extension}}
-                                <button type="button" class="btn btn-primary rounded-pill">Cкачать</button>
+                                {{ file.name|truncatechars:40 }}{{ file.extension }}
+                                <a type="button" class="btn btn-primary rounded-pill" href="{{ file.url }}">Cкачать</a>
                             </li>
                         {% endif %}
                     {% endfor %}
                 </ul>
 
-                <p class="card-text"><small class="text-muted">{{block.date_edit}}</small></p>
+                <p class="card-text"><small class="text-muted">{{ block.date_edit }}</small></p>
             </div>
         </div>
     {% endfor %}

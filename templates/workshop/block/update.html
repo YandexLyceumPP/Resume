@@ -4,7 +4,11 @@
 {% block title %}Редактирование блока{% endblock %}
 
 {% block content %}
-    <h1>Редактировать</h1>
+    <h1>
+        Редактировать
+        <a type="button" class="btn btn-danger"
+           href="{% url 'workshop:block_delete' block_id %}">Удалить</a>
+    </h1>
     <h2>Основное</h2>
     {% include 'core/include/form.html' with form=forms.base btn_text='Сохранить' %}
 
