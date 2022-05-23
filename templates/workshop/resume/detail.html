@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+
+{% load static %}
+
+{% block title %}Просмотр резюме{% endblock %}
+
+{% block content %}
+	<br>
+	<div class="text-center">
+        {% if user.is_authenticated and user == object.user %}
+            <p>
+                <a type="button" class="btn btn-warning" href="{% url 'workshop:resume_update' object.id %}">
+                    Редактировать</a>
+                <a type="button" class="btn btn-danger"  href="{% url 'workshop:resume_delete' object.id %}">
+                    Удалить</a>
+            </p>
+        {% endif %}
+
+        <p class="text-lowercase">
+            <img src="{% if object.image %}{{ object.image.url }}{% else %}
+                      {% static 'img/users/avatar.png' %}{% endif %}"
+                 alt="Generic placeholder image" class="img-fluid" style="width: 300px; border-radius: 10px;">
+
+            <br>
+            {{ object.date_edit }}
+            <a href="{% url 'users:detail' object.user.username %}">@{{ object.user.username }}</a>
+        </p>
+
+        {% if object.tags %}
+            <h5>
+                {% for tag in object.tags.all %}
+                    <span class="badge bg-{{ random_bootstrap_color }}">{{ tag.name }}</span>
+                {% endfor %}
+            </h5>
+        {% endif %}
+
+		<p class="lead">
+			{{ object.text|safe }}
+		</p>
+
+        {% if object.contacts.all %}
+            <p>
+                <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseСontact"
+                        aria-expanded="false" aria-controls="collapseСontact">
+                    Контакты
+                </button>
+            </p>
+            <div class="collapse" id="collapseСontact">
+                <ul class="list-group">
+                    {% for contact in object.contacts.all %}
+                        <li class="list-group-item">{{ contact.contact }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <hr>
+        <h3>Кажется записей еще нет 😐</h3>
+    </div>
+{% endblock %}

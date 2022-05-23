@@ -5,7 +5,9 @@ from ordered_model.models import OrderedModel
 from sorl.thumbnail import get_thumbnail
 
 from tinymce.models import HTMLField
+from ordered_model.models import OrderedModel
 from core.models import ShowBaseModel
+
 from workshop.validators import OrReValidator
 
 User = get_user_model()
@@ -14,10 +16,9 @@ User = get_user_model()
 class DateEditBaseModel(models.Model):
     date_edit = models.DateField("Дата последнего редактирования", default=date.today)
 
-    def save(self, force_insert=False, force_update=False, using=None,
-             update_fields=None):
+    """def save(self, *args, **kwargs):
         self.date_edit = date.today
-        super().save(force_insert, force_update, using, update_fields)
+        super(DateEditBaseModel, self).save(*args, **kwargs)"""
 
     class Meta:
         abstract = True
@@ -65,9 +66,9 @@ class Contact(models.Model):
 
 class Resume(ShowBaseModel, DateEditBaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to="upload/avatars/", null=True)
-    contacts = models.ManyToManyField(Contact, verbose_name="Контакты")
-    tags = models.ManyToManyField(Tag, verbose_name="Тэги")
+    image = models.ImageField(upload_to="upload/avatars/", blank=True)
+    contacts = models.ManyToManyField(Contact, verbose_name="Контакты", blank=True)
+    tags = models.ManyToManyField(Tag, verbose_name="Тэги", blank=True)
     text = HTMLField("Описание")
 
     def get_image_200x200(self):
