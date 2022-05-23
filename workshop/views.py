@@ -8,7 +8,7 @@ from users.forms import FieldForm
 from users.models import Field
 
 from workshop.forms import CreateResumeForm, ResumeForm
-from workshop.models import Contact, Resume
+from workshop.models import Contact, Resume, Block, Text, File
 
 
 # Resume
@@ -97,3 +97,13 @@ class ContactDeleteView(LoginRequiredMixin, DeleteView):
 class ResumeDetailView(DetailView):
     model = Resume
     template_name = "workshop/resume/detail.html"
+
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        blocks = Block.objects.filter(resume=self.object.id)
+        context['blocks'] = blocks
+        for i in range(len(blocks)):
+            blocks[i].files = File.objects.filter(block=blocks[i].id)
+        return context
