@@ -1,0 +1,17 @@
+{% for field in fields %}
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="heading{{ field.id }}">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapse{{ field.id }}" aria-expanded="false"
+                    aria-controls="collapse{{ field.id }}">
+                {{ field.title }}
+            </button>
+        </h2>
+        <div id="collapse{{ field.id }}" class="accordion-collapse collapse"
+             aria-labelledby="heading{{ field.id }}" data-bs-parent="#accordionFields">
+            <div class="accordion-body">
+                {{ field.value|safe }}
+            </div>
+        </div>
+    </div>
+{% endfor %}
