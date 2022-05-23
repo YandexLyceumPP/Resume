@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.views.generic import UpdateView, DeleteView, DetailView
@@ -69,8 +69,21 @@ class ResumeUpdateView(LoginRequiredMixin, View):
 
 class ResumeDeleteView(LoginRequiredMixin, DeleteView):
     model = Resume
-    template_name = "workshop/resume/delete.html"
+    template_name = "core/include/delete.html"
 
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        context["delete_message"] = "резюме"
+        buttons = [
+            {
+                "class": "btn btn-primary",
+                "url": reverse("workshop:resume_detail", args=[self.object.id]),
+                "name": "Назад",
+            }
+        ]
+        context["buttons"] = buttons
+        return context
     success_url = reverse_lazy("users:profile")
 
 
@@ -90,8 +103,21 @@ class FieldUpdateView(LoginRequiredMixin, UpdateView):
 
 class FieldDeleteView(LoginRequiredMixin, DeleteView):
     model = Field
-    template_name = "workshop/field/delete.html"
+    template_name = "core/include/delete.html"
 
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        context["delete_message"] = f"факт '{self.object.title}'"
+        buttons = [
+            {
+                "class": "btn btn-primary",
+                "url": reverse("users:profile"),
+                "name": "Назад",
+            }
+        ]
+        context["buttons"] = buttons
+        return context
     success_url = reverse_lazy("users:profile")
 
 
@@ -99,6 +125,20 @@ class FieldDeleteView(LoginRequiredMixin, DeleteView):
 
 class ContactDeleteView(LoginRequiredMixin, DeleteView):
     model = Contact
-    template_name = "workshop/contact/delete.html"
+    template_name = "core/include/delete.html"
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        context["delete_message"] = f"контакт '{self.object.contact}'"
+        buttons = [
+            {
+                "class": "btn btn-primary",
+                "url": reverse("users:profile"),
+                "name": "Назад",
+            }
+        ]
+        context["buttons"] = buttons
+        return context
 
     success_url = reverse_lazy("users:profile")

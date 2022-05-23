@@ -99,6 +99,8 @@
                                     <div class="accordion-body">
                                         <a class="btn btn-warning" href="{% url 'workshop:field_update' field.id %}"
                                             role="button">Редактировать</a>
+                                        <a class="btn btn-danger" href="{% url 'workshop:field_delete' field.id %}"
+                                            role="button">Удалить</a>
                                         {{ field.value|safe }}
                                     </div>
                                 </div>
