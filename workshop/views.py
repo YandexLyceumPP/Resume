@@ -80,6 +80,9 @@ class ResumeDeleteView(LoginRequiredMixin, DeleteView):
     template_name = "core/include/delete.html"
     success_url = reverse_lazy("users:profile")
 
+    def get_queryset(self):
+        return self.model.objects.filter(user=self.request.user)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["delete_message"] = "резюме"
@@ -102,7 +105,7 @@ class FieldUpdateView(LoginRequiredMixin, UpdateView):
     template_name = "workshop/field/update.html"
 
     def get_queryset(self):
-        return Field.objects.filter(user=self.request.user)
+        return self.model.objects.filter(user=self.request.user)
 
     def get_success_url(self):
         return reverse_lazy("workshop:field_update", kwargs={"pk": self.object.id})
@@ -112,6 +115,9 @@ class FieldDeleteView(LoginRequiredMixin, DeleteView):
     model = Field
     template_name = "core/include/delete.html"
     success_url = reverse_lazy("users:profile")
+
+    def get_queryset(self):
+        return self.model.objects.filter(user=self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -147,16 +153,20 @@ class ContactDeleteView(LoginRequiredMixin, DeleteView):
         context["buttons"] = buttons
         return context
 
+    def get_queryset(self):
+        return self.model.objects.filter(user=self.request.user)
+
 
 # Block
 
 def block_changing_order(request, pk, direction):
     block = Block.objects.get(pk=pk)
-    match direction:
-        case "up":
-            block.up()
-        case "down":
-            block.down()
+    if block.resume.user == request.user:
+        match direction:
+            case "up":
+                block.up()
+            case "down":
+                block.down()
 
     return redirect("workshop:resume_detail", pk=block.resume.id)
 
@@ -164,6 +174,9 @@ def block_changing_order(request, pk, direction):
 class BlockDeleteView(LoginRequiredMixin, DeleteView):
     model = Block
     template_name = "workshop/block/delete.html"
+
+    def get_queryset(self):
+        return self.model.objects.filter(user=self.request.user)
 
     def get_success_url(self):
         return reverse_lazy("workshop:resume_detail", kwargs={"pk": self.object.resume.id})
@@ -254,6 +267,9 @@ class BlockUpdateView(LoginRequiredMixin, View):
 class FileDeleteView(LoginRequiredMixin, DeleteView):
     model = File
     template_name = "workshop/file/delete.html"
+
+    def get_queryset(self):
+        return self.model.objects.filter(user=self.request.user)
 
     def get_success_url(self):
         block = self.object.block
