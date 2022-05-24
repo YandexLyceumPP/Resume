@@ -1,13 +1,17 @@
+import os
+
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.datetime_safe import date
-import os
-from sorl.thumbnail import get_thumbnail
 
 from tinymce.models import HTMLField
+
 from ordered_model.models import OrderedModel
+
 from core.models import ShowBaseModel
+
 from sorl.thumbnail import get_thumbnail
+
 from workshop.validators import OrReValidator
 
 User = get_user_model()
@@ -80,10 +84,12 @@ class Resume(ShowBaseModel, DateEditBaseModel):
 
 
 class Block(ShowBaseModel, OrderedModel, DateEditBaseModel):
+    order_with_respect_to = "resume"
+
     title = models.CharField("Заголовок", max_length=200)
     resume = models.ForeignKey(Resume, on_delete=models.CASCADE)
 
-    class Meta:
+    class Meta(OrderedModel.Meta):
         verbose_name = "Блок"
         verbose_name_plural = "Блоки"
 

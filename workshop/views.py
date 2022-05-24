@@ -38,6 +38,7 @@ def resume_create(request):
 @login_required
 def resume_update(request, pk):
     resume = get_object_or_404(Resume, id=pk, user=request.user)
+
     if request.method == "POST":
         form = ResumeForm(request.user, request.POST, request.FILES)
         if form.is_valid():
@@ -109,6 +110,17 @@ class ResumeDetailView(DetailView):
 
 
 # Block
+
+def block_changing_order(request, pk, direction):
+    block = Block.objects.get(pk=pk)
+    match direction:
+        case "up":
+            block.up()
+        case "down":
+            block.down()
+
+    return redirect("workshop:resume_detail", pk=block.resume.id)
+
 
 class BlockDeleteView(LoginRequiredMixin, DeleteView):
     model = Block

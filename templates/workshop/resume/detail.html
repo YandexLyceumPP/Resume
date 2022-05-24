@@ -91,6 +91,10 @@
                     {{ block.title }}
                     <a type="button" class="btn btn-warning"
                        href="{% url 'workshop:block_update' block.resume.id block.id %}">Редактировать</a>
+                    <a type="button" class="btn btn-warning"
+                       href="{% url 'workshop:block_changing_order' block.id "up" %}">Поднять</a>
+                    <a type="button" class="btn btn-warning"
+                       href="{% url 'workshop:block_changing_order' block.id "down" %}">Опустить</a>
                 </h5>
                 <p class="card-text">
                     {{ block.text.text|safe }}
