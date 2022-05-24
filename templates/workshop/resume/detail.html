@@ -30,7 +30,7 @@
         {% if object.tags %}
             <h5>
                 {% for tag in object.tags.all %}
-                    <span class="badge bg-{{ random_bootstrap_color }}">{{ tag.name }}</span>
+                    <span class="badge bg-{{ bootstrap_color|random }}">{{ tag.name }}</span>
                 {% endfor %}
             </h5>
         {% endif %}

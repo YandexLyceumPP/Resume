@@ -29,7 +29,7 @@
 				{% if user.profile.skills.all %}
 					<p>
 						{% for skill in user.profile.skills.all %}
-							<span class="badge rounded-pill bg-{{ random_bootstrap_color }}">{{ skill.skill }}</span>
+							<span class="badge rounded-pill bg-{{ bootstrap_color|random }}">{{ skill.skill }}</span>
 						{% endfor %}
 					</p>
 				{% endif %}
@@ -41,33 +41,25 @@
 				{% endif %}
 
 				{% if fields %}
-					<div class="row">
-						<div class="col-4">
-							<div class="list-group" id="list-tab" role="tablist">
-								{% for field in fields %}
-									<a class="list-group-item list-group-item-action {% if forloop.first %}active{% endif %}"
-									   id="list-{{ field.id }}-list" data-bs-toggle="list" href="#list-{{ field.id }}"
-									   role="tab"
-									   aria-controls="list-{{ field.id }}">{{ field.title|truncatechars:30 }}</a>
-								{% endfor %}
-							</div>
-						</div>
-						<div class="col-8">
-							<div class="tab-content" id="nav-tabContent">
-								{% for field in fields %}
-									<div class="tab-pane fade {% if forloop.first %}show active{% endif %}"
-									     id="list-{{ field.id }}"
-									     role="tabpanel" aria-labelledby="list-{{ field.id }}-list">
-										<h5>{{ field.title }}</h5>
-										{% autoescape off %}
-											{{ field.value }}
-										{% endautoescape %}
-									</div>
-								{% endfor %}
-							</div>
-						</div>
-					</div>
+					{% for field in fields %}
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading{{ field.id }}">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapse{{ field.id }}" aria-expanded="false"
+                                        aria-controls="collapse{{ field.id }}">
+                                    {{ field.title }}
+                                </button>
+                            </h2>
+                            <div id="collapse{{ field.id }}" class="accordion-collapse collapse"
+                                 aria-labelledby="heading{{ field.id }}" data-bs-parent="#accordionFields">
+                                <div class="accordion-body">
+                                    {{ field.value|safe }}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
 				{% endif %}
+
 				{% if contacts %}
 					<ul class="list-group">
 						{% for contact in contacts %}
@@ -81,6 +73,6 @@
 	</div>
 
 	{% for resume in resumes %}
-		{% include 'workshop/extend/resume_card.html' with resume=resume %}
+		{% include 'workshop/include/resume_card.html' with resume=resume %}
 	{% endfor %}
 {% endblock %}

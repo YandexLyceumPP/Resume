@@ -1,9 +1,6 @@
-import random
-
-
-def get_random_bootstrap_color(request):
-    color = random.choice(
-        (
+def get_bootstrap_color(request):
+    return {
+        "bootstrap_color": (
             "primary",
             "primary",
             "secondary",
@@ -11,6 +8,4 @@ def get_random_bootstrap_color(request):
             "danger",
             "dark"
         )
-    )
-
-    return {"random_bootstrap_color": color}
+    }

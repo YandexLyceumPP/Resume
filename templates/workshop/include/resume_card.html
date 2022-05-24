@@ -7,7 +7,7 @@
             <div class="card-body" href="#">
                 <h5 class="card-title">{{ resume.date_edit }}</h5>
                 {% for tag in resume.tags.all %}
-                    <span class="badge rounded-pill bg-{{ random_bootstrap_color }}">
+                    <span class="badge rounded-pill bg-{{ bootstrap_color|random }}">
                         {{ tag.name }}</span>
                 {% endfor %}
                 <p class="card-text">
