@@ -2,7 +2,7 @@ from django.contrib.auth import views, get_user_model
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from django.core.files.storage import default_storage
 from django.urls import reverse_lazy
 from django.views import View
