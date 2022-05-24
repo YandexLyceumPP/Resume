@@ -6,11 +6,12 @@ from django.core.files.storage import default_storage
 from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
 from django.views import View
+from django.views.generic import  DetailView
 
 from resume.settings.base import MEDIA_ROOT
 
 from users.forms import SkillForm, UserForm, UserRegistrationForm, FieldForm
-from users.models import Field, Profile
+from users.models import Field, Profile, Skill
 
 from workshop.forms import ContactForm
 from workshop.models import Resume, Contact, Tag
@@ -146,3 +147,9 @@ class LoginView(views.LoginView):
     redirect_authenticated_user = True
     template_name = "users/login.html"
     extra_context = {"buttons": buttons}
+
+
+# Skill
+class SkillDetailView(DetailView):
+    model = Skill
+    template_name = "users/skill_detail.html"

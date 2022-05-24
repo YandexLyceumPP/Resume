@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block title %}Просмотр навыка{% endblock %}
+
+{% block content %}
+    <h1>{{ skill.skill }}</h1>
+    {% autoescape off %}
+        {{ skill.text }}
+    {% endautoescape %}
+{% endblock %}
