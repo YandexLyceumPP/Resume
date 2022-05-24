@@ -13,4 +13,4 @@ def get_random_bootstrap_color(request):
         )
     )
 
-    return {'random_bootstrap_color': color}
+    return {"random_bootstrap_color": color}

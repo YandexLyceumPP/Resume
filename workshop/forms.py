@@ -3,10 +3,11 @@ from audioop import reverse
 from django import forms
 from tinymce.widgets import TinyMCE
 
-from workshop.models import Resume, Contact, Block
+from core.forms import BaseForm
+from workshop.models import Resume, Contact
 
 
-class ResumeForm(forms.ModelForm):
+class ResumeForm(forms.ModelForm, BaseForm):
     def __init__(self, user=None, *args, **kwargs):
         super(ResumeForm, self).__init__(*args, **kwargs)
 
@@ -21,22 +22,22 @@ class ResumeForm(forms.ModelForm):
         model = Resume
 
 
-class CreateResumeForm(forms.ModelForm):
+class CreateResumeForm(forms.ModelForm, BaseForm):
     class Meta:
         fields = ("image", "text")
         model = Resume
 
 
-class ContactForm(forms.ModelForm):
+class ContactForm(forms.ModelForm, BaseForm):
     class Meta:
         fields = ("contact", )
         model = Contact
 
 
-class BaseBlockForm(forms.Form):
+class BaseBlockForm(forms.Form, BaseForm):
     title = forms.CharField(label="Название", max_length=200)
     text = forms.CharField(label="Содержание", widget=TinyMCE(attrs={"cols": 80, "rows": 10}), required=False)
 
 
-class FileBlockForm(forms.Form):
+class FileBlockForm(forms.Form, BaseForm):
     file = forms.FileField(label="Файл")

@@ -1,14 +1,8 @@
 from django import forms
 from django.contrib.auth.models import User
 
+from core.forms import BaseForm
 from users.models import Skill, Field
-
-
-class BaseForm(forms.BaseForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        for visible in self.visible_fields():
-            visible.field.widget.attrs["class"] = "form-control"
 
 
 class UserRegistrationForm(forms.ModelForm, BaseForm):
@@ -19,24 +13,17 @@ class UserRegistrationForm(forms.ModelForm, BaseForm):
         model = User
         fields = ("username", "first_name", "last_name", "email")
 
-    def clean_password2(self):
-        cd = self.cleaned_data
-        if cd["password"] != cd["password2"]:
-            raise forms.ValidationError("Пароли не совпадают")
-        return cd["password2"]
-
 
 class UserForm(forms.ModelForm, BaseForm):
     image = forms.ImageField(required=False)
     field_order = ("image", "first_name", "last_name", "email")
-
 
     class Meta:
         model = User
         fields = ("first_name", "last_name", "email")
 
 
-class SkillForm(forms.ModelForm):
+class SkillForm(forms.ModelForm, BaseForm):
     skills = forms.ModelMultipleChoiceField(
         queryset=Skill.objects.all().only("skill"),
         widget=forms.CheckboxSelectMultiple(attrs={"class": "form-check-input me-1"})
@@ -47,7 +34,7 @@ class SkillForm(forms.ModelForm):
         model = Skill
 
 
-class FieldForm(forms.ModelForm):
+class FieldForm(forms.ModelForm, BaseForm):
     class Meta:
         fields = ("title", "show", "value")
         model = Field
