@@ -5,7 +5,6 @@ from workshop import views
 app_name = "workshop"
 
 urlpatterns = [
-    # path("", views.workshop, name="workshop"),
     # Resume
     path("resume/create", views.ResumeCreateView.as_view(), name="resume_create"),
     path("resume/<int:pk>/", views.ResumeDetailView.as_view(), name="resume_detail"),

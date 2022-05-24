@@ -7,14 +7,12 @@
             <div class="card-body" href="#">
                 <h5 class="card-title">{{ resume.date_edit }}</h5>
                 {% for tag in resume.tags.all %}
-                <span
-                    class="badge rounded-pill
-                    bg-{% cycle 'primary' 'secondary' 'success' 'danger' 'warning text-dark' 'info text-dark' 'light text-dark' 'dark' %}">
-                    {{ tag.name }}</span>
+                    <span class="badge rounded-pill bg-{{ random_bootstrap_color }}">
+                        {{ tag.name }}</span>
                 {% endfor %}
                 <p class="card-text">
                 <p class="card-text">{{ resume.text|striptags|truncatewords:20 }}</p>
-                <a href="#" class="card-link">Подробнее</a>
+                <a href="{% url 'workshop:resume_detail' resume.id %}" class="card-link">Подробнее</a>
                 </p>
             </div>
         </div>
