@@ -1,4 +1,3 @@
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect, get_object_or_404
@@ -14,9 +13,27 @@ from workshop.models import Contact, Resume, Block, File, Text
 
 # Resume
 
-@login_required
-def resume_create(request):
-    if request.method == "POST":
+class ResumeDetailView(DetailView):
+    model = Resume
+    template_name = "workshop/resume/detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        blocks = Block.objects.filter(resume=self.object.id)
+        context['blocks'] = blocks
+        for i in range(len(blocks)):
+            blocks[i].files = File.objects.filter(block=blocks[i].id)
+        return context
+
+
+class ResumeCreateView(LoginRequiredMixin, View):
+    def get(self, request):
+        form = CreateResumeForm()
+
+        context = {"form": form}
+        return render(request, "workshop/resume/create.html", context=context)
+
+    def post(self, request):
         form = CreateResumeForm(request.POST or None, request.FILES)
         if form.is_valid():
             resume = Resume(
@@ -25,43 +42,56 @@ def resume_create(request):
                 text=form.cleaned_data["text"],
             )
             resume.save()
-            return redirect("users:profile")
-    else:
-        form = CreateResumeForm()
 
-    context = {
-        "form": form,
-    }
-    return render(request, "workshop/resume/create.html", context=context)
+            return redirect("workshop:resume_detail", pk=resume.id)
+
+        return redirect("workshop:resume_create")
 
 
-@login_required
-def resume_update(request, pk):
-    resume = get_object_or_404(Resume, id=pk, user=request.user)
-
-    if request.method == "POST":
-        form = ResumeForm(request.user, request.POST, request.FILES)
-        if form.is_valid():
-            resume.image = form.cleaned_data["image"]
-            resume.text = form.cleaned_data["text"]
-            resume.save(update_fields=["image", "text"])
-            resume.contacts.set(form.cleaned_data["contacts"])
-            resume.tags.set(form.cleaned_data["tags"])
-            return redirect("users:profile")
-    else:
+class ResumeUpdateView(LoginRequiredMixin, View):
+    def get(self, request, pk):
+        resume = get_object_or_404(Resume, id=pk, user=request.user)
         form = ResumeForm(request.user, instance=resume)
 
-    context = {
-        "form": form,
-    }
-    return render(request, "workshop/resume/update.html", context=context)
+        context = {"form": form}
+        return render(request, "workshop/resume/update.html", context=context)
+
+    def post(self, request, pk):
+        resume = get_object_or_404(Resume, id=pk, user=request.user)
+
+        form = ResumeForm(request.user, request.POST, request.FILES)
+        if form.is_valid():
+            if form.cleaned_data["image"] is False:
+                resume.image = None
+            elif form.cleaned_data["image"]:
+                resume.image = form.cleaned_data["image"]
+
+            resume.text = form.cleaned_data["text"]
+            resume.save(update_fields=["image", "text"])
+
+            resume.contacts.set(form.cleaned_data["contacts"])
+            resume.tags.set(form.cleaned_data["tags"])
+
+        return redirect("workshop:resume_update", pk=pk)
 
 
 class ResumeDeleteView(LoginRequiredMixin, DeleteView):
     model = Resume
-    template_name = "workshop/resume/delete.html"
-
+    template_name = "core/include/delete.html"
     success_url = reverse_lazy("users:profile")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["delete_message"] = "резюме"
+        buttons = [
+            {
+                "class": "btn btn-primary",
+                "url": reverse_lazy("workshop:resume_detail", args=[self.object.id]),
+                "name": "Назад",
+            }
+        ]
+        context["buttons"] = buttons
+        return context
 
 
 # Field
@@ -80,32 +110,41 @@ class FieldUpdateView(LoginRequiredMixin, UpdateView):
 
 class FieldDeleteView(LoginRequiredMixin, DeleteView):
     model = Field
-    template_name = "workshop/field/delete.html"
-
+    template_name = "core/include/delete.html"
     success_url = reverse_lazy("users:profile")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["delete_message"] = f"факт '{self.object.title}'"
+        buttons = [
+            {
+                "class": "btn btn-primary",
+                "url": reverse_lazy("users:profile"),
+                "name": "Назад",
+            }
+        ]
+        context["buttons"] = buttons
+        return context
 
 
 # Contact
 
 class ContactDeleteView(LoginRequiredMixin, DeleteView):
     model = Contact
-    template_name = "workshop/contact/delete.html"
-
+    template_name = "core/include/delete.html"
     success_url = reverse_lazy("users:profile")
-
-
-# Resume
-
-class ResumeDetailView(DetailView):
-    model = Resume
-    template_name = "workshop/resume/detail.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        blocks = Block.objects.filter(resume=self.object.id)
-        context['blocks'] = blocks
-        for i in range(len(blocks)):
-            blocks[i].files = File.objects.filter(block=blocks[i].id)
+        context["delete_message"] = f"контакт '{self.object.contact}'"
+        buttons = [
+            {
+                "class": "btn btn-primary",
+                "url": reverse_lazy("users:profile"),
+                "name": "Назад",
+            }
+        ]
+        context["buttons"] = buttons
         return context
 
 
@@ -161,7 +200,6 @@ class BlockUpdateView(LoginRequiredMixin, View):
     def get(self, request, resume_id, pk):
         get_object_or_404(Resume, user=request.user, id=resume_id)  # Ну эту строку я переделаю)
         block = get_object_or_404(Block, pk=pk)
-        print(block.__dict__)
         text = Text.objects.filter(block=block)
         files = File.objects.filter(block=block)
 
@@ -220,4 +258,3 @@ class FileDeleteView(LoginRequiredMixin, DeleteView):
     def get_success_url(self):
         block = self.object.block
         return reverse_lazy("workshop:block_update", kwargs={"resume_id": block.resume.id, "pk": block.id})
-
