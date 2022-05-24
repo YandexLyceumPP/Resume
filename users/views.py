@@ -1,9 +1,8 @@
 from django.contrib.auth import views, get_user_model
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.files.storage import default_storage
-from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import DetailView
@@ -36,8 +35,7 @@ def user_detail(request, user_name):
     return render(request, "users/user_detail.html", context)
 
 
-@method_decorator(login_required, name='get')
-class ProfileView(View):
+class ProfileView(LoginRequiredMixin, View):
     def get(self, request):
         profile = Profile.objects.get_or_create(user=request.user)[0]
         resumes = Resume.objects.filter(user=request.user)
