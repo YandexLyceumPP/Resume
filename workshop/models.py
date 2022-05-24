@@ -1,4 +1,5 @@
 import os
+import re
 
 from django.db import models
 from django.contrib.auth import get_user_model
@@ -59,7 +60,7 @@ class Contact(models.Model):
                 (
                     r"[a-zA-Z0-9_]+@[a-zA-Z0-9_]+.[a-z0-9]+",
                     r"\+?1?\d{8,15}",
-                    r"https?://[a-zA-Z0-1]+.[a-zA-Z0-1]+(/[a-zA-Z0-1]+)*/?"
+                    r"https?://[a-zA-Z0-1\.]+.[a-zA-Z0-1\:\.]+(/[a-zA-Z0-1]+)*/?"
                 )
             )
         ]

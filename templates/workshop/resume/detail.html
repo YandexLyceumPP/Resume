@@ -53,7 +53,9 @@
             <div class="collapse" id="collapseСontact">
                 <ul class="list-group">
                     {% for contact in object.contacts.all %}
-                    <li class="list-group-item">{{ contact.contact }}</li>
+                        <li class="list-group-item">
+                            {{ contact.contact|urlizetrunc:40 }}
+                        </li>
                     {% endfor %}
                 </ul>
             </div>
