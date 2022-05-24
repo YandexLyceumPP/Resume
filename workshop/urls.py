@@ -18,4 +18,14 @@ urlpatterns = [
 
     # Contact
     path("contact/<int:pk>/delete/", views.ContactDeleteView.as_view(), name="contact_delete"),
+
+    # Block
+    path("resume/<int:resume_id>/block/create/", views.BlockCreateView.as_view(), name="block_create"),
+    path("resume/<int:resume_id>/block/<int:pk>/update/", views.BlockUpdateView.as_view(), name="block_update"),
+    path("block/<int:pk>/delete/", views.BlockDeleteView.as_view(), name="block_delete"),
+    path("block/<int:pk>/block_changing_order/<str:direction>/", views.block_changing_order,
+         name="block_changing_order"),
+
+    # File
+    path("file/<int:pk>/delete/", views.FileDeleteView.as_view(), name="file_delete"),
 ]

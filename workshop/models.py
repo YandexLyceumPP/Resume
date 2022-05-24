@@ -1,3 +1,5 @@
+import os
+
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.datetime_safe import date
@@ -5,8 +7,12 @@ from ordered_model.models import OrderedModel
 from sorl.thumbnail import get_thumbnail
 
 from tinymce.models import HTMLField
+
 from ordered_model.models import OrderedModel
+
 from core.models import ShowBaseModel
+
+from sorl.thumbnail import get_thumbnail
 
 from workshop.validators import OrReValidator
 
@@ -79,10 +85,12 @@ class Resume(ShowBaseModel, DateEditBaseModel):
 
 
 class Block(ShowBaseModel, OrderedModel, DateEditBaseModel):
-    title = models.CharField("Загаловок", max_length=200)
+    order_with_respect_to = "resume"
+
+    title = models.CharField("Заголовок", max_length=200)
     resume = models.ForeignKey(Resume, on_delete=models.CASCADE)
 
-    class Meta:
+    class Meta(OrderedModel.Meta):
         verbose_name = "Блок"
         verbose_name_plural = "Блоки"
 
@@ -99,6 +107,28 @@ class Text(models.Model):
 class File(ShowBaseModel):
     block = models.ForeignKey(Block, on_delete=models.CASCADE)
     file = models.FileField(upload_to="uploads/files/")
+
+    def extension(self):
+        # name, extension = os.path.splitext(self.file.name)
+        ext = self.file.name.split('.')
+        return "." + ext[-1]
+
+    def name(self):
+        name, extension = os.path.splitext(self.file.name)
+        name = name.split("/")
+        return name[-1]
+
+    def is_image(self):
+        ext = self.file.name.split('.')
+        if ext[-1] in ["png", "jpg", "bmp", "jpeg"]:
+            return True
+        return False
+    
+    def is_file(self):
+        return not self.is_image()
+
+    def get_carousel_image(self):
+        return get_thumbnail(self.file, "x300", quality=500)
 
     class Meta:
         verbose_name = "Файл"

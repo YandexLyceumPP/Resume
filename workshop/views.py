@@ -7,8 +7,8 @@ from django.contrib.auth.decorators import login_required
 from users.forms import FieldForm
 from users.models import Field
 
-from workshop.forms import CreateResumeForm, ResumeForm
-from workshop.models import Contact, Resume
+from workshop.forms import CreateResumeForm, ResumeForm, BaseBlockForm, FileBlockForm
+from workshop.models import Contact, Resume, Block, File, Text
 
 
 # Resume
@@ -51,6 +51,11 @@ class ResumeUpdateView(LoginRequiredMixin, View):
     def post(self, request, pk):
         resume = get_object_or_404(Resume, id=pk, user=request.user)
 
+@login_required
+def resume_update(request, pk):
+    resume = get_object_or_404(Resume, id=pk, user=request.user)
+
+    if request.method == "POST":
         form = ResumeForm(request.user, request.POST, request.FILES)
         if form.is_valid():
             if form.cleaned_data["image"] is False:
@@ -142,3 +147,132 @@ class ContactDeleteView(LoginRequiredMixin, DeleteView):
         return context
 
     success_url = reverse_lazy("users:profile")
+
+
+# Resume
+
+class ResumeDetailView(DetailView):
+    model = Resume
+    template_name = "workshop/resume/detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        blocks = Block.objects.filter(resume=self.object.id)
+        context['blocks'] = blocks
+        for i in range(len(blocks)):
+            blocks[i].files = File.objects.filter(block=blocks[i].id)
+        return context
+
+
+# Block
+
+def block_changing_order(request, pk, direction):
+    block = Block.objects.get(pk=pk)
+    match direction:
+        case "up":
+            block.up()
+        case "down":
+            block.down()
+
+    return redirect("workshop:resume_detail", pk=block.resume.id)
+
+
+class BlockDeleteView(LoginRequiredMixin, DeleteView):
+    model = Block
+    template_name = "workshop/block/delete.html"
+
+    def get_success_url(self):
+        return reverse_lazy("workshop:resume_detail", kwargs={"pk": self.object.resume.id})
+
+
+class BlockCreateView(LoginRequiredMixin, View):
+    def get(self, request, resume_id):
+        form = BaseBlockForm()
+
+        context = {"form": form}
+        return render(request, "workshop/block/create.html", context=context)
+
+    def post(self, request, resume_id):
+        resume = get_object_or_404(Resume, user=request.user, id=resume_id)
+
+        form = BaseBlockForm(request.POST or None)
+        if form.is_valid():
+            block = Block(
+                resume=resume,
+                title=form.cleaned_data["title"]
+            )
+            block.save()
+
+            if form.cleaned_data["text"]:
+                Text(
+                    block=block,
+                    text=form.cleaned_data["text"]
+                ).save()
+
+        return redirect("workshop:resume_detail", pk=resume_id)
+
+
+class BlockUpdateView(LoginRequiredMixin, View):
+    def get(self, request, resume_id, pk):
+        get_object_or_404(Resume, user=request.user, id=resume_id)  # Ну эту строку я переделаю)
+        block = get_object_or_404(Block, pk=pk)
+        print(block.__dict__)
+        text = Text.objects.filter(block=block)
+        files = File.objects.filter(block=block)
+
+        base_form = BaseBlockForm(
+            initial={
+                "title": block.title,
+                "text": text.first().text if text else ""
+            }
+        )
+        file_form = FileBlockForm()
+
+        context = {
+            "forms": {
+                "base": base_form,
+                "file": file_form
+            },
+            "files": files,
+            "block_id": block.id
+        }
+        return render(request, "workshop/block/update.html", context=context)
+
+    def post(self, request, resume_id, pk):
+        resume = get_object_or_404(Resume, user=request.user, id=resume_id)
+        block = get_object_or_404(Block, resume=resume, id=pk)
+
+        base_form = BaseBlockForm(request.POST or None)
+        file_form = FileBlockForm(request.POST or None, request.FILES or None)
+
+        if base_form.is_valid():
+            block.title = base_form.cleaned_data["title"]
+            block.save(update_fields=("title", ))
+
+            if base_form.cleaned_data["text"]:
+                text = Text.objects.get_or_create(block=block)[0]
+                text.text = base_form.cleaned_data["text"]
+                text.save(update_fields=("text", ))
+            else:
+                text = Text.objects.filter(block=block)
+                if text:
+                    text.delete()
+
+        if file_form.is_valid():
+            File(
+                block=block,
+                file=file_form.cleaned_data["file"]
+            ).save()
+
+        return redirect("workshop:block_update", resume_id=resume_id, pk=pk)
+
+
+# File
+class FileDeleteView(LoginRequiredMixin, DeleteView):
+    model = File
+    template_name = "workshop/file/delete.html"
+
+    def get_success_url(self):
+        block = self.object.block
+        return reverse_lazy("workshop:block_update", kwargs={"resume_id": block.resume.id, "pk": block.id})
+
