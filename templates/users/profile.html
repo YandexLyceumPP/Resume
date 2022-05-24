@@ -4,7 +4,11 @@
 {% block title %}Мой профиль{% endblock %}
 
 {% block content %}
-    <h1>Мой профиль</h1>
+    <h1>
+        Мой профиль
+        <a type="button" class="btn btn-outline-success" href="{% url 'users:detail' user.username %}">
+            Посмотреть мой профиль</a>
+    </h1>
 
     <!-- Настройки -->
     <div class="row">

@@ -43,6 +43,7 @@ urlpatterns = [
         name="password_reset_complete",
     ),
 
-    path("<str:user_name>/", views.user_detail, name="detail"),
     path("skill/<int:pk>/", views.SkillDetailView.as_view(), name="skill_detail"),
+
+    path("<str:user_name>/", views.user_detail, name="detail"),
 ]
