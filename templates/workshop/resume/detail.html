@@ -58,13 +58,12 @@
                 </ul>
             </div>
         {% endif %}
-
-        <hr>
-        <!--- <h3>Кажется записей еще нет 😐</h3> --->
     </div>
 
+    <hr>
+
     <!-- Отображение блоков -->
-    {% for block in blocks%}
+    {% for block in blocks %}
         <div class="card mb-3">
             <!-- Карусель фотографий блока -->
             <div id="carouselBlock{{ block.id }}" class="carousel slide" data-bs-ride="carousel">
@@ -135,5 +134,7 @@
                 <p class="card-text"><small class="text-muted">{{ block.date_edit }}</small></p>
             </div>
         </div>
+    {% empty %}
+        <h3>Кажется записей еще нет 😐</h3>
     {% endfor %}
 {% endblock %}
