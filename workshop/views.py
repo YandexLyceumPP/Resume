@@ -77,7 +77,7 @@ class ResumeUpdateView(LoginRequiredMixin, View):
 
 class ResumeDeleteView(LoginRequiredMixin, DeleteView):
     model = Resume
-    template_name = "core/include/delete.html"
+    template_name = "core/delete.html"
     success_url = reverse_lazy("users:profile")
 
     def get_queryset(self):
@@ -113,7 +113,7 @@ class FieldUpdateView(LoginRequiredMixin, UpdateView):
 
 class FieldDeleteView(LoginRequiredMixin, DeleteView):
     model = Field
-    template_name = "core/include/delete.html"
+    template_name = "core/delete.html"
     success_url = reverse_lazy("users:profile")
 
     def get_queryset(self):
@@ -137,7 +137,7 @@ class FieldDeleteView(LoginRequiredMixin, DeleteView):
 
 class ContactDeleteView(LoginRequiredMixin, DeleteView):
     model = Contact
-    template_name = "core/include/delete.html"
+    template_name = "core/delete.html"
     success_url = reverse_lazy("users:profile")
 
     def get_context_data(self, **kwargs):

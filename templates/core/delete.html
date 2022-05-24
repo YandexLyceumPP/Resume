@@ -6,13 +6,16 @@
 {% block content %}
     <form method="post">
         {% csrf_token %}
-        <h3>Вы уверены, что хотите удалить {{delete_message|truncatechars:40}}?</h3>
+
+        <h3>Вы уверены, что хотите удалить {{ delete_message|truncatechars:40 }}?</h3>
         <div class="alert alert-danger" role="alert">
             Обратите внимание на то, что процесс необратимый!
         </div>
+
         <input type="submit" type="button" class="btn btn-outline-danger" value="Да, я уверен">
+
 		{% for button in buttons %}
-		<a type="button" class="{{ button.class }}" href="{{ button.url }}">{{ button.name }}</a>
+		    <a type="button" class="{{ button.class }}" href="{{ button.url }}">{{ button.name }}</a>
 		{% endfor %}
     </form>
 {% endblock %}
