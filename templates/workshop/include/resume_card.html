@@ -1,8 +1,10 @@
 <div class="card mb-3">
     <div class="row g-0">
-        <div class="col-md-2">
-            <img src="{{ resume.get_image_200x200.url }}" class="img-fluid rounded-start" alt="Фото резюме">
-        </div>
+        {% if resume.image %}
+            <div class="col-md-2">
+                <img src="{{ resume.get_image_200x200.url }}" class="img-fluid rounded-start" alt="Фото резюме">
+            </div>
+        {% endif %}
         <div class="col-md-8">
             <div class="card-body" href="#">
                 <h5 class="card-title">{{ resume.date_edit }}</h5>
