@@ -29,7 +29,8 @@
 				{% if user.profile.skills.all %}
 					<p>
 						{% for skill in user.profile.skills.all %}
-							<span class="badge rounded-pill bg-{{ bootstrap_color|random }}">{{ skill.skill }}</span>
+							<a class="badge rounded-pill bg-{{ bootstrap_color|random }}"
+                               href="{% url 'users:skill_detail' skill.id %}">{{ skill.skill }}</a>
 						{% endfor %}
 					</p>
 				{% endif %}

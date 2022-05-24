@@ -3,15 +3,15 @@ from django.contrib.auth.views import (LogoutView, PasswordResetView, PasswordRe
                                        PasswordResetConfirmView, PasswordResetCompleteView,
                                        PasswordChangeView, PasswordChangeDoneView)
 
-from users.views import *
+from users import views
 
 app_name = "users"
 
 urlpatterns = [
-    path("", ProfileView.as_view(), name="profile"),
+    path("", views.ProfileView.as_view(), name="profile"),
 
-    path("signup/", signup, name="signup"),
-    path("login/", LoginView.as_view(), name="login"),
+    path("signup/", views.signup, name="signup"),
+    path("login/", views.LoginView.as_view(), name="login"),
     path("logout/", LogoutView.as_view(next_page=reverse_lazy("users:login")), name="logout"),
 
     path("password_change/", PasswordChangeView.as_view(
@@ -43,6 +43,6 @@ urlpatterns = [
         name="password_reset_complete",
     ),
 
-    path("<str:user_name>/", user_detail, name="detail"),
-    path("skill/<int:pk>/", SkillDetailView.as_view(), name="skill_detail"),
+    path("<str:user_name>/", views.user_detail, name="detail"),
+    path("skill/<int:pk>/", views.SkillDetailView.as_view(), name="skill_detail"),
 ]
