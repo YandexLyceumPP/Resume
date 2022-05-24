@@ -108,14 +108,15 @@ class File(ShowBaseModel):
     file = models.FileField(upload_to="uploads/files/")
 
     def extension(self):
-        name, extension = os.path.splitext(self.file.name)
+        # name, extension = os.path.splitext(self.file.name)
         ext = self.file.name.split('.')
         return "." + ext[-1]
 
     def name(self):
         name, extension = os.path.splitext(self.file.name)
-        name=name.split("/")
+        name = name.split("/")
         return name[-1]
+
     def is_image(self):
         ext = self.file.name.split('.')
         if ext[-1] in ["png", "jpg", "bmp", "jpeg"]:
@@ -123,11 +124,10 @@ class File(ShowBaseModel):
         return False
     
     def is_file(self):
-        return not(self.is_image())
+        return not self.is_image()
 
     def get_carousel_image(self):
         return get_thumbnail(self.file, "x300", quality=500)
-
 
     class Meta:
         verbose_name = "Файл"
