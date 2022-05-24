@@ -6,7 +6,7 @@ from django.core.files.storage import default_storage
 from django.utils.decorators import method_decorator
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import  DetailView
+from django.views.generic import DetailView
 
 from resume.settings.base import MEDIA_ROOT
 
@@ -126,7 +126,7 @@ def signup(request):
         form = UserRegistrationForm()
 
     context = {"form": form}
-    return render(request, "users/signup.html", context)
+    return render(request, "users/authorization/signup.html", context)
 
 
 class LoginView(views.LoginView):
@@ -145,11 +145,12 @@ class LoginView(views.LoginView):
 
     authentication_form = AuthenticationForm
     redirect_authenticated_user = True
-    template_name = "users/login.html"
+    template_name = "users/authorization/login.html"
     extra_context = {"buttons": buttons}
 
 
 # Skill
+
 class SkillDetailView(DetailView):
     model = Skill
     template_name = "users/skill_detail.html"
