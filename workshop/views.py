@@ -20,7 +20,7 @@ class ResumeDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         blocks = Block.objects.filter(resume=self.object.id)
-        context['blocks'] = blocks
+        context["blocks"] = blocks
         for i in range(len(blocks)):
             blocks[i].files = File.objects.filter(block=blocks[i].id)
         return context

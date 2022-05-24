@@ -1,6 +1,7 @@
 from django.contrib.auth import views, get_user_model
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.files.storage import default_storage
 from django.urls import reverse_lazy
@@ -13,26 +14,34 @@ from users.forms import SkillForm, UserForm, UserRegistrationForm, FieldForm
 from users.models import Field, Profile, Skill
 
 from workshop.forms import ContactForm
-from workshop.models import Resume, Contact, Tag
+from workshop.models import Resume, Contact
 
 User = get_user_model()
 
 
-def user_detail(request, user_name):
-    user = get_object_or_404(User, username=user_name)
-    resumes = Resume.objects.filter(user=user)
-    fields = Field.objects.filter(user=user)
-    contacts = Contact.objects.filter(user=user)
-    tags = Tag.objects.filter()
+class UserDetailView(DetailView):
+    model = User
+    template_name = "users/user_detail.html"
 
-    context = {
-        "user": user,
-        "resumes": resumes,
-        "fields": fields,
-        "contacts": contacts,
-        "tags": tags
-    }
-    return render(request, "users/user_detail.html", context)
+    def get_object(self, queryset=None):
+        if queryset is None:
+            queryset = self.get_queryset()
+
+        username = self.kwargs.get("username")
+
+        try:
+            obj = queryset.filter(username=username).get()
+        except:
+            raise Http404("Не удалось найти нужного пользователя")
+
+        return obj
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["resumes"] = Resume.objects.filter(user=self.object)
+        context["fields"] = Field.objects.filter(user=self.object)
+        context["contacts"] = Contact.objects.filter(user=self.object)
+        return context
 
 
 class ProfileView(LoginRequiredMixin, View):

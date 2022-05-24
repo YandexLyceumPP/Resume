@@ -45,5 +45,5 @@ urlpatterns = [
 
     path("skill/<int:pk>/", views.SkillDetailView.as_view(), name="skill_detail"),
 
-    path("<str:user_name>/", views.user_detail, name="detail"),
+    path("<str:username>/", views.UserDetailView.as_view(), name="detail"),
 ]

@@ -35,12 +35,6 @@
 					</p>
 				{% endif %}
 
-				{% if tags %}
-					{% for tag in tags %}
-						<span class="badge text-bg-primary">{{ tag.name }}</span>
-					{% endfor %}
-				{% endif %}
-
 				{% if fields %}
 					{% for field in fields %}
                         <div class="accordion-item">
