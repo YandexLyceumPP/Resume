@@ -46,4 +46,5 @@ urlpatterns = [
     path("skill/<int:pk>/", views.SkillDetailView.as_view(), name="skill_detail"),
 
     path("<str:username>/", views.UserDetailView.as_view(), name="detail"),
+    path("<str:username>/s", views.SearchUserView.as_view(), name="search"),
 ]

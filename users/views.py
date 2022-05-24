@@ -1,7 +1,6 @@
 from django.contrib.auth import views, get_user_model
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import Http404
 from django.shortcuts import render, redirect
 from django.core.files.storage import default_storage
 from django.urls import reverse_lazy
@@ -10,7 +9,7 @@ from django.views.generic import DetailView
 
 from resume.settings.base import MEDIA_ROOT
 
-from users.forms import SkillForm, UserForm, UserRegistrationForm, FieldForm
+from users.forms import SkillForm, UserForm, UserRegistrationForm, FieldForm, SearchUserForm
 from users.models import Field, Profile, Skill
 
 from workshop.forms import ContactForm
@@ -19,9 +18,37 @@ from workshop.models import Resume, Contact
 User = get_user_model()
 
 
+class SearchUserView(View):
+    def get(self, request, username):
+        form = SearchUserForm(initial={"username": username})
+
+        context = {"form": form}
+        return render(request, "users/search_user.html", context=context)
+
+    def post(self, request, username):
+        form = SearchUserForm(request.POST or None)
+
+        if form.is_valid():
+            return redirect("users:detail", username=form.cleaned_data["username"])
+
+        return redirect("users:search", username=form.cleaned_data["username"])
+
+
 class UserDetailView(DetailView):
     model = User
     template_name = "users/user_detail.html"
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.object = None
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if self.object:
+            context = self.get_context_data(object=self.object)
+            return self.render_to_response(context)
+
+        return redirect("users:search", username=self.kwargs.get("username"))
 
     def get_object(self, queryset=None):
         if queryset is None:
@@ -31,8 +58,9 @@ class UserDetailView(DetailView):
 
         try:
             obj = queryset.filter(username=username).get()
-        except:
-            raise Http404("Не удалось найти нужного пользователя")
+        except queryset.model.DoesNotExist:  # Если объект не найден
+            # raise Http404("Не удалось найти нужного пользователя")
+            return
 
         return obj
 

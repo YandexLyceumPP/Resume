@@ -1,13 +1,14 @@
 from django import forms
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 from core.forms import BaseForm
 from users.models import Skill, Field
 
+User = get_user_model()
+
 
 class UserRegistrationForm(forms.ModelForm, BaseForm):
     password = forms.CharField(label="Пароль", widget=forms.PasswordInput)
-    password2 = forms.CharField(label="Повторите пароль", widget=forms.PasswordInput)
 
     class Meta:
         model = User
@@ -38,3 +39,7 @@ class FieldForm(forms.ModelForm, BaseForm):
     class Meta:
         fields = ("title", "show", "value")
         model = Field
+
+
+class SearchUserForm(forms.Form, BaseForm):
+    username = forms.CharField()

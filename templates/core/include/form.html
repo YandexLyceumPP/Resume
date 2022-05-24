@@ -28,7 +28,7 @@
 		</div>
 		<button type="submit" class="btn btn-primary">{{ btn_text|default:'Отправить' }}</button>
 		{% for button in buttons %}
-		<a type="button" class="{{ button.class }}" href="{{ button.url }}">{{ button.name }}</a>
+		    <a type="button" class="{{ button.class }}" href="{{ button.url }}">{{ button.name }}</a>
 		{% endfor %}
 	</form>
 </div>
