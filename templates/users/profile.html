@@ -6,7 +6,9 @@
 {% block content %}
     <h1>Мой профиль</h1>
 
+    <!-- Настройки -->
     <div class="row">
+        <!-- Кнопки настроек -->
         <div class="col-4">
             <div class="list-group" id="list-tab" role="tablist">
                 <!-- Основное -->
@@ -23,29 +25,36 @@
                     href="#list-contacts" role="tab" aria-controls="list-contacts">Контакты</a>
             </div>
         </div>
+        <!-- Тело настроек -->
         <div class="col-8">
             <div class="tab-content" id="nav-tabContent">
                 <!-- Основное -->
                 <div class="tab-pane fade show active" id="list-basic" role="tabpanel"
                      aria-labelledby="list-basic-list">
-                    {% include 'core/include/form.html' with form=forms.user_form btn_text='Изменить' %}
+                    {% if profile.image %}
+                        <div class="container">
+                            <img src="{{ profile.get_image.url }}" alt="{{profile.image}}">
+                        </div>
+                        <br>
+                    {% endif %}
+                    {% include 'core/include/form.html' with form=forms.user btn_text='Изменить' %}
                 </div>
                 <!-- Навыки -->
-                <div class="tab-pane fade show" id="list-skills" role="tabpanel" aria-labelledby="list-skills-list">
+                <div class=" tab-pane fade show" id="list-skills" role="tabpanel" aria-labelledby="list-skills-list">
                     <div class="container">
                         <form method="post">
                             {% csrf_token %}
                             <div class="mb-3">
                                 <div class="form-group">
-                                    {{ forms.skill_form.skills.errors }}
+                                    {{ forms.skill.skills.errors }}
                                     <label for="exampleInputEmail1">
-                                        <label for="{{ forms.skill_form.skills.id_for_label }}" class="form-label">
-                                            {{ forms.skill_form.skills.label }}
+                                        <label for="{{ forms.skill.skills.id_for_label }}" class="form-label">
+                                            {{ forms.skill.skills.label }}
                                         </label>
-                                        {% if forms.skill_form.skills.field.required %}<span>*</span>{% endif %}
+                                        {% if forms.skill.skills.field.required %}<span>*</span>{% endif %}
                                     </label>
                                     <ul class="list-group">
-                                        {% for skill in forms.skill_form.skills %}
+                                        {% for skill in forms.skill.skills %}
                                             <li class="list-group-item">
                                                 {{ skill }}
                                             </li>
@@ -70,7 +79,7 @@
                     </h5>
                     <div class="collapse" id="collapseField">
                         <div class="card card-body">
-                            {% include 'core/include/form.html' with form=forms.field_form btn_text='Добавить' %}
+                            {% include 'core/include/form.html' with form=forms.field btn_text='Добавить' buttons=None %}
                         </div>
                         <br>
                     </div>
@@ -80,17 +89,18 @@
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="heading{{ field.id }}">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                            data-bs-target="#collapse{{ field.id }}" aria-expanded="false"
-                                            aria-controls="collapse{{ field.id }}">
+                                        data-bs-target="#collapse{{ field.id }}" aria-expanded="false"
+                                        aria-controls="collapse{{ field.id }}">
                                         {{ field.title }}
                                     </button>
                                 </h2>
                                 <div id="collapse{{ field.id }}" class="accordion-collapse collapse"
-                                     aria-labelledby="heading{{ field.id }}"
-                                     data-bs-parent="#accordionFields">
+                                    aria-labelledby="heading{{ field.id }}" data-bs-parent="#accordionFields">
                                     <div class="accordion-body">
                                         <a class="btn btn-warning" href="{% url 'workshop:field_update' field.id %}"
-                                           role="button">Редактировать</a>
+                                            role="button">Редактировать</a>
+                                        <a class="btn btn-danger" href="{% url 'workshop:field_delete' field.id %}"
+                                            role="button">Удалить</a>
                                         {{ field.value|safe }}
                                     </div>
                                 </div>
@@ -100,8 +110,7 @@
 
                 </div>
                 <!-- Контакты -->
-                <div class="tab-pane fade" id="list-contacts" role="tabpanel"
-                     aria-labelledby="list-contacts-list">
+                <div class="tab-pane fade" id="list-contacts" role="tabpanel" aria-labelledby="list-contacts-list">
                     <h5>
                         Просмотр
                         <a class="btn btn-outline-success" data-bs-toggle="collapse" href="#collapseContacts"
@@ -111,7 +120,7 @@
                     </h5>
                     <div class="collapse" id="collapseContacts">
                         <div class="card card-body">
-                            {% include 'core/include/form.html' with form=forms.contact_form btn_text='Добавить' %}
+                            {% include 'core/include/form.html' with form=forms.contact btn_text='Добавить' buttons=None %}
                         </div>
                         <br>
                     </div>
@@ -121,7 +130,7 @@
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 {{ contact.contact }}
                                 <a type="button" class="btn-close rounded-pill"
-                                   href="{% url 'workshop:contact_delete' contact.id %}" aria-label="Close"></a>
+                                    href="{% url 'workshop:contact_delete' contact.id %}" aria-label="Close"></a>
                             </li>
                         {% endfor %}
                     </ul>
@@ -130,4 +139,17 @@
             </div>
         </div>
     </div>
+
+    <!-- Список резюме -->
+    <br>
+    <br>
+    <h3>
+        Ваши резюме
+        <a type="button" class="btn btn-success" href="{% url 'workshop:resume_create' %}">Создать резюме</a>
+    </h3>
+    {% for resume in resumes %}
+        {% include 'users/include/resume_card.html' with resume=resume %}
+    {% empty %}
+        <h4>Вы еще не добавили свое резюме 😨</h4>
+    {% endfor %}
 {% endblock %}

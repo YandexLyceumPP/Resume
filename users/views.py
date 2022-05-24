@@ -2,9 +2,12 @@ from django.contrib.auth import views, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse_lazy
+from django.core.files.storage import default_storage
 from django.utils.decorators import method_decorator
+from django.urls import reverse_lazy
 from django.views import View
+
+from resume.settings.base import MEDIA_ROOT
 
 from users.forms import SkillForm, UserForm, UserRegistrationForm, FieldForm
 from users.models import Field, Profile
@@ -36,6 +39,7 @@ def user_detail(request, user_name):
 class ProfileView(View):
     def get(self, request):
         profile = Profile.objects.get_or_create(user=request.user)[0]
+        resumes = Resume.objects.filter(user=request.user)
         user_fields = Field.objects.filter(user=request.user).only("title", "value")
         user_contacts = Contact.objects.filter(user=request.user).only("contact")
 
@@ -54,14 +58,16 @@ class ProfileView(View):
 
         context = {
             "forms": {
-                "user_form": user_form,
-                "skill_form": skill_form,
-                "field_form": field_form,
-                "contact_form": contact_form,
+                "user": user_form,
+                "skill": skill_form,
+                "field": field_form,
+                "contact": contact_form,
             },
+            "profile": profile,
             "buttons": buttons,
             "user_fields": user_fields,
-            "user_contacts": user_contacts
+            "user_contacts": user_contacts,
+            "resumes": resumes
         }
         return render(request, "users/profile.html", context=context)
 
@@ -81,6 +87,15 @@ class ProfileView(View):
             request.user.last_name = user_form.cleaned_data["last_name"]
             request.user.first_name = user_form.cleaned_data["first_name"]
             request.user.save(update_fields=["email", "last_name", "first_name"])
+
+            profile = Profile.objects.get_or_create(user=request.user)[0]
+            for filename, file in request.FILES.items():
+                path = f'{MEDIA_ROOT}/upload/avatars/{request.FILES[filename].name}'
+                with default_storage.open(path, 'wb+') as destination:
+                    for chunk in file.chunks():
+                        destination.write(chunk)
+                profile.image = f'upload/avatars/{request.FILES[filename].name}'
+                profile.save(update_fields=["image"])
 
         if field_form.is_valid():
             Field(

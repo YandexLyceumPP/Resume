@@ -3,6 +3,8 @@ import os
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.datetime_safe import date
+from ordered_model.models import OrderedModel
+from sorl.thumbnail import get_thumbnail
 
 from tinymce.models import HTMLField
 
@@ -22,7 +24,6 @@ class DateEditBaseModel(models.Model):
 
     """def save(self, *args, **kwargs):
         self.date_edit = date.today
-        # kwargs["commit"] = True
         super(DateEditBaseModel, self).save(*args, **kwargs)"""
 
     class Meta:
@@ -76,8 +77,8 @@ class Resume(ShowBaseModel, DateEditBaseModel):
     tags = models.ManyToManyField(Tag, verbose_name="Тэги", blank=True)
     text = HTMLField("Описание")
 
-    def get_image_100x100(self):
-        return get_thumbnail(self.image, "100x100", quality=51)
+    def get_image_200x200(self):
+        return get_thumbnail(self.image, "200x200", quality=51)
 
     class Meta:
         verbose_name = verbose_name_plural = "Резюме"
