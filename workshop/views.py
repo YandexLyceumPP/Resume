@@ -194,6 +194,7 @@ def block_changing_order(request, pk, direction):
     block = Block.objects.filter(pk=pk, resume__user=request.user)
 
     if block:
+        block = block.first()
         match direction:
             case "up":
                 block.up()
