@@ -62,7 +62,7 @@ class Contact(models.Model):
 
 class Resume(ShowBaseModel, DateEditBaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to="uploads/avatars/", blank=True)
+    image = models.ImageField(upload_to="uploads/avatars/resume/", blank=True)
     contacts = models.ManyToManyField(Contact, verbose_name="Контакты", blank=True)
     tags = models.ManyToManyField(Tag, verbose_name="Тэги", blank=True)
     text = HTMLField("Описание")
@@ -96,7 +96,7 @@ class Text(models.Model):
 
 class File(ShowBaseModel):
     block = models.ForeignKey(Block, on_delete=models.CASCADE)
-    file = models.FileField(upload_to="uploads/files/")
+    file = models.FileField(upload_to="uploads/files/%d_%m_%Y/")
 
     def extension(self):
         # name, extension = os.path.splitext(self.file.name)
