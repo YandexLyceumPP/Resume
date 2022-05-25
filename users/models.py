@@ -8,7 +8,7 @@ from core.models import ShowBaseModel
 User = get_user_model()
 
 
-class Skill(ShowBaseModel):
+class Skill(models.Model):
     skill = models.CharField("Название", max_length=100)
     text = HTMLField("Описание", null=True)
 
