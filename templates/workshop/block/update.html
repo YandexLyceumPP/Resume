@@ -8,6 +8,7 @@
         Редактировать
         <a type="button" class="btn btn-danger"
            href="{% url 'workshop:block_delete' block_id %}">Удалить</a>
+        <a type="button" class="{{ cancel_button.class }}" href="{{ cancel_button.url }}">{{ cancel_button.name }}</a>
     </h1>
     <h2>Основное</h2>
     {% include 'core/include/form.html' with form=forms.base btn_text='Сохранить'%}
@@ -42,5 +43,4 @@
             <h4>Кажется у данного блока нет прикрепленных файлов 😑</h4>
         {% endfor %}
     </ul>
-    <a type="button" class="{{ cancel_button.class }}" href="{{ cancel_button.url }}">{{ cancel_button.name }}</a>
 {% endblock %}
