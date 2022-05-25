@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Prefetch
 from django.http import Http404
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.views.generic import UpdateView, DeleteView, DetailView
@@ -50,9 +50,11 @@ class ResumeCreateView(LoginRequiredMixin, View):
     def get(self, request):
         form = CreateResumeForm()
 
-        context = {"form": form,
-        "btn_text": "Создать",
-        "page_title": "Создание резюме"}
+        context = {
+            "form": form,
+            "btn_text": "Создать",
+            "page_title": "Создание резюме"
+        }
         return render(request, "core/create.html", context=context)
 
     def post(self, request):
@@ -74,11 +76,13 @@ class ResumeUpdateView(LoginRequiredMixin, View):
     def get(self, request, pk):
         resume = get_object_or_404(Resume, id=pk, user=request.user)
         form = ResumeForm(request.user, instance=resume)
-        buttons=[{
+        buttons = [
+            {
                 "class": "btn btn-primary",
                 "url": reverse_lazy("workshop:resume_detail", args=[pk]),
                 "name": "Назад",
-        }]
+            }
+        ]
         context = {"form": form, "buttons": buttons}
         return render(request, "workshop/resume/update.html", context=context)
 
@@ -190,6 +194,7 @@ def block_changing_order(request, pk, direction):
     block = Block.objects.filter(pk=pk, resume__user=request.user)
 
     if block:
+        block = block.first()
         match direction:
             case "up":
                 block.up()
