@@ -15,10 +15,11 @@ class UserRegistrationForm(forms.ModelForm, BaseForm):
         fields = ("username", "first_name", "last_name", "email")
 
 
-class UserForm(forms.ModelForm, BaseForm):
+class ImageForm(forms.Form, BaseForm):
     image = forms.ImageField(required=False)
-    field_order = ("image", "first_name", "last_name", "email")
 
+
+class UserForm(forms.ModelForm, BaseForm):
     class Meta:
         model = User
         fields = ("first_name", "last_name", "email")

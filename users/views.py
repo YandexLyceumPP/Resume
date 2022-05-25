@@ -10,7 +10,7 @@ from django.views.generic import DetailView
 
 from resume.settings.base import MEDIA_ROOT
 
-from users.forms import SkillForm, UserForm, UserRegistrationForm, FieldForm, SearchUserForm
+from users.forms import SkillForm, UserForm, UserRegistrationForm, FieldForm, SearchUserForm, ImageForm
 from users.models import Field, Profile, Skill
 
 from workshop.forms import ContactForm
@@ -96,6 +96,7 @@ class ProfileView(LoginRequiredMixin, View):
         skill_form = SkillForm(initial={"skills": profile.skills.all()})
         field_form = FieldForm()
         contact_form = ContactForm()
+        image_form = ImageForm()
 
         buttons = [
             {
@@ -111,6 +112,7 @@ class ProfileView(LoginRequiredMixin, View):
                 "skill": skill_form,
                 "field": field_form,
                 "contact": contact_form,
+                "image": image_form,
             },
             "profile": profile,
             "buttons": buttons,
@@ -125,6 +127,7 @@ class ProfileView(LoginRequiredMixin, View):
         skill_form = SkillForm(request.POST or None)
         field_form = FieldForm(request.POST or None)
         contact_form = ContactForm(request.POST or None)
+        image_form = ImageForm(request.POST or None, request.FILES)
 
         if skill_form.is_valid():
             profile = Profile.objects.get_or_create(user=request.user)[0]
@@ -136,12 +139,6 @@ class ProfileView(LoginRequiredMixin, View):
             request.user.last_name = user_form.cleaned_data["last_name"]
             request.user.first_name = user_form.cleaned_data["first_name"]
             request.user.save(update_fields=["email", "last_name", "first_name"])
-
-            print(user_form.cleaned_data["image"])
-
-            profile = Profile.objects.get_or_create(user=request.user)[0]
-            profile.image = user_form.cleaned_data["image"]
-            profile.save(update_fields=["image"])
 
         if field_form.is_valid():
             Field(
@@ -155,6 +152,11 @@ class ProfileView(LoginRequiredMixin, View):
                 user=request.user,
                 contact=contact_form.cleaned_data["contact"]
             ).save()
+
+        if image_form.is_valid():
+            profile = Profile.objects.get_or_create(user=request.user)[0]
+            profile.image = image_form.cleaned_data["image"]
+            profile.save(update_fields=["image"])
 
         return redirect("users:profile")
 

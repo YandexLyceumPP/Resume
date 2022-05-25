@@ -14,8 +14,8 @@
     <div class="row">
         <!-- Тело настроек -->
         <div>
-            <!-- Основное -->
-            <h3 id="list-basic">Основное</h3>
+            <!-- Аватарка -->
+            <h3 id="list-img">Аватарка</h3>
             <div>
                 {% if profile.image %}
                     <div class="container">
@@ -23,6 +23,13 @@
                     </div>
                     <br>
                 {% endif %}
+                {% include 'core/include/form.html' with form=forms.image btn_text='Установить' buttons=None %}
+            </div>
+
+            <hr>
+            <!-- Основное -->
+            <h3 id="list-basic">Основное</h3>
+            <div>
                 {% include 'core/include/form.html' with form=forms.user btn_text='Изменить' %}
             </div>
 
