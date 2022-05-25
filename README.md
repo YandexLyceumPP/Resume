@@ -38,7 +38,11 @@
     ```
     python manage.py collectstatic
     ```
-8. Запускаем приложение
+7. Применяем миграции
+    ```
+    python manage.py migrate
+    ```
+9. Запускаем приложение
     ```
     python manage.py runserver
     ```
