@@ -1,6 +1,7 @@
 from django.contrib.auth import views, get_user_model
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Prefetch
 from django.shortcuts import render, redirect
 from django.core.files.storage import default_storage
 from django.urls import reverse_lazy
@@ -57,7 +58,14 @@ class UserDetailView(DetailView):
         username = self.kwargs.get("username")
 
         try:
-            obj = queryset.filter(username=username).get()
+            obj = queryset.filter(username=username).prefetch_related(
+                Prefetch(
+                    "profile",
+                    queryset=Profile.objects.prefetch_related(
+                        Prefetch("skills", queryset=Skill.objects.only("skill"))
+                    )
+                )
+            ).get()
         except queryset.model.DoesNotExist:  # Если объект не найден
             # raise Http404("Не удалось найти нужного пользователя")
             return
@@ -66,9 +74,8 @@ class UserDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["resumes"] = Resume.objects.get_show().filter(user=self.object)
-        context["fields"] = Field.objects.get_show().filter(user=self.object)
-        context["contacts"] = Contact.objects.filter(user=self.object)
+        context["resumes"] = Resume.objects.get_show().filter(user=self.object).only("image", "date_edit", "text")
+        context["fields"] = Field.objects.get_show().filter(user=self.object).only("title", "value")
         return context
 
 
