@@ -206,10 +206,24 @@ def block_changing_order(request, pk, direction):
 
 class BlockDeleteView(LoginRequiredMixin, DeleteView):
     model = Block
-    template_name = "workshop/block/delete.html"
+    template_name = "core/delete.html"
 
     def get_queryset(self):
-        return self.model.objects.filter(user=self.request.user)
+        return self.model.objects.filter(resume__user=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["delete_message"] = f"блок '{self.object.title}'"
+        buttons = [
+            {
+                "class": "btn btn-primary",
+                "url": reverse_lazy("workshop:block_update", kwargs={"resume_id": self.object.resume.id,
+                                                                     "pk": self.object.id}),
+                "name": "Назад",
+            }
+        ]
+        context["buttons"] = buttons
+        return context
 
     def get_success_url(self):
         return reverse_lazy("workshop:resume_detail", kwargs={"pk": self.object.resume.id})
@@ -311,7 +325,7 @@ class FileDeleteView(LoginRequiredMixin, DeleteView):
     template_name = "workshop/file/delete.html"
 
     def get_queryset(self):
-        return self.model.objects.filter(user=self.request.user)
+        return self.model.objects.filter(block__resume__user=self.request.user)
 
     def get_success_url(self):
         block = self.object.block
