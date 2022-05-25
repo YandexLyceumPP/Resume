@@ -180,8 +180,10 @@ class ContactDeleteView(LoginRequiredMixin, DeleteView):
 # Block
 
 def block_changing_order(request, pk, direction):
-    block = Block.objects.get(pk=pk)
-    if block.resume.user == request.user:
+    # Проверка не через get_object_or_404(), чтобы не пугать пользователя ошибками, а перекинуть на просмотр резюме
+    block = Block.objects.filter(pk=pk, resume__user=request.user)
+
+    if block:
         match direction:
             case "up":
                 block.up()
