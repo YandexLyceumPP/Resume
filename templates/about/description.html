@@ -1,64 +1,87 @@
 {% extends "base.html" %}
-
-
 {% load static %}
-
 {% block title %}Описание проекта{% endblock %}
-
 {% block content %}
-	<section class="py-5 text-center container">
-		<div class="row py-lg-5">
-		  <div class="col-lg-6 col-md-8 mx-auto">
-			<h1 class="fw-light">Резюме</h1>
-			<p class="lead text-muted">Наш сервис позволяет вам вести простой учет ваших профессиональных достижений,
-                полученных навыков, интересов.</p>
-			<p>
-			  <a href="{% url 'users:signup' %}" class="btn btn-primary my-2">Регистрация</a>
-			  <a href="{% url 'homepage:home' %}" class="btn btn-secondary my-2">Главная</a>
-			</p>
-		  </div>
-		</div>
-	  </section>
-	
-    <div class="row">
-        <div class="col-sm-4">
-            <div class="card" style="width: 25rem;">
+    <section class="py-5 text-center container">
+        <div class="row py-lg-5">
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <h1 class="fw-light">Резюме</h1>
+                <p class="lead text-muted">
+                    Наш сервис позволяет вам вести простой учет ваших профессиональных достижений,
+                    полученных навыков, интересов.
+                </p>
+                <p>
+                    <a href="{% url 'users:signup' %}" class="btn btn-primary my-2">Регистрация</a>
+                    <a href="{% url 'homepage:home' %}" class="btn btn-secondary my-2">Главная</a>
+                </p>
+            </div>
+        </div>
+    </section>
+    <div id="carouselExampleCaptions"
+         class="carousel slide"
+         data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button"
+                    data-bs-target="#carouselExampleCaptions"
+                    data-bs-slide-to="0"
+                    class="active"
+                    aria-current="true"
+                    aria-label="Slide 1">
+            </button>
+            <button type="button"
+                    data-bs-target="#carouselExampleCaptions"
+                    data-bs-slide-to="1"
+                    aria-label="Slide 2"></button>
+            <button type="button"
+                    data-bs-target="#carouselExampleCaptions"
+                    data-bs-slide-to="2"
+                    aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
                 <img src="{% static 'img/about/resume.jpg' %}"
-                     class="card-img-top"
+                     class="d-block w-100"
                      alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Простота</h5>
-                    <p class="card-text">Для использования сервиса вам не требуется обладать навыками вёрстки</p>
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Простота</h5>
+                    <p>Для использования сервиса вам не требуется обладать навыками вёрстки</p>
                 </div>
             </div>
-        </div>
-		<div class="col-sm-4">
-            <div class="card" style="width: 25rem;">
+            <div class="carousel-item">
                 <img src="{% static 'img/about/cloud.jpg' %}"
-                     class="card-img-top"
+                     class="d-block w-100"
                      alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Облачное хранилище</h5>
-                    <p class="card-text">Всегда актуальная информация про вас на централизованном сервисе с
-                        возможностью добавления файлов в резюме</p>
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Облачное хранилище</h5>
+                    <p>Всегда актуальная информация про вас на централизованном сервисе с возможностью добавления файлов в резюме</p>
                 </div>
             </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="card" style="width: 25rem;">
+            <div class="carousel-item">
                 <img src="{% static 'img/about/presentable.jpg' %}"
-                     class="card-img-top"
+                     class="d-block w-100"
                      alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Удобная организация</h5>
-                    <p class="card-text">Каждое резюме состоит из нескольких частей, благодаря чему Вы можете
-                        подстроить его под свои запросы</p>
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Удобная организация</h5>
+                    <p>Каждое резюме состоит из нескольких частей, благодаря чему Вы можете подстроить его под свои запросы</p>
                 </div>
             </div>
         </div>
+        <button class="carousel-control-prev"
+                type="button"
+                data-bs-target="#carouselExampleCaptions"
+                data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next"
+                type="button"
+                data-bs-target="#carouselExampleCaptions"
+                data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
     </div>
-	<br>
-
+    <br>
     <div class="alert alert-primary" role="alert">
         <p class="fs-5">
             <b>Резюме</b> — документ, содержащий информацию о навыках, опыте работы, образовании, и другую
