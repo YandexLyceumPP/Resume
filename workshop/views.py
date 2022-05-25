@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.views.generic import UpdateView, DeleteView, DetailView
@@ -227,12 +227,17 @@ class BlockUpdateView(LoginRequiredMixin, View):
             }
         )
         file_form = FileBlockForm()
-
+        cancel_buttons={
+                "class": "btn btn-primary",
+                "url": reverse_lazy("workshop:resume_detail", args=[block.resume.id]),
+                "name": "Назад",
+            }
         context = {
             "forms": {
                 "base": base_form,
                 "file": file_form
             },
+            "cancel_button": cancel_buttons,
             "files": files,
             "block_id": block.id
         }
