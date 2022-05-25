@@ -38,7 +38,7 @@
 
     <div class="center alert alert-secondary">
         <p class="lead">
-            {{ object.text|safe }}
+            {{ object.text|safe|urlizetrunc:20 }}
         </p>
     </div>
 
@@ -117,7 +117,7 @@
                     {% endif %}
                 </h5>
                 <p class="card-text">
-                    {{ block.text.text|safe }}
+                    {{ block.text.text|safe|urlizetrunc:40 }}
                 </p>
 
                 <!-- Отображение файлов блока -->
