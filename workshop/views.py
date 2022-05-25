@@ -30,8 +30,10 @@ class ResumeCreateView(LoginRequiredMixin, View):
     def get(self, request):
         form = CreateResumeForm()
 
-        context = {"form": form}
-        return render(request, "workshop/resume/create.html", context=context)
+        context = {"form": form,
+        "btn_text": "Создать",
+        "page_title": "Создание резюме"}
+        return render(request, "core/create.html", context=context)
 
     def post(self, request):
         form = CreateResumeForm(request.POST or None, request.FILES)
@@ -186,8 +188,10 @@ class BlockCreateView(LoginRequiredMixin, View):
     def get(self, request, resume_id):
         form = BaseBlockForm()
 
-        context = {"form": form}
-        return render(request, "workshop/block/create.html", context=context)
+        context = {"form": form,
+        "btn_text": "Создать",
+        "page_title": "Создание блока"}
+        return render(request, "core/create.html", context=context)
 
     def post(self, request, resume_id):
         resume = get_object_or_404(Resume, user=request.user, id=resume_id)
