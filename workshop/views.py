@@ -201,7 +201,8 @@ def block_changing_order(request, pk, direction):
             case "down":
                 block.down()
 
-    return redirect("workshop:resume_detail", pk=block.resume.id)
+    return redirect(reverse_lazy("workshop:resume_detail",
+                                 kwargs={"pk": block.resume.id}) + f"#b{block.id}" if block else "")
 
 
 class BlockDeleteView(LoginRequiredMixin, DeleteView):
