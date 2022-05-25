@@ -20,7 +20,7 @@
         <p class="text-lowercase">
             <img src="{% if object.image %}{{ object.get_image_avatar.url }}
                       {% else %}{% static 'img/users/avatar.png' %}{% endif %}"
-                 alt="Фото резюме" class="img-fluid" style="border-radius: 10px;">
+                 alt="Фото резюме" class="img-fluid" style="width: 300px; border-radius: 10px;">
 
             <br>
             {{ object.date_edit }}
