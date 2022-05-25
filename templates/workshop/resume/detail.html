@@ -139,4 +139,10 @@
     {% empty %}
         <h3>Кажется записей еще нет 😐</h3>
     {% endfor %}
+    {% if user.is_authenticated and user == object.user %}
+        <div class="w-100">
+            <a type="button" class="btn btn-primary w-100"  href="{% url 'workshop:block_create' object.id %}">
+                 Добавить блок</a>
+        </div>
+    {% endif %}
 {% endblock %}
