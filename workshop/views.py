@@ -232,15 +232,12 @@ class BlockDeleteView(LoginRequiredMixin, DeleteView):
 class BlockCreateView(LoginRequiredMixin, View):
     def get(self, request, resume_id):
         form = BaseBlockForm()
-        buttons=[{
-            "class": "btn btn-primary",
-            "url": reverse_lazy("workshop:resume_detail", args=[resume_id]),
-            "name": "Назад",
-        }]
-        context = {"form": form,
-        "btn_text": "Создать",
-        "page_title": "Создание блока",
-        "buttons": buttons}
+
+        context = {
+            "form": form,
+            "btn_text": "Создать",
+            "page_title": "Создание блока"
+        }
         return render(request, "core/create.html", context=context)
 
     def post(self, request, resume_id):

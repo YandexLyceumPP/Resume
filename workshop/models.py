@@ -2,6 +2,7 @@ import os
 
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 from django.utils.datetime_safe import date
 
 from tinymce.models import HTMLField
@@ -20,9 +21,9 @@ User = get_user_model()
 class DateEditBaseModel(models.Model):
     date_edit = models.DateField("Дата последнего редактирования", default=date.today)
 
-    """def save(self, *args, **kwargs):
-        self.date_edit = date.today
-        super(DateEditBaseModel, self).save(*args, **kwargs)"""
+    def save(self, *args, **kwargs):
+        self.date_edit = timezone.now()
+        super().save(*args, **kwargs)
 
     class Meta:
         abstract = True
