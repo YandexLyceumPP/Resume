@@ -14,7 +14,7 @@ from users.forms import SkillForm, UserForm, UserRegistrationForm, FieldForm, Se
 from users.models import Field, Profile, Skill
 
 from workshop.forms import ContactForm
-from workshop.models import Resume, Contact
+from workshop.models import Resume, Contact, Tag
 
 User = get_user_model()
 
@@ -74,15 +74,21 @@ class UserDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["resumes"] = Resume.objects.get_show().filter(user=self.object).only("image", "date_edit", "text")
+        context["resumes"] = Resume.objects.get_show().filter(
+            user=self.object).only("image", "date_edit", "text").prefetch_related(
+            Prefetch("tags", queryset=Tag.objects.only("name")))
         context["fields"] = Field.objects.get_show().filter(user=self.object).only("title", "value")
         return context
 
 
 class ProfileView(LoginRequiredMixin, View):
     def get(self, request):
-        profile = Profile.objects.get_or_create(user=request.user)[0]
-        resumes = Resume.objects.filter(user=request.user)
+        profile = Profile.objects.prefetch_related(
+            Prefetch("skills", queryset=Skill.objects.only("skill"))
+        ).get_or_create(user=request.user)[0]
+        resumes = Resume.objects.filter(user=request.user).only("image", "date_edit", "text").prefetch_related(
+            Prefetch("tags", queryset=Tag.objects.only("name"))
+        )
         user_fields = Field.objects.filter(user=request.user).only("title", "value")
         user_contacts = Contact.objects.filter(user=request.user).only("contact")
 
