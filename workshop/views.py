@@ -1,4 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Prefetch
+from django.http import Http404
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
@@ -8,7 +10,7 @@ from users.forms import FieldForm
 from users.models import Field
 
 from workshop.forms import CreateResumeForm, ResumeForm, BaseBlockForm, FileBlockForm
-from workshop.models import Contact, Resume, Block, File, Text
+from workshop.models import Contact, Resume, Block, File, Text, Tag
 
 
 # Resume
@@ -17,12 +19,30 @@ class ResumeDetailView(DetailView):
     model = Resume
     template_name = "workshop/resume/detail.html"
 
+    def get_object(self, queryset=None):
+        if queryset is None:
+            queryset = self.get_queryset()
+
+        pk = self.kwargs.get("pk")
+
+        try:
+            obj = queryset.only("date_edit", "image", "text", "user_id").prefetch_related(
+                Prefetch("tags", queryset=Tag.objects.only("name"))
+            ).prefetch_related(
+                Prefetch("contacts", queryset=Contact.objects.only("contact"))
+            ).get(id=pk)
+        except queryset.model.DoesNotExist:  # Если объект не найден
+            raise Http404("Не удалось найти нужное резюме")
+
+        return obj
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        blocks = Block.objects.filter(resume=self.object.id)
-        context["blocks"] = blocks
+        blocks = Block.objects.filter(resume=self.object.id).only("order", "title", "date_edit")
         for i in range(len(blocks)):
-            blocks[i].files = File.objects.filter(block=blocks[i].id)
+            blocks[i].files = File.objects.filter(block=blocks[i].id).only("file")
+
+        context["blocks"] = blocks.prefetch_related("text")
         return context
 
 
