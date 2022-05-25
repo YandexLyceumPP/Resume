@@ -21,8 +21,9 @@
     ```
     pip install -r requirements.txt
     ```
-4. Создаем файл `.env`
+4. Создаем файл `.env`, для production режима DEBUG меняем на False
     ```dotenv
+    DEBUG=True
     SECRET_KEY=MySuperSecretKey
     ```
    При использовании PostgresSQL необходимо дополнительно указать параметры подключения к базе данных
