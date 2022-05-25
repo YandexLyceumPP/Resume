@@ -14,6 +14,7 @@ DATABASES = {
 
 DEBUG = False
 
+STATIC_URL = "/static/"
 EMAIL_USE_SSL = config("EMAIL_USE_SSL", default=True, cast=bool)
 EMAIL_HOST = config("EMAIL_HOST", default="smtp.yandex.ru")
 EMAIL_PORT = config("EMAIL_PORT", default=465, cast=int)
