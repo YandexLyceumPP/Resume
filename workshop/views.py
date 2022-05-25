@@ -38,11 +38,11 @@ class ResumeDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        blocks = Block.objects.filter(resume=self.object.id).only("order", "title", "date_edit")
+        blocks = Block.objects.filter(resume=self.object.id).only("order", "title", "date_edit").prefetch_related("text")
         for i in range(len(blocks)):
-            blocks[i].files = File.objects.filter(block=blocks[i].id).only("file")
+            blocks[i].files = File.objects.filter(block=blocks[i].id)
 
-        context["blocks"] = blocks.prefetch_related("text")
+        context["blocks"] = blocks
         return context
 
 
