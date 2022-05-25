@@ -16,7 +16,7 @@ class ResumeForm(forms.ModelForm, BaseForm):
             self.fields["contacts"].queryset = Contact.objects.filter(user=user)
 
     class Meta:
-        fields = ("image", "tags", "contacts", "text")
+        fields = ("image", "tags", "contacts", "show", "text")
         model = Resume
 
 
