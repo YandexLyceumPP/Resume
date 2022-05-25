@@ -3,6 +3,8 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
+handler404 = "homepage.views.error_404"
+
 urlpatterns = [
     # app
     path("", include("homepage.urls", namespace="homepage")),
@@ -15,5 +17,5 @@ urlpatterns = [
     path("tinymce/", include("tinymce.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-urlpatterns.append(path("__debug__/", include("debug_toolbar.urls")))
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+if settings.DEBUG:
+    urlpatterns.append(path("__debug__/", include("debug_toolbar.urls")))

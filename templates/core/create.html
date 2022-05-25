@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+
+{% block title %}{{page_title}}{% endblock %}
+
+{% block content %}
+    <h1>{{page_title}}</h1>
+    {% include 'core/include/form.html' with form=form btn_text=btn_text %}
+{% endblock %}

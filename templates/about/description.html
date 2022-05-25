@@ -1,10 +1,82 @@
 {% extends "base.html" %}
 
 
+{% load static %}
+
 {% block title %}Описание проекта{% endblock %}
+
 {% block content %}
-	<h1>Описание проекта</h1>
-	<div class="alert alert-success" role="alert">
-		Резюме — документ, содержащий информацию о навыках, опыте работы, образовании, и другую относящуюся к делу информацию, обычно требуемую для рассмотрения кандидатуры человека для найма на работу.
-	</div>
+	<section class="py-5 text-center container">
+		<div class="row py-lg-5">
+		  <div class="col-lg-6 col-md-8 mx-auto">
+			<h1 class="fw-light">Резюме</h1>
+			<p class="lead text-muted">Наш сервис позволяет вам вести простой учет ваших профессиональных достижений,
+                полученных навыков, интересов.</p>
+			<p>
+			  <a href="{% url 'users:signup' %}" class="btn btn-primary my-2">Регистрация</a>
+			  <a href="{% url 'homepage:home' %}" class="btn btn-secondary my-2">Главная</a>
+			</p>
+		  </div>
+		</div>
+	  </section>
+	
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="card" style="width: 25rem;">
+                <img src="{% static 'img/about/resume.jpg' %}"
+                     class="card-img-top"
+                     alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Простота</h5>
+                    <p class="card-text">Для использования сервиса вам не требуется обладать навыками вёрстки</p>
+                </div>
+            </div>
+        </div>
+		<div class="col-sm-4">
+            <div class="card" style="width: 25rem;">
+                <img src="{% static 'img/about/cloud.jpg' %}"
+                     class="card-img-top"
+                     alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Облачное хранилище</h5>
+                    <p class="card-text">Всегда актуальная информация про вас на централизованном сервисе с
+                        возможностью добавления файлов в резюме</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card" style="width: 25rem;">
+                <img src="{% static 'img/about/presentable.jpg' %}"
+                     class="card-img-top"
+                     alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Удобная организация</h5>
+                    <p class="card-text">Каждое резюме состоит из нескольких частей, благодаря чему Вы можете
+                        подстроить его под свои запросы</p>
+                </div>
+            </div>
+        </div>
+    </div>
+	<br>
+
+    <div class="alert alert-primary" role="alert">
+        <p class="fs-5">
+            <b>Резюме</b> — документ, содержащий информацию о навыках, опыте работы, образовании, и другую
+            относящуюся к делу информацию, обычно требуемую для рассмотрения кандидатуры человека для найма на работу.
+        </p>
+    </div>
+    <div class="alert alert-success" role="alert">
+        <h4>Преимущества нашего сервиса</h4>
+        <ul>
+            <li class="fs-5">Простота в использовании</li>
+            <li class="fs-5">Облачное хранение вашего резюме</li>
+            <li class="fs-5">Кастомизация любой сложности</li>
+            <li class="fs-5">Постоянное развитие сервиса</li>
+        </ul>
+    </div>
+    <div class="w-100">
+        <a type="button"
+           class="btn btn-success w-100"
+           href="{% url 'workshop:resume_create' %}">Попробовать</a>
+    </div>
 {% endblock %}

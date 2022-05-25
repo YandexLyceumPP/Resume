@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Поиск пользователя{% endblock %}
+
+{% block content %}
+    <h1>Кажется вы ввели неверный <b>username</b> пользователя...</h1>
+    <div class="alert alert-primary" role="alert">
+        Если Вы уверены, что все правильно, то проверьте повторно!
+        <br>
+        Также просим обратить Ваше внимание, на то, что регистр имеет значение
+    </div>
+
+    <h4>Введите исправленный <b>username</b> пользователя:</h4>
+    <form method="post">
+		{% csrf_token %}
+
+        <div class="form-group mb-3">
+            <div class="input-group">
+                <span class="input-group-text" id="basic-addon">@</span>
+                {{ form.username }}
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Искать</button>
+    </form>
+{% endblock %}

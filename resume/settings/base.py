@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 
 from decouple import config
+
 from django.core.management.utils import get_random_secret_key
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -16,8 +17,8 @@ INTERNAL_IPS = ["127.0.0.1"]
 
 INSTALLED_APPS = [
     # install
-    "tinymce",
     "ordered_model",
+    "tinymce",
     "sorl.thumbnail",
     # main
     "django.contrib.admin",
@@ -31,7 +32,6 @@ INSTALLED_APPS = [
     "about.apps.AboutConfig",
     "homepage.apps.HomepageConfig",
     "workshop.apps.WorkshopConfig",
-    "lessons.apps.LessonsConfig",
 ]
 
 MIDDLEWARE = [
@@ -58,7 +58,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                "core.context_processors.get_random_bootstrap_color"
+                "core.context_processors.get_bootstrap_color"
             ],
         },
     },

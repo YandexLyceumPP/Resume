@@ -6,12 +6,17 @@
 {% block content %}
     <form method="post">
         {% csrf_token %}
-        <h3>Вы уверены, что хотите удалить Резюме?</h3>
+
+        <h3>
+            Вы уверены, что хотите удалить {{ delete_message|truncatechars:40 }}?
+            {% for button in buttons %}
+		        <a type="button" class="{{ button.class }}" href="{{ button.url }}">{{ button.name }}</a>
+		    {% endfor %}
+        </h3>
         <div class="alert alert-danger" role="alert">
             Обратите внимание на то, что процесс необратимый!
         </div>
+
         <input type="submit" type="button" class="btn btn-outline-danger" value="Да, я уверен">
-        <a class="btn btn-primary" href="{% url 'workshop:resume_detail' object.id %}"
-           role="button">Нет! Верните меня к резюме!</a>
     </form>
 {% endblock %}

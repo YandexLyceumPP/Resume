@@ -1,0 +1,22 @@
+<div class="card mb-3">
+    <div class="row g-0">
+        {% if resume.image %}
+            <div class="col-md-2">
+                <img src="{{ resume.get_image_200x200.url }}" class="img-fluid rounded-start" alt="Фото резюме">
+            </div>
+        {% endif %}
+        <div class="col-md-8">
+            <div class="card-body" href="#">
+                <h5 class="card-title">{{ resume.date_edit }}</h5>
+                {% for tag in resume.tags.all %}
+                    <span class="badge rounded-pill bg-{{ bootstrap_color|random }}">
+                        {{ tag.name }}</span>
+                {% endfor %}
+                <p class="card-text">
+                <p class="card-text">{{ resume.text|striptags|truncatewords:20|urlizetrunc:20 }}</p>
+                <a href="{% url 'workshop:resume_detail' resume.id %}" class="card-link">Подробнее</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

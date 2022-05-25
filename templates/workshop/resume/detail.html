@@ -6,8 +6,8 @@
 {% block title %}Просмотр резюме{% endblock %}
 
 {% block content %}
-	<br>
-	<div class="text-center">
+    <br>
+    <div class="text-center">
         {% if user.is_authenticated and user == object.user %}
             <p>
                 <a type="button" class="btn btn-warning" href="{% url 'workshop:resume_update' object.id %}">
@@ -18,8 +18,8 @@
         {% endif %}
 
         <p class="text-lowercase">
-            <img src="{% if object.image %}{{ object.image.url }}{% else %}
-                      {% static 'img/users/avatar.png' %}{% endif %}"
+            <img src="{% if object.image %}{{ object.image.url }}
+                      {% else %}{% static 'img/users/avatar.png' %}{% endif %}"
                  alt="Generic placeholder image" class="img-fluid" style="width: 300px; border-radius: 10px;">
 
             <br>
@@ -30,32 +30,124 @@
         {% if object.tags %}
             <h5>
                 {% for tag in object.tags.all %}
-                    <span class="badge bg-{{ random_bootstrap_color }}">{{ tag.name }}</span>
+                    <span class="badge bg-{{ bootstrap_color|random }}">{{ tag.name }}</span>
                 {% endfor %}
             </h5>
         {% endif %}
+    </div>
 
-		<p class="lead">
-			{{ object.text|safe }}
-		</p>
+    <div class="center alert alert-secondary">
+        <p class="lead">
+            {{ object.text|safe|urlizetrunc:20 }}
+        </p>
+    </div>
 
+    <div class="text-center">
         {% if object.contacts.all %}
             <p>
-                <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseСontact"
-                        aria-expanded="false" aria-controls="collapseСontact">
+                <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseСontact" aria-expanded="false" aria-controls="collapseСontact">
                     Контакты
                 </button>
             </p>
             <div class="collapse" id="collapseСontact">
                 <ul class="list-group">
                     {% for contact in object.contacts.all %}
-                        <li class="list-group-item">{{ contact.contact }}</li>
+                        <li class="list-group-item">
+                            {{ contact.contact|urlizetrunc:40 }}
+                        </li>
                     {% endfor %}
                 </ul>
             </div>
         {% endif %}
+    </div>
 
-        <hr>
+    <hr>
+
+    {% if user.is_authenticated and user == object.user %}
+        <p class="w-100">
+            <a type="button" class="btn btn-success w-100"  href="{% url 'workshop:block_create' object.id %}">
+                 Добавить блок</a>
+        </p>
+    {% endif %}
+
+    <!-- Отображение блоков -->
+    <div data-bs-spy="scroll">
+    {% for block in blocks %}
+        <div class="card mb-3">
+            {% if block.files %}
+                <!-- Карусель фотографий блока -->
+                <div id="carouselBlock{{ block.id }}" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        {% for file in block.files %}
+                            {% if file.is_image %}
+                                <div class="carousel-item {% if file == block.files.first %}active{% endif %}">
+                                    <img src="{{ file.get_carousel_image.url }}" class="d-block"
+                                        alt="Generic placeholder image" style="margin-left: auto; margin-right: auto;">
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselBlock{{ block.id }}"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselBlock{{ block.id }}"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            {% endif %}
+
+            <!-- Тело блока -->
+            <div class="card-body">
+                <h5 class="card-title" id="b{{ block.id }}">
+                    {{ block.title }}
+
+                    <!-- Кнопки редактирования блока -->
+                    {% if user.is_authenticated and user == object.user %}
+                        <a type="button" class="btn btn-warning"
+                           href="{% url 'workshop:block_update' object.id block.id %}">Редактировать</a>
+                        <a type="button" class="btn btn-outline-info rounded-pill"
+                           href="{% url 'workshop:block_changing_order' block.id "up" %}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                 fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"/>
+                            </svg>
+                        </a>
+                        <a type="button" class="btn btn-outline-info rounded-pill"
+                           href="{% url 'workshop:block_changing_order' block.id "down" %}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                 fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
+                            </svg>
+                        </a>
+                    {% endif %}
+                </h5>
+                <p class="card-text">
+                    {{ block.text.text|safe|urlizetrunc:40 }}
+                </p>
+
+                <!-- Отображение блока файлов -->
+                <ul class="list-group">
+                    {% for file in block.files %}
+                        {% if file.is_file %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                {{ file.name|truncatechars:40 }}{{ file.extension }}
+                                <a type="button" class="btn btn-primary rounded-pill"
+                                   href="{{ file.file.url }}">Просмотреть</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+
+                <p class="card-text"><small class="text-muted">{{ block.date_edit }}</small></p>
+            </div>
+        </div>
+    {% empty %}
         <h3>Кажется записей еще нет 😐</h3>
+    {% endfor %}
     </div>
 {% endblock %}
