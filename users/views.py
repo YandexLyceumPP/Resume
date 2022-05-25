@@ -137,14 +137,11 @@ class ProfileView(LoginRequiredMixin, View):
             request.user.first_name = user_form.cleaned_data["first_name"]
             request.user.save(update_fields=["email", "last_name", "first_name"])
 
+            print(user_form.cleaned_data["image"])
+
             profile = Profile.objects.get_or_create(user=request.user)[0]
-            for filename, file in request.FILES.items():
-                path = f'{MEDIA_ROOT}/upload/avatars/{request.FILES[filename].name}'
-                with default_storage.open(path, 'wb+') as destination:
-                    for chunk in file.chunks():
-                        destination.write(chunk)
-                profile.image = f'upload/avatars/{request.FILES[filename].name}'
-                profile.save(update_fields=["image"])
+            profile.image = user_form.cleaned_data["image"]
+            profile.save(update_fields=["image"])
 
         if field_form.is_valid():
             Field(

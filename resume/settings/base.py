@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 
 from decouple import config
+
 from django.core.management.utils import get_random_secret_key
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -31,7 +32,6 @@ INSTALLED_APPS = [
     "about.apps.AboutConfig",
     "homepage.apps.HomepageConfig",
     "workshop.apps.WorkshopConfig",
-    "lessons.apps.LessonsConfig",
 ]
 
 MIDDLEWARE = [
