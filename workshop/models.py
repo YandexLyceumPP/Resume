@@ -64,7 +64,7 @@ class Resume(ShowBaseModel, DateEditBaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to="uploads/avatars/resume/", blank=True)
     contacts = models.ManyToManyField(Contact, verbose_name="Контакты", blank=True)
-    tags = models.ManyToManyField(Tag, verbose_name="Тэги", blank=True)
+    tags = models.ManyToManyField(Tag, verbose_name="Теги", blank=True)
     text = HTMLField("Описание")
 
     def get_image_200x200(self):
