@@ -323,7 +323,7 @@ class BlockUpdateView(LoginRequiredMixin, View):
 # File
 class FileDeleteView(LoginRequiredMixin, DeleteView):
     model = File
-    template_name = "workshop/file/delete.html"
+    template_name = "core/delete.html"
 
     def get_queryset(self):
         return self.model.objects.filter(block__resume__user=self.request.user)
