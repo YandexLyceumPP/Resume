@@ -29,45 +29,42 @@
             <hr>
             <!-- Основное -->
             <h3 id="list-basic">Основное</h3>
-            <div>
-                {% include 'core/include/form.html' with form=forms.user btn_text='Изменить' %}
-            </div>
+            {% include 'core/include/form.html' with form=forms.user btn_text='Изменить' %}
 
             <hr>
             <!-- Навыки -->
             <h3 id="list-skills">Навыки</h3>
-            <div>
-                <div class="container">
-                    <form method="post">
-                        {% csrf_token %}
-                        <div class="mb-3">
-                            <div class="form-group">
-                                {{ forms.skill.skills.errors }}
-                                <label for="exampleInputEmail1">
-                                    <label for="{{ forms.skill.skills.id_for_label }}" class="form-label">
-                                        {{ forms.skill.skills.label }}
-                                    </label>
-                                    {% if forms.skill.skills.field.required %}<span>*</span>{% endif %}
+            <div class="mb-3">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <div class="form-group">
+                            {{ forms.skill.skills.errors }}
+                            <label for="exampleInputEmail1">
+                                <label for="{{ forms.skill.skills.id_for_label }}" class="form-label">
+                                    {{ forms.skill.skills.label }}
                                 </label>
-                                <ul class="list-group">
-                                    {% for skill in forms.skill.skills %}
-                                        <li class="list-group-item">
-                                            {{ skill }}
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                                <small id="emailHelp" class="form-text text-muted">
-                                    {{ field.help_text|safe }}</small>
-                            </div>
+                                {% if forms.skill.skills.field.required %}<span>*</span>{% endif %}
+                            </label>
+                            <ul class="list-group">
+                                {% for skill in forms.skill.skills %}
+                                    <li class="list-group-item">
+                                        {{ skill }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                            <small id="emailHelp" class="form-text text-muted">
+                                {{ field.help_text|safe }}</small>
                         </div>
-                        <button type="submit" class="btn btn-primary">Сохранить</button>
-                    </form>
-                </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </form>
             </div>
 
             <hr>
             <!-- Факты -->
             <h3 id="list-fields">Факты</h3>
+            <p>Тут вам предоставляются поля, где вы напишете общую информацию о себе</p>
             <div>
                 <h5>
                     Просмотр
