@@ -101,7 +101,7 @@
                     <!-- Кнопки редактирования блока -->
                     {% if user.is_authenticated and user == object.user %}
                         <a type="button" class="btn btn-warning"
-                           href="{% url 'workshop:block_update' block.resume.id block.id %}">Редактировать</a>
+                           href="{% url 'workshop:block_update' object.id block.id %}">Редактировать</a>
                         <a type="button" class="btn btn-outline-info rounded-pill"
                            href="{% url 'workshop:block_changing_order' block.id "up" %}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -122,7 +122,7 @@
                     {{ block.text.text|safe|urlizetrunc:40 }}
                 </p>
 
-                <!-- Отображение файлов блока -->
+                <!-- Отображение блока файлов -->
                 <ul class="list-group">
                     {% for file in block.files %}
                         {% if file.is_file %}
