@@ -1,8 +1,8 @@
 from .base import *
 
-DEBUG = config("DEBUG", default=True, cast=bool)
+DEBUG = False  # config("DEBUG", default=True, cast=bool)
 
-if DEBUG:
+if not DEBUG:
     from .dev import *
 else:
     from .production import *

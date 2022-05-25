@@ -10,6 +10,11 @@ User = get_user_model()
 class UserRegistrationForm(forms.ModelForm, BaseForm):
     password = forms.CharField(label="Пароль", widget=forms.PasswordInput)
 
+    def __init__(self, *args, **kwargs):
+        super(UserRegistrationForm, self).__init__(*args, **kwargs)
+
+        self.fields["username"].label = "Короткое имя"
+
     class Meta:
         model = User
         fields = ("username", "first_name", "last_name", "email")
