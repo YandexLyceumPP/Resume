@@ -13,8 +13,8 @@
                         {{ tag.name }}</span>
                 {% endfor %}
                 <p class="card-text">
-                <p class="card-text">{{ resume.text|striptags|truncatewords:20|urlizetrunc:20 }}</p>
-                <a href="{% url 'workshop:resume_detail' resume.id %}" class="card-link">Подробнее</a>
+                    <p class="card-text">{{ resume.text|striptags|truncatewords:20|urlizetrunc:20 }}</p>
+                    <a href="{% url 'workshop:resume_detail' resume.id %}" class="card-link">Подробнее</a>
                 </p>
             </div>
         </div>
