@@ -54,8 +54,12 @@ class ResumeUpdateView(LoginRequiredMixin, View):
     def get(self, request, pk):
         resume = get_object_or_404(Resume, id=pk, user=request.user)
         form = ResumeForm(request.user, instance=resume)
-
-        context = {"form": form}
+        buttons=[{
+                "class": "btn btn-primary",
+                "url": reverse_lazy("workshop:resume_detail", args=[pk]),
+                "name": "Назад",
+        }]
+        context = {"form": form, "buttons": buttons}
         return render(request, "workshop/resume/update.html", context=context)
 
     def post(self, request, pk):

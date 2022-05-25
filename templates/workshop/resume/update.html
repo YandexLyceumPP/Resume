@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
 
-{% block title %}Редактирование факта{% endblock %}
+{% block title %}Редактирование резюме{% endblock %}
 
 {% block content %}
     <h1>
         Редактировать
     </h1>
-    {% include 'core/include/form.html' with form=form btn_text='Сохранить' %}
+    {% include 'core/include/form.html' with form=form btn_text='Сохранить' buttons=buttons%}
 {% endblock %}
