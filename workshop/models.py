@@ -28,18 +28,7 @@ class DateEditBaseModel(models.Model):
         abstract = True
 
 
-class Icon(ShowBaseModel):
-    image = models.ImageField("Иконка", upload_to="uploads/icons/", null=True)
-
-    def get_image_100x100(self):
-        return get_thumbnail(self.image, "100x100", quality=51)
-
-    class Meta:
-        verbose_name = "Иконка"
-        verbose_name_plural = "Иконки"
-
-
-class Tag(ShowBaseModel):
+class Tag(models.Model):
     name = models.CharField("Название", max_length=100)
 
     class Meta:
