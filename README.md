@@ -21,7 +21,7 @@
     ```
     pip install -r requirements.txt
     ```
-4. Создаем файл `.env`, для production режима DEBUG меняем на False
+4. Создаем файл `.env`, для production режима `DEBUG` меняем на `False`
     ```dotenv
     DEBUG=True
     SECRET_KEY=MySuperSecretKey
@@ -34,7 +34,11 @@
    PORT=5432
     ```
 5. Настраиваем конфигурацию проекта в `resume/settings` (При необходимости)
-6. Запускаем приложение
+6. Генерируем статику (Опционально, при `DEBUG=False`)
+    ```
+    python manage.py collectstatic
+    ```
+8. Запускаем приложение
     ```
     python manage.py runserver
     ```
