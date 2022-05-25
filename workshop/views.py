@@ -263,8 +263,7 @@ class BlockCreateView(LoginRequiredMixin, View):
 
 class BlockUpdateView(LoginRequiredMixin, View):
     def get(self, request, resume_id, pk):
-        get_object_or_404(Resume, user=request.user, id=resume_id)  # Ну эту строку я переделаю)
-        block = get_object_or_404(Block, pk=pk)
+        block = get_object_or_404(Block, pk=pk, resume__user=request.user)
         text = Text.objects.filter(block=block)
         files = File.objects.filter(block=block)
 
@@ -275,11 +274,12 @@ class BlockUpdateView(LoginRequiredMixin, View):
             }
         )
         file_form = FileBlockForm()
-        cancel_buttons={
+        cancel_buttons = {
                 "class": "btn btn-primary",
-                "url": reverse_lazy("workshop:resume_detail", args=[block.resume.id]),
+                "url": reverse_lazy("workshop:resume_detail", kwargs={"pk": block.resume.id}) + f"#b{block.id}",
                 "name": "Назад",
             }
+
         context = {
             "forms": {
                 "base": base_form,
@@ -292,8 +292,7 @@ class BlockUpdateView(LoginRequiredMixin, View):
         return render(request, "workshop/block/update.html", context=context)
 
     def post(self, request, resume_id, pk):
-        resume = get_object_or_404(Resume, user=request.user, id=resume_id)
-        block = get_object_or_404(Block, resume=resume, id=pk)
+        block = get_object_or_404(Block, resume__user=request.user, id=pk)
 
         base_form = BaseBlockForm(request.POST or None)
         file_form = FileBlockForm(request.POST or None, request.FILES or None)
