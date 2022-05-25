@@ -71,6 +71,9 @@ class Resume(ShowBaseModel, DateEditBaseModel):
     def get_image_200x200(self):
         return get_thumbnail(self.image, "200x200", quality=51)
 
+    def get_image_avatar(self):
+        return get_thumbnail(self.image, "300x300", quality=51) if self.image else None
+
     class Meta:
         verbose_name = verbose_name_plural = "Резюме"
 

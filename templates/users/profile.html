@@ -19,7 +19,8 @@
             <div>
                 {% if profile.image %}
                     <div class="container">
-                        <img src="{{ profile.get_image.url }}" alt="{{profile.image}}">
+                        <img src="{{ profile.get_image_avatar.url }}" alt="Аватарка"
+                             style="border-radius: 10px;">
                     </div>
                     <br>
                 {% endif %}

@@ -18,9 +18,9 @@
         {% endif %}
 
         <p class="text-lowercase">
-            <img src="{% if object.image %}{{ object.image.url }}
+            <img src="{% if object.image %}{{ object.get_image_avatar.url }}
                       {% else %}{% static 'img/users/avatar.png' %}{% endif %}"
-                 alt="Generic placeholder image" class="img-fluid" style="width: 300px; border-radius: 10px;">
+                 alt="Фото резюме" class="img-fluid" style="border-radius: 10px;">
 
             <br>
             {{ object.date_edit }}
@@ -83,7 +83,7 @@
                             {% if file.is_image %}
                                 <div class="carousel-item {% if file == block.files.first %}active{% endif %}">
                                     <img src="{{ file.get_carousel_image.url }}" class="d-block"
-                                        alt="Generic placeholder image" style="margin-left: auto; margin-right: auto;">
+                                        alt="Фото" style="margin-left: auto; margin-right: auto;">
                                 </div>
                             {% endif %}
                         {% endfor %}

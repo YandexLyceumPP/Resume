@@ -11,11 +11,11 @@
 			<div class="flex-shrink-0">
 				<img src="
 						{% if user.profile.image %}
-                            {{ user.profile.image.url }}
+                            {{ user.profile.get_image_avatar.url }}
                         {% else %}
                             {% static 'img/users/avatar.png' %}
                         {% endif %}"
-				     alt="Generic placeholder image" class="img-fluid" style="width: 300px; border-radius: 10px;">
+				     alt="Фото профиля" class="img-fluid" style="border-radius: 10px;">
 			</div>
 			<div class="flex-grow-1 ms-3">
 				<h3 class="mb-1">

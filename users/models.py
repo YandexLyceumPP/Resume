@@ -28,6 +28,9 @@ class Profile(models.Model):
     def get_image(self):
         return get_thumbnail(self.image, "200x200", quality=51) if self.image else None
 
+    def get_image_avatar(self):
+        return get_thumbnail(self.image, "300x300", quality=51) if self.image else None
+
     class Meta:
         verbose_name = "Пользователь"
         verbose_name_plural = "Пользователи"
