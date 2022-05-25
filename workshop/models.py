@@ -82,7 +82,7 @@ class Resume(ShowBaseModel, DateEditBaseModel):
         verbose_name = verbose_name_plural = "Резюме"
 
 
-class Block(ShowBaseModel, OrderedModel, DateEditBaseModel):
+class Block(OrderedModel, DateEditBaseModel):
     order_with_respect_to = "resume"
 
     title = models.CharField("Заголовок", max_length=200)

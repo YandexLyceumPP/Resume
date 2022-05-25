@@ -66,8 +66,8 @@ class UserDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["resumes"] = Resume.objects.filter(user=self.object)
-        context["fields"] = Field.objects.filter(user=self.object)
+        context["resumes"] = Resume.objects.get_show().filter(user=self.object)
+        context["fields"] = Field.objects.get_show().filter(user=self.object)
         context["contacts"] = Contact.objects.filter(user=self.object)
         return context
 
