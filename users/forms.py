@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 
 from core.forms import BaseForm
-from users.models import Skill, Field
+from users.models import Skill, Field, Profile
 
 User = get_user_model()
 
@@ -15,8 +15,10 @@ class UserRegistrationForm(forms.ModelForm, BaseForm):
         fields = ("username", "first_name", "last_name", "email")
 
 
-class ImageForm(forms.Form, BaseForm):
-    image = forms.ImageField(required=False)
+class ImageForm(forms.ModelForm, BaseForm):
+    class Meta:
+        model = Profile
+        fields = ("image", )
 
 
 class UserForm(forms.ModelForm, BaseForm):

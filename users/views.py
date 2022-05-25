@@ -3,12 +3,9 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Prefetch
 from django.shortcuts import render, redirect
-from django.core.files.storage import default_storage
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import DetailView
-
-from resume.settings.base import MEDIA_ROOT
 
 from users.forms import SkillForm, UserForm, UserRegistrationForm, FieldForm, SearchUserForm, ImageForm
 from users.models import Field, Profile, Skill
