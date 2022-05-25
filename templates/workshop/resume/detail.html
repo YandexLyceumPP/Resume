@@ -64,32 +64,41 @@
 
     <hr>
 
+    {% if user.is_authenticated and user == object.user %}
+        <p class="w-100">
+            <a type="button" class="btn btn-success w-100"  href="{% url 'workshop:block_create' object.id %}">
+                 Добавить блок</a>
+        </p>
+    {% endif %}
+
     <!-- Отображение блоков -->
     {% for block in blocks %}
         <div class="card mb-3">
-            <!-- Карусель фотографий блока -->
-            <div id="carouselBlock{{ block.id }}" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                    {% for file in block.files %}
-                        {% if file.is_image %}
-                            <div class="carousel-item {% if file == block.files.first %}active{% endif %}">
-                                <img src="{{ file.get_carousel_image.url }}" class="d-block"
-                                     alt="Generic placeholder image" style="margin-left: auto; margin-right: auto;">
-                            </div>
-                        {% endif %}
-                    {% endfor %}
+            {% if block.files %}
+                <!-- Карусель фотографий блока -->
+                <div id="carouselBlock{{ block.id }}" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        {% for file in block.files %}
+                            {% if file.is_image %}
+                                <div class="carousel-item {% if file == block.files.first %}active{% endif %}">
+                                    <img src="{{ file.get_carousel_image.url }}" class="d-block"
+                                         alt="Generic placeholder image" style="margin-left: auto; margin-right: auto;">
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselBlock{{ block.id }}"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselBlock{{ block.id }}"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
                 </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselBlock{{ block.id }}"
-                    data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselBlock{{ block.id }}"
-                    data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
-            </div>
+            {% endif %}
 
             <!-- Тело блока -->
             <div class="card-body">
@@ -139,10 +148,4 @@
     {% empty %}
         <h3>Кажется записей еще нет 😐</h3>
     {% endfor %}
-    {% if user.is_authenticated and user == object.user %}
-        <div class="w-100">
-            <a type="button" class="btn btn-primary w-100"  href="{% url 'workshop:block_create' object.id %}">
-                 Добавить блок</a>
-        </div>
-    {% endif %}
 {% endblock %}
