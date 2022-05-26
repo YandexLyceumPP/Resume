@@ -6,6 +6,6 @@ def get_bootstrap_color(request):
             "secondary",
             "success",
             "danger",
-            "dark"
+            "dark",
         )
     }

@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
-from users.models import Profile, Skill, Field
+from users.models import Field, Profile, Skill
 
 User = get_user_model()
 
@@ -13,7 +13,7 @@ class ProfileInlined(admin.TabularInline):
 
 
 class UserAdmin(BaseUserAdmin):
-    inlines = (ProfileInlined, )
+    inlines = (ProfileInlined,)
 
 
 admin.site.unregister(User)
