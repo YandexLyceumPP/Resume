@@ -1,8 +1,7 @@
 from django.contrib import admin
-
 from ordered_model.admin import OrderedModelAdmin
 
-from workshop.models import Tag, Resume, Block, File, Text, Contact
+from workshop.models import Block, Contact, File, Resume, Tag, Text
 
 
 class TextInlined(admin.TabularInline):
@@ -11,7 +10,7 @@ class TextInlined(admin.TabularInline):
 
 class BlockAdmin(OrderedModelAdmin):
     list_display = ("title", "move_up_down_links")
-    inlines = (TextInlined, )
+    inlines = (TextInlined,)
 
 
 admin.site.register(Block, BlockAdmin)

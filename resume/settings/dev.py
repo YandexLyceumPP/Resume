@@ -1,6 +1,6 @@
 import os
 
-from resume.settings import INSTALLED_APPS, BASE_DIR, MIDDLEWARE
+from resume.settings import BASE_DIR, INSTALLED_APPS, MIDDLEWARE
 
 INSTALLED_APPS.append("debug_toolbar")
 MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")

@@ -1,19 +1,18 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Prefetch
 from django.http import Http404
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
-from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
-from django.views.generic import UpdateView, DeleteView, DetailView
+from django.views.generic import DeleteView, DetailView, UpdateView
 
 from users.forms import FieldForm
 from users.models import Field
-
-from workshop.forms import CreateResumeForm, ResumeForm, BaseBlockForm, FileBlockForm
-from workshop.models import Contact, Resume, Block, File, Text, Tag
-
+from workshop.forms import BaseBlockForm, CreateResumeForm, FileBlockForm, ResumeForm
+from workshop.models import Block, Contact, File, Resume, Tag, Text
 
 # Resume
+
 
 class ResumeDetailView(DetailView):
     model = Resume
@@ -276,10 +275,10 @@ class BlockUpdateView(LoginRequiredMixin, View):
         )
         file_form = FileBlockForm()
         cancel_buttons = {
-                "class": "btn btn-primary",
-                "url": reverse_lazy("workshop:resume_detail", kwargs={"pk": block.resume.id}) + f"#b{block.id}",
-                "name": "Назад",
-            }
+            "class": "btn btn-primary",
+            "url": reverse_lazy("workshop:resume_detail", kwargs={"pk": block.resume.id}) + f"#b{block.id}",
+            "name": "Назад",
+        }
 
         context = {
             "forms": {

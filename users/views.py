@@ -1,17 +1,23 @@
-from django.contrib.auth import views, get_user_model
+from django.contrib.auth import get_user_model, views
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Prefetch
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import DetailView
 
-from users.forms import SkillForm, UserForm, UserRegistrationForm, FieldForm, SearchUserForm, ImageForm
+from users.forms import (
+    FieldForm,
+    ImageForm,
+    SearchUserForm,
+    SkillForm,
+    UserForm,
+    UserRegistrationForm,
+)
 from users.models import Field, Profile, Skill
-
 from workshop.forms import ContactForm
-from workshop.models import Resume, Contact, Tag
+from workshop.models import Contact, Resume, Tag
 
 User = get_user_model()
 
@@ -55,14 +61,19 @@ class UserDetailView(DetailView):
         username = self.kwargs.get("username")
 
         try:
-            obj = queryset.filter(username=username).prefetch_related(
-                Prefetch(
-                    "profile",
-                    queryset=Profile.objects.prefetch_related(
-                        Prefetch("skills", queryset=Skill.objects.only("skill"))
+            obj = (
+                queryset.filter(username=username)
+                .prefetch_related(
+                    Prefetch(
+                        "profile",
+                        queryset=Profile.objects.prefetch_related(
+                            Prefetch(
+                                "skills", queryset=Skill.objects.only("skill"))
+                        ),
                     )
                 )
-            ).get()
+                .get()
+            )
         except queryset.model.DoesNotExist:  # Если объект не найден
             # raise Http404("Не удалось найти нужного пользователя")
             return
@@ -71,10 +82,15 @@ class UserDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["resumes"] = Resume.objects.get_show().filter(
-            user=self.object).only("image", "date_edit", "text").prefetch_related(
-            Prefetch("tags", queryset=Tag.objects.only("name")))
-        context["fields"] = Field.objects.get_show().filter(user=self.object).only("title", "value")
+        context["resumes"] = (
+            Resume.objects.get_show()
+            .filter(user=self.object)
+            .only("image", "date_edit", "text")
+            .prefetch_related(Prefetch("tags", queryset=Tag.objects.only("name")))
+        )
+        context["fields"] = (
+            Field.objects.get_show().filter(user=self.object).only("title", "value")
+        )
         return context
 
 
@@ -83,11 +99,15 @@ class ProfileView(LoginRequiredMixin, View):
         profile = Profile.objects.prefetch_related(
             Prefetch("skills", queryset=Skill.objects.only("skill"))
         ).get_or_create(user=request.user)[0]
-        resumes = Resume.objects.filter(user=request.user).only("image", "date_edit", "text").prefetch_related(
-            Prefetch("tags", queryset=Tag.objects.only("name"))
+        resumes = (
+            Resume.objects.filter(user=request.user)
+            .only("image", "date_edit", "text")
+            .prefetch_related(Prefetch("tags", queryset=Tag.objects.only("name")))
         )
-        user_fields = Field.objects.filter(user=request.user).only("title", "value")
-        user_contacts = Contact.objects.filter(user=request.user).only("contact")
+        user_fields = Field.objects.filter(
+            user=request.user).only("title", "value")
+        user_contacts = Contact.objects.filter(
+            user=request.user).only("contact")
 
         user_form = UserForm(instance=request.user)
         skill_form = SkillForm(initial={"skills": profile.skills.all()})
@@ -115,7 +135,7 @@ class ProfileView(LoginRequiredMixin, View):
             "buttons": buttons,
             "user_fields": user_fields,
             "user_contacts": user_contacts,
-            "resumes": resumes
+            "resumes": resumes,
         }
         return render(request, "users/profile.html", context=context)
 
@@ -135,19 +155,19 @@ class ProfileView(LoginRequiredMixin, View):
             request.user.email = user_form.cleaned_data["email"]
             request.user.last_name = user_form.cleaned_data["last_name"]
             request.user.first_name = user_form.cleaned_data["first_name"]
-            request.user.save(update_fields=["email", "last_name", "first_name"])
+            request.user.save(
+                update_fields=["email", "last_name", "first_name"])
 
         if field_form.is_valid():
             Field(
                 user=request.user,
                 title=field_form.cleaned_data["title"],
-                value=field_form.cleaned_data["value"]
+                value=field_form.cleaned_data["value"],
             ).save()
 
         if contact_form.is_valid():
             Contact(
-                user=request.user,
-                contact=contact_form.cleaned_data["contact"]
+                user=request.user, contact=contact_form.cleaned_data["contact"]
             ).save()
 
         if image_form.is_valid():
@@ -184,7 +204,7 @@ class LoginView(views.LoginView):
             "class": "btn btn-danger",
             "url": reverse_lazy("users:password_reset"),
             "name": "Забыл пароль",
-        }
+        },
     ]
 
     authentication_form = AuthenticationForm
@@ -194,6 +214,7 @@ class LoginView(views.LoginView):
 
 
 # Skill
+
 
 class SkillDetailView(DetailView):
     model = Skill

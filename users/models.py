@@ -22,7 +22,8 @@ class Skill(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to="uploads/avatars/profile/", blank=False)
+    image = models.ImageField(
+        upload_to="uploads/avatars/profile/", blank=False)
     skills = models.ManyToManyField(Skill)
 
     def get_image(self):
@@ -47,4 +48,3 @@ class Field(ShowBaseModel):
     class Meta:
         verbose_name = "Факт"
         verbose_name_plural = "Факты"
-    

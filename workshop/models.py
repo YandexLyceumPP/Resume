@@ -1,25 +1,22 @@
 import os
 
-from django.db import models
 from django.contrib.auth import get_user_model
+from django.db import models
 from django.utils import timezone
 from django.utils.datetime_safe import date
-
+from ordered_model.models import OrderedModel
+from sorl.thumbnail import get_thumbnail
 from tinymce.models import HTMLField
 
-from ordered_model.models import OrderedModel
-
 from core.models import ShowBaseModel
-
-from sorl.thumbnail import get_thumbnail
-
 from workshop.validators import OrReValidator
 
 User = get_user_model()
 
 
 class DateEditBaseModel(models.Model):
-    date_edit = models.DateField("Дата последнего редактирования", default=date.today)
+    date_edit = models.DateField(
+        "Дата последнего редактирования", default=date.today)
 
     def save(self, *args, **kwargs):
         self.date_edit = timezone.now()
@@ -47,10 +44,10 @@ class Contact(models.Model):
                 (
                     r"[a-zA-Z0-9_]+@[a-zA-Z0-9_]+.[a-z0-9]+",
                     r"\+?1?\d{8,15}",
-                    r"https?://[a-zA-Z0-1\.]+.[a-zA-Z0-1\:\.]+(/[a-zA-Z0-1]+)*/?"
+                    r"https?://[a-zA-Z0-1\.]+.[a-zA-Z0-1\:\.]+(/[a-zA-Z0-1]+)*/?",
                 )
             )
-        ]
+        ],
     )
 
     def __str__(self):
@@ -64,7 +61,8 @@ class Contact(models.Model):
 class Resume(ShowBaseModel, DateEditBaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to="uploads/avatars/resume/", blank=True)
-    contacts = models.ManyToManyField(Contact, verbose_name="Контакты", blank=True)
+    contacts = models.ManyToManyField(
+        Contact, verbose_name="Контакты", blank=True)
     tags = models.ManyToManyField(Tag, verbose_name="Теги", blank=True)
     text = HTMLField("Описание")
 
@@ -104,7 +102,7 @@ class File(ShowBaseModel):
 
     def extension(self):
         # name, extension = os.path.splitext(self.file.name)
-        ext = self.file.name.split('.')
+        ext = self.file.name.split(".")
         return "." + ext[-1]
 
     def name(self):
@@ -113,11 +111,11 @@ class File(ShowBaseModel):
         return name[-1]
 
     def is_image(self):
-        ext = self.file.name.split('.')
+        ext = self.file.name.split(".")
         if ext[-1] in ["png", "jpg", "bmp", "jpeg"]:
             return True
         return False
-    
+
     def is_file(self):
         return not self.is_image()
 

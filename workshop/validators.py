@@ -6,9 +6,13 @@ from django.utils.deconstruct import deconstructible
 
 @deconstructible
 class OrReValidator:
-    def __init__(self, list_re, err_text="Переданное значение не "
-                                         "соответствует не одному "
-                                         "регулярному выражению"):
+    def __init__(
+        self,
+        list_re,
+        err_text="Переданное значение не "
+        "соответствует не одному "
+        "регулярному выражению",
+    ):
         self.list_re = list_re
         self.err_text = err_text
 
