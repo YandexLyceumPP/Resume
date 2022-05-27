@@ -1,3 +1,5 @@
+import markdown
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Prefetch
 from django.http import Http404
@@ -8,11 +10,12 @@ from django.views.generic import DeleteView, DetailView, UpdateView
 
 from users.forms import FieldForm
 from users.models import Field
+
 from workshop.forms import BaseBlockForm, CreateResumeForm, FileBlockForm, ResumeForm
 from workshop.models import Block, Contact, File, Resume, Tag, Text
 
-# Resume
 
+# Resume
 
 class ResumeDetailView(DetailView):
     model = Resume
@@ -39,10 +42,19 @@ class ResumeDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         blocks = Block.objects.filter(resume=self.object.id).only("order",
                                                                   "title", "date_edit").prefetch_related("text")
+
+        md_texts = {}
         for i in range(len(blocks)):
             blocks[i].files = File.objects.filter(block=blocks[i].id)
 
+            md_files = list(filter(lambda file: file.is_md(), blocks[i].files))
+            if md_files:
+                f = md_files[0].file.open()
+                md_texts[blocks[i].id] = markdown.markdown(f.read().decode('UTF-8'))
+                f.close()
+
         context["blocks"] = blocks
+        context["md_texts"] = md_texts
         return context
 
 

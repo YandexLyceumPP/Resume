@@ -100,6 +100,7 @@ class File(ShowBaseModel):
     block = models.ForeignKey(Block, on_delete=models.CASCADE)
     file = models.FileField(upload_to="uploads/files/%d_%m_%Y/")
 
+    @property
     def extension(self):
         # name, extension = os.path.splitext(self.file.name)
         ext = self.file.name.split(".")
@@ -115,6 +116,9 @@ class File(ShowBaseModel):
         if ext[-1] in ["png", "jpg", "bmp", "jpeg"]:
             return True
         return False
+
+    def is_md(self):
+        return self.extension == ".md"
 
     def is_file(self):
         return not self.is_image()

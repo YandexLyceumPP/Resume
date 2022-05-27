@@ -3,6 +3,8 @@
 
 {% load static %}
 
+{% load lookup %}
+
 {% block title %}Просмотр резюме{% endblock %}
 
 {% block content %}
@@ -127,7 +129,11 @@
                     {% endif %}
                 </h5>
                 <p class="card-text">
-                    {{ block.text.text|safe|urlizetrunc:40 }}
+                    {% if block.id in md_texts %}
+                        {{ md_texts|lookup:block.id|safe|urlizetrunc:40 }}
+                    {% else %}
+                        {{ block.text.text|safe|urlizetrunc:40 }}
+                    {% endif %}
                 </p>
 
                 <!-- Отображение блока файлов -->
