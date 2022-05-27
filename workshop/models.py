@@ -42,9 +42,9 @@ class Contact(models.Model):
         validators=[
             OrReValidator(
                 (
-                    r"[a-zA-Z0-9_]+@[a-zA-Z0-9_]+.[a-z0-9]+",
-                    r"\+?1?\d{8,15}",
-                    r"https?://[a-zA-Z0-1\.]+.[a-zA-Z0-1\:\.]+(/[a-zA-Z0-1]+)*/?",
+                    r"[a-zA-Z0-9_]+@[a-zA-Z0-9_]+.[a-z0-9]+",  # email
+                    r"\+?1?\d{8,15}",  # Номер телефона
+                    r"https?://[a-zA-Z0-1\.]+.[a-zA-Z0-1\:\.]+(/[a-zA-Z0-1]+)*/?",  # Ссылки
                 )
             )
         ],

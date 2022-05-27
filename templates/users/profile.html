@@ -16,16 +16,14 @@
         <div>
             <!-- Аватарка -->
             <h3 id="list-img">Аватарка</h3>
-            <div>
-                {% if profile.image %}
-                    <div class="container">
-                        <img src="{{ profile.get_image_avatar.url }}" alt="Аватарка"
-                             style="border-radius: 10px;">
-                    </div>
-                    <br>
-                {% endif %}
-                {% include 'core/include/form.html' with form=forms.image btn_text='Установить' buttons=None %}
-            </div>
+            {% if profile.image %}
+                <div class="container">
+                    <img src="{{ profile.get_image_avatar.url }}" alt="Аватарка"
+                         style="border-radius: 10px;">
+                </div>
+                <br>
+            {% endif %}
+            {% include 'core/include/form.html' with form=forms.image btn_text='Установить' buttons=None %}
 
             <hr>
             <!-- Основное -->
@@ -64,76 +62,72 @@
 
             <hr>
             <!-- Факты -->
-            <h3 id="list-fields">Факты</h3>
-            <p>Тут вам предоставляются поля, где вы напишете общую информацию о себе</p>
-            <div>
-                <h5>
-                    Просмотр
-                    <a class="btn btn-outline-success" data-bs-toggle="collapse" href="#collapseField"
-                       role="button" aria-expanded="false" aria-controls="collapseField">
-                        Добавить
-                    </a>
-                </h5>
-                <div class="collapse" id="collapseField">
-                    <div class="card card-body">
-                        {% include 'core/include/form.html' with form=forms.field btn_text='Добавить' buttons=None %}
-                    </div>
-                    <br>
-                </div>
+            <h3 id="list-fields">
+                Факты
+                <a class="btn btn-outline-success" data-bs-toggle="collapse" href="#collapseField"
+                   role="button" aria-expanded="false" aria-controls="collapseField">
+                    Добавить
+                </a>
+            </h3>
 
-                <div class="accordion accordion-flush" id="accordionFields">
-                    {% for field in user_fields %}
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="heading{{ field.id }}">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapse{{ field.id }}" aria-expanded="false"
-                                        aria-controls="collapse{{ field.id }}">
-                                    {{ field.title }}
-                                </button>
-                            </h2>
-                            <div id="collapse{{ field.id }}" class="accordion-collapse collapse"
-                                 aria-labelledby="heading{{ field.id }}" data-bs-parent="#accordionFields">
-                                <div class="accordion-body">
-                                    <a class="btn btn-warning" href="{% url 'workshop:field_update' field.id %}"
-                                       role="button">Редактировать</a>
-                                    <a class="btn btn-danger" href="{% url 'workshop:field_delete' field.id %}"
-                                       role="button">Удалить</a>
-                                    {{ field.value|safe }}
-                                </div>
+            <div class="collapse" id="collapseField">
+                <div class="card card-body">
+                    {% include 'core/include/form.html' with form=forms.field btn_text='Добавить' buttons=None %}
+                </div>
+                <br>
+            </div>
+            <p>Тут вам предоставляются поля, где вы напишете общую информацию о себе</p>
+
+            <div class="accordion accordion-flush" id="accordionFields">
+                {% for field in user_fields %}
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading{{ field.id }}">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapse{{ field.id }}" aria-expanded="false"
+                                    aria-controls="collapse{{ field.id }}">
+                                {{ field.title }}
+                            </button>
+                        </h2>
+                        <div id="collapse{{ field.id }}" class="accordion-collapse collapse"
+                             aria-labelledby="heading{{ field.id }}" data-bs-parent="#accordionFields">
+                            <div class="accordion-body">
+                                <a class="btn btn-warning" href="{% url 'workshop:field_update' field.id %}"
+                                   role="button">Редактировать</a>
+                                <a class="btn btn-danger" href="{% url 'workshop:field_delete' field.id %}"
+                                   role="button">Удалить</a>
+                                {{ field.value|safe }}
                             </div>
                         </div>
-                    {% endfor %}
-                </div>
+                    </div>
+                {% endfor %}
             </div>
 
             <hr>
             <!-- Контакты -->
-            <h3 id="list-contacts">Контакты</h3>
-            <div>
-                <h5>
-                    Просмотр
-                    <a class="btn btn-outline-success" data-bs-toggle="collapse" href="#collapseContacts"
-                       role="button" aria-expanded="false" aria-controls="collapseContacts">
-                        Добавить
-                    </a>
-                </h5>
-                <div class="collapse" id="collapseContacts">
-                    <div class="card card-body">
-                        {% include 'core/include/form.html' with form=forms.contact btn_text='Добавить' buttons=None %}
-                    </div>
-                    <br>
-                </div>
+            <h3 id="list-contacts">
+                Контакты
+                <a class="btn btn-outline-success" data-bs-toggle="collapse" href="#collapseContacts"
+                   role="button" aria-expanded="false" aria-controls="collapseContacts">
+                    Добавить
+                </a>
+            </h3>
 
-                <ul class="list-group">
-                    {% for contact in user_contacts %}
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            {{ contact.contact|urlizetrunc:40 }}
-                            <a type="button" class="btn-close rounded-pill"
-                               href="{% url 'workshop:contact_delete' contact.id %}" aria-label="Close"></a>
-                        </li>
-                    {% endfor %}
-                </ul>
+            <div class="collapse" id="collapseContacts">
+                <div class="card card-body">
+                    {% include 'core/include/form.html' with form=forms.contact btn_text='Добавить' buttons=None %}
+                </div>
+                <br>
             </div>
+
+            <ul class="list-group">
+                {% for contact in user_contacts %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        {{ contact.contact|urlizetrunc:40 }}
+                        <a type="button" class="btn-close rounded-pill"
+                           href="{% url 'workshop:contact_delete' contact.id %}" aria-label="Close"></a>
+                    </li>
+                {% endfor %}
+            </ul>
         </div>
     </div>
 
