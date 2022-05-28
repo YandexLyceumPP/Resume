@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2022-05-28T13:35:32.320Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36 OPR/86.0.4363.59" etag="QnuerjvwgtbBz4Z9k2R8" version="18.1.2" type="github" pages="2">
+<mxfile host="app.diagrams.net" modified="2022-05-28T13:43:41.238Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36 OPR/86.0.4363.59" etag="pjk5YYjDwhCwPUx2icuQ" version="18.1.2" type="github" pages="2">
   <diagram id="8xRi0O57_qgQfda5VgHy" name="Основная БД">
     <mxGraphModel dx="1382" dy="764" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -14,7 +14,7 @@
           <mxGeometry y="60" width="160" height="30" as="geometry" />
         </mxCell>
         <mxCell id="wdRCQtRf3d7-_ysYJmjD-10" value="Link (Show)" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;fillColor=#d5e8d4;strokeColor=#82b366;" parent="wMB9LOy6puQEDVOT8AMj-1" vertex="1">
-          <mxGeometry x="40" y="840" width="160" height="120" as="geometry" />
+          <mxGeometry x="40" y="800" width="160" height="120" as="geometry" />
         </mxCell>
         <mxCell id="wdRCQtRf3d7-_ysYJmjD-11" value="Block" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;" parent="wdRCQtRf3d7-_ysYJmjD-10" vertex="1">
           <mxGeometry y="30" width="160" height="30" as="geometry" />
@@ -116,7 +116,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="wdRCQtRf3d7-_ysYJmjD-60" value="Block (Show,OrderedModel)" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;fillColor=#fff2cc;strokeColor=#d6b656;" parent="wMB9LOy6puQEDVOT8AMj-1" vertex="1">
-          <mxGeometry x="40" y="680" width="160" height="120" as="geometry" />
+          <mxGeometry x="40" y="640" width="160" height="120" as="geometry" />
         </mxCell>
         <mxCell id="wdRCQtRf3d7-_ysYJmjD-61" value="Заголовок" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;" parent="wdRCQtRf3d7-_ysYJmjD-60" vertex="1">
           <mxGeometry y="30" width="160" height="30" as="geometry" />
@@ -169,7 +169,7 @@
         <mxCell id="AsM201kC9dfPvU59sMDy-4" style="edgeStyle=orthogonalEdgeStyle;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;rounded=1;" parent="wMB9LOy6puQEDVOT8AMj-1" source="wdRCQtRf3d7-_ysYJmjD-11" target="wdRCQtRf3d7-_ysYJmjD-60" edge="1">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="220" y="885" />
+              <mxPoint x="220" y="845" />
               <mxPoint x="220" y="620" />
               <mxPoint x="120" y="620" />
             </Array>
