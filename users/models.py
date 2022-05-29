@@ -22,7 +22,9 @@ class Skill(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    image = models.ImageField("Аватарка", upload_to="uploads/avatars/profile/", blank=False)
+    image = models.ImageField(
+        "Аватарка", upload_to="uploads/avatars/profile/", blank=False
+    )
     skills = models.ManyToManyField(Skill)
 
     def get_image(self):
