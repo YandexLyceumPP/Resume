@@ -4,11 +4,15 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils import timezone
 from django.utils.datetime_safe import date
+
 from ordered_model.models import OrderedModel
+
 from sorl.thumbnail import get_thumbnail
+
 from tinymce.models import HTMLField
 
 from core.models import ShowBaseModel
+
 from workshop.validators import OrReValidator
 
 User = get_user_model()
@@ -61,7 +65,7 @@ class Contact(models.Model):
 
 class Resume(ShowBaseModel, DateEditBaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to="uploads/avatars/resume/", blank=True)
+    image = models.ImageField("Обложка", upload_to="uploads/avatars/resume/", blank=True)
     contacts = models.ManyToManyField(
         Contact, verbose_name="Контакты", blank=True)
     tags = models.ManyToManyField(Tag, verbose_name="Теги", blank=True)
@@ -99,7 +103,7 @@ class Text(models.Model):
 
 class File(ShowBaseModel):
     block = models.ForeignKey(Block, on_delete=models.CASCADE)
-    file = models.FileField(upload_to="uploads/files/%d_%m_%Y/")
+    file = models.FileField("Файл", upload_to="uploads/files/%d_%m_%Y/")
 
     @property
     def extension(self):

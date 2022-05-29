@@ -29,6 +29,7 @@ class UserForm(forms.ModelForm, BaseForm):
 
 class SkillForm(forms.ModelForm, BaseForm):
     skills = forms.ModelMultipleChoiceField(
+        label="Навыки",
         queryset=Skill.objects.all().only("skill"),
         widget=forms.CheckboxSelectMultiple(
             attrs={"class": "form-check-input me-1"}),
