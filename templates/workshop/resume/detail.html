@@ -130,7 +130,7 @@
                 </h5>
                 <p class="card-text">
                     {% if block.id in md_texts %}
-                        {{ md_texts|lookup:block.id|safe|urlizetrunc:40 }}
+                        {{ md_texts|lookup:block.id|safe }}
                     {% else %}
                         {{ block.text.text|safe|urlizetrunc:40 }}
                     {% endif %}
